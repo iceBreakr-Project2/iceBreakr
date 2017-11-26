@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>Example Meet Page</title>
+    <meta charset="utf-8">
+    <!-- <meta viewport.. > -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <style>
+      #map {
+/*        width: 100%;*/
+        height: 400px;
+        background-color: pink;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid full text-center">
+        <div class="row" style="margin: 0 auto">
+            <div class="col-sm-12 text-center">
+                <nav class="nav justify-content-center">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/profile">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/meet">Sign Up</a>
+                        </li>
+                        <!-- TOOLTIP TEST -->
+                        <li class="nav-item">
+                            <a class="text-center nav-link data-toggle=" tooltip " data-placement="bottom " title="Click to learn more! " href="./about-us.html ">Read More</a>
+					  </li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<hr/>
+
+		<div class="row " style="margin: 0 auto ">
+			<div class="col-sm-12 ">
+				<header>
+					<h1 class="text-center ">Map Testing Page</h1>
+				</header>
+			</div>
+		</div>
+		<hr/>
+
+        <div class="row">
+            <div class="col-sm-3" style="margin: 20px; margin-left:30px">
+            	<label for="text-input" class="col-form-label text-align" style="padding-right:0px"><h4>Type in a destination...</h4></label>
+           		<input id="addressSearched" class="center-align" type="textbox" placeholder="Address" style="width: 80%">
+            	<input type="button" value="Submit" style="width: 80%; text-align:center" onclick="codeAddress()">
+            	
+            	<aside>
+            		<br/>
+            		<br/>
+            		<h3>Find Yourself on the Map.</h3>
+            	</aside>
+            </div>
+            <div id="map" class="col-sm-7" style="margin: 20px"></div>
+		</div>
+		<br/>
+
+		<div class="row text-center " style="margin: 0 auto; margin-bottom: 50px">
+			<div class="col-sm-2 "></div>
+			<div class="col-sm-8 ">
+				<hr/>
+				<p>Some text could go here.. Austin poke try-hard waistcoat wolf. Stumptown kickstarter iceland asymmetrical semiotics, chia typewriter +1 flexitarian. +1 deep v tilde flannel occupy. Organic VHS sustainable austin art party pickled.</p>
+			</div>
+			<div class="col-sm-2 "></div>
+		</div>
+	</div>
+
+	<div class="row " style="position: fixed; bottom:0px; width: 100% ">
+		<div class="col-sm-12 " style="background-color:#7275a5; padding:15px ">
+			<h3 class="footer text-center">Footer</h3>
+		</div>
+	</div>
+
+    <!-- jQuery Link -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- materilize Link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    
+    <!-- running script -->
+    <script type="text/javascript">
+	    var geocoder;
+	    var map;
+	    function initialize() {
+	        geocoder = new google.maps.Geocoder();
+	   		var latlng = new google.maps.LatLng(30.2672, -97.7431);
+	        var mapOptions = {
+	        	zoom: 5,
+	        	center: latlng,
+	        }
+	        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	    }
+
+	    function codeAddress() {
+	    	var address = document.getElementById("addressSearched").value;
+	    	geocoder.geocode({"address": address}, function (results, status){
+	    		if (status == "OK") {
+	    			map.setCenter(results[0].geometry.location);
+	    			var marker = new google.maps.Marker({
+	    				map: map,
+	    				position: results[0].geometry.location,
+	    			});
+	    		}
+	    		else {
+	    			alert("Geocode was not sucessful for the following reasons: " + status);
+	    		}
+	    	});
+	    }
+
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlVwasmmMnZFEsIGY8dTuL7aoaW4-N1rk&callback=initialize" type="text/javascript"></script>
+
+</body>
+</html>

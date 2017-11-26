@@ -1,0 +1,55 @@
+#container {
+   min-height:100%;
+   position:relative;
+}
+
+.header {
+	background-color: #C2EEE6;
+	/*padding-bottom: 0px;*/
+
+}
+
+.logo {
+	
+}
+
+.mainBody {
+	background-color: #C2EEE6;
+	padding-bottom: 183px;
+	padding-top: 100px;
+
+	
+}
+
+footer {
+	padding-top: 0px;
+	background-color: #C2EEE6;
+	position:absolute;
+    bottom:0;
+    width: 100%;
+}
+
+#tag{
+  min-width: 150px !important;
+  display: inline-block !important
+}
+
+.form-container {
+/*	width: 1000px;*/
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-control{
+	width: 200px;
+}
+
+form {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+

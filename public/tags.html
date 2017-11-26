@@ -1,0 +1,133 @@
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <title>iB Create Account</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+</head>
+
+<body>
+    <div id="container">
+        <div class="header container-fluid">
+            <div class="row justify-content-center">
+                <div class="logo">
+                    <img src="/public/images/logo.png" alt="iceBreakrBear">
+                </div>
+            </div>
+        </div>
+        <div class="mainBody container-fluid">
+            <div class="row justify-content-center">
+                <div class="form-container">
+                    <form>
+                        <div class="form-group row">
+
+                            <div class="col-10">
+                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
+                                    <option selected>Gender Preference</option>
+
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <br>
+            <br>
+            <div class="row justify-content-center">
+                <div class="tag-wrapper">
+                    <p>Choose all the ice breakers that interest you!</p>
+                    <div class="tags">
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Hiking
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Wine
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Yoga
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
+                        </button>
+                    </div>   
+                </div>
+            </div>
+     
+  
+            <div class="row justify-content-center">
+                <div class="create-account">
+                    <a href="/breaktheice"><button type="button" class="btn btn-primary">Create account!</button></a>
+                </div>
+            </div>
+        </div>
+
+        <!--             </div> -->
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <footer>
+            <div class="row justify-content-center">
+                <p>&copy; iceBreakr 2017</p>
+            </div>
+        </footer>
+    </div>
+
+    <script type="text/javascript">
+    //dynamically create buttons from database. create button and post from the database
+
+    function displayTags() {
+        var tag = $(this).attr("tag-name");
+
+        var queryURL = ""
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).done(function(req, res) {
+
+        })
+    }
+    var createTag = $(".tags").prepend("<button>");
+
+    </script>
+</body>
+
+</html>

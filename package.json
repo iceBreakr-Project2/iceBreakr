@@ -1,0 +1,26 @@
+{
+  "name": "ice_breaker",
+  "version": "1.0.0",
+  "description": "Location based on demand dating app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewendel88/ice_breaker.git"
+  },
+  "author": "Amanda, Austin, Elliott, Lisa, Lorna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ewendel88/ice_breaker/issues"
+  },
+  "homepage": "https://github.com/ewendel88/ice_breaker#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mysql2": "^1.5.0",
+    "path": "^0.12.7",
+    "sequelize": "^4.22.7"
+  }
+}

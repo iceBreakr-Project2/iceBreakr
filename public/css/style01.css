@@ -1,0 +1,88 @@
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#container {
+
+min-height:100%;
+position:relative;
+/*background-color: #C2EEE6;*/
+background-color: #801EEF;
+/*background-color:  #05021c;*/
+/*background-color:  #04093b;*/
+background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+}
+
+/*This is the nav bar on the Break the Ice Page */
+
+.navbar-toggler.toggler-example {
+    cursor: pointer;
+}
+
+/*Sign up Page */
+.inputLabel{
+	color: white;
+
+}
+
+/*The class for the main page login*/
+
+#login{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+i {
+	color: white;
+}
+
+.linkColor{
+	color: white;
+}
+
+.mainBody {
+	text-align: center;
+}
+
+.form-horizontal {
+	margin-bottom: 100px;
+}
+
+.form-container {
+	/*margin-right: 100px;*/
+}
+
+.create-account {
+	margin-top: 100px;
+}
+
+/*.form-control {
+	margin: 10px 40px;
+}*/
+
+.tag-wrapper {
+	width: 1000px;
+}
+
+p {
+	font-size: xx-large;
+	text-shadow: -1px 0 #089BA3, 0 1px #089BA3, 1px 0 #089BA3, 0 -1px #089BA3;
+
+	color: white;
+	font-family: 'Lobster', cursive;
+}
+
+footer {
+
+    margin-bottom: 24px;
+}
+
