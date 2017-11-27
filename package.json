@@ -1,15 +1,7 @@
 {
   "name": "icebreakr",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "description": "On Demand - Out n About Dating App",
-  "main": "server.js",
-  "dependencies": {
-    "admin": "^1.4.0",
-    "express": "^4.16.2",
-    "firebase": "^4.6.2",
-    "mysql2": "^1.5.1",
-=======
+
   "description": "On_demand_dating_app",
   "main": "server.js",
   "dependencies": {
@@ -22,7 +14,7 @@
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
     "path": "^0.12.7",
->>>>>>> master
+
     "sequelize": "^4.23.1"
   },
   "devDependencies": {},
@@ -34,11 +26,8 @@
     "type": "git",
     "url": "git+https://github.com/iceBreakr-Project2/iceBreakr.git"
   },
-<<<<<<< HEAD
-  "author": "",
-=======
+
   "author": "Amanda Austin Elliott Lorna Lisa",
->>>>>>> master
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/iceBreakr-Project2/iceBreakr/issues"
