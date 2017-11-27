@@ -37,7 +37,7 @@ module.exports = function(app) {
     }).then(function(results) {
       // `results` here would be the newly created user
       res.redirect("/profile");
-    // });    
+    });    
   });
 
   app.post("/api/new", function(req, res) {
@@ -49,8 +49,8 @@ module.exports = function(app) {
       lastName: "Jetton",
       age: 24,
       phoneNumber: "123-456-7890",
-      email: "practice@testitout.com"
-      password: "test534",
+      email: "practice@testitout.com",
+      password: "test534"
 
       // gender: "female",
       // ageRangeHigh: 32,
