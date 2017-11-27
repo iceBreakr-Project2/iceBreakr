@@ -1,13 +1,9 @@
-//Creating Firebase Presence to use with Google Maps
 var user = firebase.auth().currentUser;
 
 //Sign up new users
-var email = $("#inputEmail3").val().trim();
-var password = $("#inputPassword3").val().trim();
+var email = $("#inputEmail").val().trim();
+var password = $("#inputPassword").val().trim();
 
-
-//Needs to go in head of html 
-<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 
 //Initialize Firebase >> hide this before the end in a PW file...
 var config = {
@@ -18,7 +14,15 @@ var config = {
     storageBucket: "ice-breaker-app-165bd.appspot.com",
     messagingSenderId: "673248316614"
 };
+
 firebase.initializeApp(config);
+var firebase = require("firebase");
+var admin = require("firebase-admin");
+
+admin.initializeApp(functions.config().firebase);
+firebase.initializeApp(functions.config().firebase);
+// Get the Auth service for the default app
+
 
 //Sign up existing users
 function createProfile() {
@@ -91,7 +95,7 @@ function SignIn() {
             console.log(error);
                 $("#sign-in").disabled = false;
                 // [END_EXCLUDE]
-            }
+            
         });
     }
     $("#sign-in").disabled = true;
@@ -118,22 +122,22 @@ if (user != null) {
 // since I can connect from multiple devices or browser tabs, we store each connection instance separately
 // any time that connectionsRef's value is null (i.e. has no children) I am offline
 
-var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
-// stores the timestamp of my last disconnect (the last time I was seen online)
-var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
-connectedRef.on('value', function(snap) {
-    if (snap.val() === true) {
-        // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-        // add this device to my connections list
-        // this value could contain info about the device or a timestamp too
-        var con = myConnectionsRef.push(true);
-        // when I disconnect, remove this device
-        con.onDisconnect().remove();
-        // when I disconnect, update the last time I was seen online
-        lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
-    }
-});
+// var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
+// // stores the timestamp of my last disconnect (the last time I was seen online)
+// var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
+// var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
+// connectedRef.on('value', function(snap) {
+//     if (snap.val() === true) {
+//         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+//         // add this device to my connections list
+//         // this value could contain info about the device or a timestamp too
+//         var con = myConnectionsRef.push(true);
+//         // when I disconnect, remove this device
+//         con.onDisconnect().remove();
+//         // when I disconnect, update the last time I was seen online
+//         lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
+//     }
+// });
 
 //Sends an email verification to the user.
 function sendEmailVerification() {
@@ -195,11 +199,11 @@ function initApp() {
             $("#sign-out").text("Sign out"); //if they click the sign-in button, then they will sign out. (Make this button on most pages...)
             $('#account-details').text(JSON.stringify(user, null, " ")); //CHECK OUT the 
 
-            // if (!emailVerified) {
-            //     $("verify-email").disabled = false; //make a verify email
-            // }
+            if (!emailVerified) {
+                $("verify-email").disabled = false; //make a verify email
+            }
             // [END_EXCLUDE]
-        } else {
+         } else {
             // User is signed out.
             // [START_EXCLUDE]
             $("#sign-in-status").text("Signed out");
@@ -214,13 +218,9 @@ function initApp() {
     // [END authstatelistener]
     $(document).on("click", "#sign-in", SignIn);
     $(document).on("click", "#sign-up", createProfile);
-
+}
     window.onload = function() {
         initApp();
     };
 
-    /** Note for above:
-     * initApp handles setting up UI event listeners and registering Firebase auth listeners:
-     *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
-     *    out, and that is where we update the UI.
-     */
+
