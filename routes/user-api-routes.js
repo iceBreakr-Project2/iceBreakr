@@ -7,24 +7,18 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // Get all users
-  app.get("/api/all", function(req, res) {
-    // Finding all Users, and then returning them to the user as JSON.
-    // Sequelize queries are aynchronous, which helps with percieved speed.
-    // If we want something to be guaranteed to happen after the query, we'll use
-    // the .then function
-    db.User.findAll({}).then(function(results) {
-      // results are available to us inside the .then
-      console.log(results);
+  // Getting all Users
+  app.get("/api/users", function(req, res) {
+    db.User.findAll({})
+    .then(function(results) {
+      console.log(results); //node ref
       res.json(results);
     });
-
   });
 
-  // Add a user
-
-  app.post("/api/new", function(req, res) {
-    console.log("User Data:");
+  // Add a User
+  app.post("/api/users/:user", function(req, res) {
+    console.log("User Data = ");
     console.log(req.body);
 
     db.user.create({
@@ -36,29 +30,71 @@ module.exports = function(app) {
       password: req.body.password
 
     }).then(function(results) {
-      // `results` here would be the newly created user
-      res.redirect("/profile");
+      res.json(results);
+      // res.redirect("/profile"); //routing should occur through the <href> link in html
     });    
   });
 
-// adding tags and gender pref
+  // Deleting a User
+  app.post("/api/users/:user", function(req, res) {
+    console.log("User Data = ");
+    console.log(req.body);
+
+    db.user.delete({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      age: req.body.age,
+      phoneNumber: req.body.phoneNumber,
+      email: req.body.email,
+      password: req.body.password
+
+    }).then(function(results) {
+      res.json(results);
+    });    
+  });
+
+/////////////////////////////////////////////////////////
+//TAGS:
+//=======
+// Adding tags and gender pref
   app.post("/api/tags", function(req, res) {
-    console.log("User Data:");
+    console.log("User Data = ");
     console.log(req.body);
 
     db.user.create({
       yourGender: req.body.yourGender,
       genderPref: req.body.genderPref,
+      langPref: req.body.langPref
       interests: req.body.interests
-
-
-
     }).then(function(results) {
       // `results` here would be the newly created user
       // res.redirect("/profile");
     });    
   });
 
+  app.get("/api/tags", function(req, res) {
+    db.User.findAll({})
+    .then(function(results) {
+      console.log(results); //node ref
+      res.json(results);
+    });
+  });
+
+  // Deleting a User's Tags
+  app.post("/api/tags", function(req, res) {
+    console.log("User Data = ");
+    console.log(req.body);
+
+    db.user.delete({
+      yourGender: req.body.yourGender,
+      genderPref: req.body.genderPref,
+      langPref: req.body.langPref
+      interests: req.body.interests
+
+    }).then(function(results) {
+      res.json(results);
+    });    
+  });
 
 };
 

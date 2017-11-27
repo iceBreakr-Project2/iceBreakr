@@ -24,9 +24,14 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "/../public/signIn.html"));
   });
 
+  // profileupdate route loads tags.html
+  app.get("/profileupdate", function(req, res) {
+    res.sendFile(path.join(__dirname, "/../public/tags.html")); 
+  });
+
   // profile route loads tags.html
   app.get("/profile", function(req, res) {
-    res.sendFile(path.join(__dirname, "/../public/tags.html")); 
+    res.sendFile(path.join(__dirname, "/../public/profile.html")); 
   });
 
   // breaktheice route loads breakTheIce.html

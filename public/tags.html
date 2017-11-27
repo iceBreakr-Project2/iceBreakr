@@ -44,15 +44,31 @@
                     <form action="/api/tags" method="POST">
                         <div class="form-group row">
                             <div class="col-10">
-                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
+                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="userGender">
                                     <option selected>Your Gender:</option>
                                     <option name ="yourGender" value="male">Male</option>
                                     <option name ="yourGender" value="female">Female</option>
                                 </select>
-                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
+                                <br/>
+                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="genderPref">
                                     <option selected>Gender Preference:</option>
                                     <option name ="genderPref" value="male">Male</option>
                                     <option name ="genderPref" value="female">Female</option>
+                                </select>
+                                <br/>
+                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="langPref">
+                                    <option selected>Language Preference:</option>
+                                    <option name ="langPref" value="English">English</option>
+                                    <option name ="langPref" value="Spanish">Spanish</option>
+                                    <option name ="langPref" value="French">French</option>
+                                    <option name ="langPref" value="German">German</option>
+                                    <option name ="langPref" value="Chinese">Chinese</option>
+                                    <option name ="langPref" value="Japanese">Japanese</option>
+                                    <option name ="langPref" value="Farci">Farci</option>
+                                    <option name ="langPref" value="Arabic">Arabic</option>
+                                    <option name ="langPref" value="Russian">Russian</option>
+                                    <option name ="langPref" value="Portugese">Portugese</option>
+                                    <option name ="langPref" value="Italian">Italian</option>
                                 </select>
                             </div>
                         </div>
@@ -64,14 +80,20 @@
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <p>Choose all the ice breakers that interest you!</p>
-                    <div action="/api/tags" method="POST"class="tags" data-toggle="buttons">
+                    <div action="/api/tags" method="POST"class="tags" data-toggle="buttons" id="interests">
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="create-account">
+                <div id="create-account">
                     <a href="/breaktheice">
                         <button type="button" class="btn btn-primary">Create account!</button>
+                    </a>
+                </div>
+                <br/>
+                <div id="delete-account">
+                    <a href="/">
+                        <button type="button" class="btn btn-primary">Delete account</button>
                     </a>
                 </div>
             </div>
@@ -86,6 +108,8 @@
             </div>
         </footer>
     </div>
+
+     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
      <script type="text/javascript">
         //dynamically create buttons from database. create button and post from the database
 
@@ -102,20 +126,21 @@
             newTag.addClass("tag");
             newTag.addClass("btn btn-outline-secondary");
             newTag.attr("name", "interests");
-            // newTag.attr("aria-disabled", true);
+            newTag.attr("aria-disabled", true);
 
             newTag.attr("data-value", iceBreakers[i]);
-
             newTag.text(iceBreakers[i]);
 
             $(".tags").append(newTag);
         }
 
         $(".tag").on("click", function(event) {
-            // newTag.attr("aria-disabled", false);
-            var tagValue = ($(this).attr("data-value"));
+            newTag.attr("aria-disabled", false);
+            var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
+            
             var pressed = ($(this).attr("aria-pressed", true));
-            console.log(pressed);
+
+            console.log("pressed value = "+ pressed);
             toggleArrayItem();
 
 
