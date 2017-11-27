@@ -35,7 +35,9 @@
                 <div class="row justify-content-center">
                     <div class="signUp col-md-6 text-center">
                         <p>OR</p>
-                        <form action="/api/new" method="POST">
+
+                        <form action="/api/users" method="POST">
+
                             <div class="form-group row">
                                 <label for="inputFirstName" class="inputLabel col-2 col-form-label">First Name</label>
                                 <div class="col-sm-10">
@@ -74,7 +76,11 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-10">
-                                    <button type="button" class="btn btn-default" id="sign-up">Sign up</button>
+
+                                    <a href="/profileupdate">
+                                        <button type="button" class="btn btn-default" id="sign-up-new">Sign up!</button>
+                                    </a>
+
                                 </div>
                             </div>
                         </form>
@@ -109,15 +115,19 @@
             </div>
         </footer>
     </div>
+
+    <!--========================================================================= -->
+    <!--========================================================================= -->
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
     <script type="text/javascript">
     //Sign up new users
     var email = $("#inputEmail").val().trim();
     var password = $("#inputPassword").val().trim();
-
 
     //Initialize Firebase >> hide this before the end in a PW file...
     var config = {
@@ -137,6 +147,7 @@
     // firebase.initializeApp(functions.config().firebase);
     // Get the Auth service for the default app
     var user = firebase.auth().currentUser;
+
 
     //Sign up existing users
     function createProfile() {
@@ -262,6 +273,7 @@
                 console.log("Email Verification has been sent to the user: " + user);
             });
     }
+
 
     //Sends an password reset email to the user.
     function sendPasswordReset() {

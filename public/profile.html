@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>iB Create Account</title>
+    <title>iB Account Profile</title>
     <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon.ico">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent1">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/main"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</a>
@@ -40,65 +40,62 @@
         </div>
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
-                <div class="form-container">
-                    <form action="/api/tags" method="POST">
-                        <div class="form-group row">
-                            <div class="col-10">
-                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="userGender">
-                                    <option selected>Your Gender:</option>
-                                    <option name ="yourGender" value="male">Male</option>
-                                    <option name ="yourGender" value="female">Female</option>
-                                </select>
-                                <br/>
-                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="genderPref">
-                                    <option selected>Gender Preference:</option>
-                                    <option name ="genderPref" value="male">Male</option>
-                                    <option name ="genderPref" value="female">Female</option>
-                                </select>
-                                <br/>
-                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="langPref">
-                                    <option selected>Language Preference:</option>
-                                    <option name ="langPref" value="English">English</option>
-                                    <option name ="langPref" value="Spanish">Spanish</option>
-                                    <option name ="langPref" value="French">French</option>
-                                    <option name ="langPref" value="German">German</option>
-                                    <option name ="langPref" value="Chinese">Chinese</option>
-                                    <option name ="langPref" value="Japanese">Japanese</option>
-                                    <option name ="langPref" value="Farci">Farci</option>
-                                    <option name ="langPref" value="Arabic">Arabic</option>
-                                    <option name ="langPref" value="Russian">Russian</option>
-                                    <option name ="langPref" value="Portugese">Portugese</option>
-                                    <option name ="langPref" value="Italian">Italian</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
+                <div class="col-sm-12 ">
+                    <header>
+                        <h1 class="text-center ">About Me</h1>
+                    </header>
                 </div>
             </div>
+            <hr/>
+            <div class="row justify-content-center">
+                <div class="col-sm-12 ">
+                    <h3>My Look</h3>
+                    <img id="profilePicture" src="/public/images/favicon.ico" alt="profile picture" style="width: 400px; height: 400px" action="/api/tags" method="GET"> 
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 justify-content-center">
+                    <h3> My Preferences</h3>
+                    <div id="userGender" action="/api/tags" method="GET"></div>
+                    <div id="genderPref" action="/api/tags" method="GET"></div>
+                    <div id="langPref" action="/api/tags" method="GET"></div>
+                    <hr/>
+                </div>
+            </div>
+                            
             <br>
             <br>
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
-                    <p>Choose all the ice breakers that interest you!</p>
-                    <div action="/api/tags" method="POST" class="tags" data-toggle="buttons" id="interests">
+                    <h3>My Interests</h3>
+                    <div id="tags" action="/api/tags" method="GET"class="tags">
                     </div>
                 </div>
             </div>
+            
             <div class="row justify-content-center">
-                <div id="create-account">
-                    <a href="/profile">
-                        <button type="button" class="btn btn-primary">Create account!</button>
-                    </a>
-                </div>
-                <br/>
-                <div id="delete-account">
-                    <a href="/main">
-                        <button type="button" class="btn btn-primary">Delete account</button>
-                    </a>
+                <div class="row text-center">
+                    <div class="col-sm-12 ">
+                        <hr/>
+                        <div id="update-account">
+                            <a href="/profileupdate">
+                                <button type="button" class="btn btn-primary">Update Account</button>
+                            </a>
+                        </div>
+                        <br/>
+                        <div id="start-icebreakers">
+                            <a href="/breaktheice">
+                                <button type="button" class="btn btn-primary">Break Ice Now</button>
+                            </a>
+                        </div> <!--  //when this is "togged on "/ OR /pressed, it should signal to Firebase Presence that the person is NOW online... which will LSO be used in the geolocation... -->       
+                        <hr/>
+                    </div>
                 </div>
             </div>
+
         </div>
-        <!--             </div> -->
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -109,11 +106,10 @@
         </footer>
     </div>
 
-     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
-     <script type="text/javascript">
-        //dynamically create buttons from database. create button and post from the database
+    <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
+    <script type="text/javascript">
 
-
+    //dynamically create buttons from database. create button and post from the database
         var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
         var emptyArray = [];
 
@@ -131,10 +127,10 @@
             newTag.attr("data-value", iceBreakers[i]);
             newTag.text(iceBreakers[i]);
 
-            $(".tags").append(newTag);
+            $("#tags").append(newTag);
         }
 
-        $(".tag").on("click", function(event) {
+        $("#tag").on("click", function(event) {
             newTag.attr("aria-disabled", false);
             var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
             
@@ -150,27 +146,7 @@
                     // emptyArray.empty();
             }
         })
+    </script>
 
-            // var pressed = ($(this).attr("aria-pressed", "true"));
-            // // ($(this)).attr("aria-pressed", !pressed);
-
-            // if (pressed) {
-            //     emptyArray.push(tagValue);
-            // } 
-
-
-
-            // emptyArray.push(tagValue);
-
-            // console.log(emptyArray);
-            // console.log(tagValue);
-
-
-        $(".create-account").on("click", function(event) {
-            console.log(emptyArray)
-
-        })
-        </script>
 </body>
-
 </html>
