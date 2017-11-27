@@ -20,10 +20,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent1">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/main"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile"><span class="linkColor">Edit Profile</a>
+                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/main"><span class="linkColor">Log Out</a>
@@ -50,7 +50,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 ">
                     <h3>My Look</h3>
-                    <img id="profilePicture" src="/public/images/logo.png" alt="profile picture" action="/api/tags" method="GET"> 
+                    <img id="profilePicture" src="/public/images/favicon.ico" alt="profile picture" style="width: 400px; height: 400px" action="/api/tags" method="GET"> 
                     <hr/>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <h3>My Interests</h3>
-                    <div action="/api/tags" method="GET"class="tags">
+                    <div id="tags" action="/api/tags" method="GET"class="tags">
                     </div>
                 </div>
             </div>
@@ -83,6 +83,7 @@
                                 <button type="button" class="btn btn-primary">Update Account</button>
                             </a>
                         </div>
+                        <br/>
                         <div id="start-icebreakers">
                             <a href="/breaktheice">
                                 <button type="button" class="btn btn-primary">Break Ice Now</button>
@@ -107,6 +108,44 @@
 
     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
     <script type="text/javascript">
+
+    //dynamically create buttons from database. create button and post from the database
+        var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
+        var emptyArray = [];
+
+
+        for (var i = 0; i < iceBreakers.length; i++) {
+
+
+            var newTag = $("<button>");
+
+            newTag.addClass("tag");
+            newTag.addClass("btn btn-outline-secondary");
+            newTag.attr("name", "interests");
+            newTag.attr("aria-disabled", true);
+
+            newTag.attr("data-value", iceBreakers[i]);
+            newTag.text(iceBreakers[i]);
+
+            $("#tags").append(newTag);
+        }
+
+        $("#tag").on("click", function(event) {
+            newTag.attr("aria-disabled", false);
+            var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
+            
+            var pressed = ($(this).attr("aria-pressed", true));
+
+            console.log("pressed value = "+ pressed);
+            toggleArrayItem();
+
+
+            function toggleArrayItem() {
+                if (pressed)
+                    emptyArray.push(tagValue);
+                    // emptyArray.empty();
+            }
+        })
     </script>
 
 </body>
