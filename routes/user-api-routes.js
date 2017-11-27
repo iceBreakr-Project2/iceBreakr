@@ -22,6 +22,7 @@ module.exports = function(app) {
   });
 
   // Add a user
+
   app.post("/api/new", function(req, res) {
     console.log("User Data:");
     console.log(req.body);
@@ -40,35 +41,24 @@ module.exports = function(app) {
     });    
   });
 
+// adding tags and gender pref
+  app.post("/api/tags", function(req, res) {
+    console.log("User Data:");
+    console.log(req.body);
 
-//PRACTICE DATA
-  // app.post("/api/new", function(req, res) {
-  //   console.log("User Data:");
-  //   console.log(req.body);
+    db.user.create({
+      yourGender: req.body.yourGender,
+      genderPref: req.body.genderPref,
+      interests: req.body.interests
 
-  //   db.user.create({
-  //     firstName: "Lisa",
-  //     lastName: "Jetton",
-  //     age: 24,
-  //     phoneNumber: "123-456-7890",
-  //     email: "practice@testitout.com",
-  //     password: "test534"
 
-      // gender: "female",
-      // ageRangeHigh: 32,
-      // ageRangeLow: 25,
-      // phoneNumber: "123-456-7890",
-      // sexualPref: "male",
-      // language: "English, French, Spanish",
-      // interests: "Running"
-      
-  //   }).then(function(results) {
-  //     // `results` here would be the newly created user
-  //     console.log(results); //node display
-  //     res.send(results);
-  //   });
 
-  // });
+    }).then(function(results) {
+      // `results` here would be the newly created user
+      // res.redirect("/profile");
+    });    
+  });
+
 
 };
 

@@ -41,18 +41,18 @@
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
                 <div class="form-container">
-                    <form>
+                    <form action="/api/tags" method="POST">
                         <div class="form-group row">
                             <div class="col-10">
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
                                     <option selected>Your Gender:</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option name ="yourGender" value="male">Male</option>
+                                    <option name ="yourGender" value="female">Female</option>
                                 </select>
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
                                     <option selected>Gender Preference:</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option name ="genderPref" value="male">Male</option>
+                                    <option name ="genderPref" value="female">Female</option>
                                 </select>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <p>Choose all the ice breakers that interest you!</p>
-                    <div class="tags" data-toggle="buttons">
+                    <div action="/api/tags" method="POST"class="tags" data-toggle="buttons">
                     </div>
                 </div>
             </div>
@@ -101,6 +101,7 @@
 
             newTag.addClass("tag");
             newTag.addClass("btn btn-outline-secondary");
+            newTag.attr("name", "interests");
             // newTag.attr("aria-disabled", true);
 
             newTag.attr("data-value", iceBreakers[i]);
