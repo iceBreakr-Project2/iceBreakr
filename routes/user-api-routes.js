@@ -64,7 +64,7 @@ module.exports = function(app) {
     db.user.create({
       yourGender: req.body.yourGender,
       genderPref: req.body.genderPref,
-      langPref: req.body.langPref
+      langPref: req.body.langPref,
       interests: req.body.interests
     }).then(function(results) {
       // `results` here would be the newly created user
@@ -88,7 +88,7 @@ module.exports = function(app) {
     db.user.delete({
       yourGender: req.body.yourGender,
       genderPref: req.body.genderPref,
-      langPref: req.body.langPref
+      langPref: req.body.langPref,
       interests: req.body.interests
 
     }).then(function(results) {

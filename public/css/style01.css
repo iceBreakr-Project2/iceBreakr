@@ -86,3 +86,8 @@ footer {
     margin-bottom: 24px;
 }
 
+.carousel {
+	height: 400px;
+	width: 400px;	
+}
+
