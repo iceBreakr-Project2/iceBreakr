@@ -1,6 +1,4 @@
-
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -45,17 +43,14 @@
                 <div class="form-container">
                     <form>
                         <div class="form-group row">
-
                             <div class="col-10">
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
                                     <option selected>Your Gender:</option>
-
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
                                     <option selected>Gender Preference:</option>
-
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -63,66 +58,25 @@
                         </div>
                     </form>
                 </div>
-
             </div>
             <br>
             <br>
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <p>Choose all the ice breakers that interest you!</p>
-                    <div class="tags">
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Hiking
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Wine
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Yoga
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">Running
-                        </button>
-                    </div>   
+                    <div class="tags" data-toggle="buttons">
+                    </div>
                 </div>
             </div>
-     
-  
             <div class="row justify-content-center">
                 <div class="create-account">
-                    <a href="/breaktheice"><button type="button" class="btn btn-primary">Create account!</button></a>
+                    <a href="/breaktheice">
+                        <button type="button" class="btn btn-primary">Create account!</button>
+                    </a>
                 </div>
             </div>
         </div>
-
         <!--             </div> -->
-
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -132,25 +86,65 @@
             </div>
         </footer>
     </div>
+     <script type="text/javascript">
+        //dynamically create buttons from database. create button and post from the database
 
-    <script type="text/javascript">
-    //dynamically create buttons from database. create button and post from the database
 
-    function displayTags() {
-        var tag = $(this).attr("tag-name");
+        var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
+        var emptyArray = [];
 
-        var queryURL = ""
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).done(function(req, res) {
+        for (var i = 0; i < iceBreakers.length; i++) {
+
+
+            var newTag = $("<button>");
+
+            newTag.addClass("tag");
+            newTag.addClass("btn btn-outline-secondary");
+            // newTag.attr("aria-disabled", true);
+
+            newTag.attr("data-value", iceBreakers[i]);
+
+            newTag.text(iceBreakers[i]);
+
+            $(".tags").append(newTag);
+        }
+
+        $(".tag").on("click", function(event) {
+            // newTag.attr("aria-disabled", false);
+            var tagValue = ($(this).attr("data-value"));
+            var pressed = ($(this).attr("aria-pressed", true));
+            console.log(pressed);
+            toggleArrayItem();
+
+
+            function toggleArrayItem() {
+                if (pressed)
+                    emptyArray.push(tagValue);
+                    // emptyArray.empty();
+            }
+        })
+
+            // var pressed = ($(this).attr("aria-pressed", "true"));
+            // // ($(this)).attr("aria-pressed", !pressed);
+
+            // if (pressed) {
+            //     emptyArray.push(tagValue);
+            // } 
+
+
+
+            // emptyArray.push(tagValue);
+
+            // console.log(emptyArray);
+            // console.log(tagValue);
+
+
+        $(".create-account").on("click", function(event) {
+            console.log(emptyArray)
 
         })
-    }
-    var createTag = $(".tags").prepend("<button>");
-
-    </script>
+        </script>
 </body>
 
 </html>
