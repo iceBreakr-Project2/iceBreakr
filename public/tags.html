@@ -16,6 +16,23 @@
 
 <body>
     <div id="container">
+        <nav class="navbar navbar-light light-blue lighten-4">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars fa-1x"></i></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile"><span class="linkColor">Edit Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <div class="header container-fluid">
             <div class="row justify-content-center">
                 <div class="logo">
@@ -31,7 +48,13 @@
 
                             <div class="col-10">
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
-                                    <option selected>Gender Preference</option>
+                                    <option selected>Your Gender:</option>
+
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="gender">
+                                    <option selected>Gender Preference:</option>
 
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>

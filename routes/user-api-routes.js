@@ -51,6 +51,14 @@ module.exports = function(app) {
       phoneNumber: "123-456-7890",
       email: "practice@testitout.com",
       password: "test534"
+
+      // gender: "female",
+      // ageRangeHigh: 32,
+      // ageRangeLow: 25,
+      // phoneNumber: "123-456-7890",
+      // sexualPref: "male",
+      // language: "English, French, Spanish",
+      // interests: "Running"
       
     }).then(function(results) {
       // `results` here would be the newly created user
