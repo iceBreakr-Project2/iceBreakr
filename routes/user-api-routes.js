@@ -40,6 +40,7 @@ module.exports = function(app) {
       res.redirect("/profile");
     });    
   });
+
 // adding tags and gender pref
   app.post("/api/tags", function(req, res) {
     console.log("User Data:");
@@ -57,6 +58,7 @@ module.exports = function(app) {
       // res.redirect("/profile");
     });    
   });
+
 
 };
 
