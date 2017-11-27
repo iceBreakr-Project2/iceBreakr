@@ -40,17 +40,19 @@ module.exports = function(app) {
     });    
   });
 
-  app.post("/api/new", function(req, res) {
-    console.log("User Data:");
-    console.log(req.body);
 
-    db.user.create({
-      firstName: "Lisa",
-      lastName: "Jetton",
-      age: 24,
-      phoneNumber: "123-456-7890",
-      email: "practice@testitout.com",
-      password: "test534"
+//PRACTICE DATA
+  // app.post("/api/new", function(req, res) {
+  //   console.log("User Data:");
+  //   console.log(req.body);
+
+  //   db.user.create({
+  //     firstName: "Lisa",
+  //     lastName: "Jetton",
+  //     age: 24,
+  //     phoneNumber: "123-456-7890",
+  //     email: "practice@testitout.com",
+  //     password: "test534"
 
       // gender: "female",
       // ageRangeHigh: 32,
@@ -60,13 +62,13 @@ module.exports = function(app) {
       // language: "English, French, Spanish",
       // interests: "Running"
       
-    }).then(function(results) {
-      // `results` here would be the newly created user
-      console.log(results); //node display
-      res.send(results);
-    });
+  //   }).then(function(results) {
+  //     // `results` here would be the newly created user
+  //     console.log(results); //node display
+  //     res.send(results);
+  //   });
 
-  });
+  // });
 
 };
 
