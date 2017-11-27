@@ -59,6 +59,7 @@ module.exports = function(app) {
       // sexualPref: "male",
       // language: "English, French, Spanish",
       // interests: "Running"
+      
     }).then(function(results) {
       // `results` here would be the newly created user
       console.log(results); //node display

@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     phoneNumber: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING, //LOOK INTO REMOVING THIS.. just allowing Firebase to do the authentication to avoid access to passwords..
-    
+    ////////////////
     gender: DataTypes.STRING,
     sexualPref: DataTypes.STRING,
     language: DataTypes.STRING, //Fluents only
