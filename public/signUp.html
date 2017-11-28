@@ -21,7 +21,6 @@
             version: 'v2.6'
         });
     };
-
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) { return; }
@@ -42,8 +41,8 @@
         </div>
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
-                <div class="signIn col-md-6 text-center">
-                    <p>Sign up with Facebook</p>
+                <div class="signIn col-sm-6 text-center">
+                    <p>Sign up</p>  <!-- with Facebook -->
                     <br>
                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button> -->
                    <!--  <button onclick="facebookSignin()">Facebook Signin</button> -->
@@ -57,7 +56,7 @@
             <div class="mainBody container-fluid">
                 <div class="row justify-content-center">
                     <div class="signUp col-md-6 text-center">
-                        <p>OR</p>
+                        <p></p><!-- OR -->
                         <form>
                             <!--   <form action="/api/users" method="POST"> -->
                             <div class="form-group row">
@@ -97,8 +96,9 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-10">
+                                <div class="col-sm-10">
                                     <button type="button" class="btn btn-default" id="sign-up-new">Sign up!</button>
+                                        <!-- Potential Update: class="btn btn-primary" -->
                                 </div>
                             </div>
                         </form>
@@ -143,16 +143,34 @@
 
    
         var provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope('user_birthday');
+        provider.addScope('user_phonenumber');
+        provider.addScope('user_gender');
 
         function facebookSignin() {
+            console.log("calling facebook signin");
+
             firebase.auth().signInWithPopup(provider)
 
                 .then(function(result) {
+                    console.log("in facebook auth...");
                     var token = result.credential.accessToken;
                     var user = result.user;
 
-                    console.log(token)
-                    console.log(user)
+                    console.log("token = " + token);
+                    console.log("user = " + user);
+                    result.redirect("/profileupdate")
+
+                    // var newUser = {
+                    //     Email: $("#inputEmail").val().trim(),
+                    //     Password: $("#inputPassword").val().trim()
+                    // };            
+                    // // Send the POST request.
+                    //  $.post("/api/users", newUser)
+                    //     .done(function(data) {
+                    //         alert("Data Loaded: " + data);
+                    //     });
+
                 }).catch(function(error) {
                     console.log(error.code);
                     console.log(error.message);
@@ -223,14 +241,92 @@
                 //     
             })
         };
+
         //Click-Event for Sign-Up Button on HTML.
         $("#sign-up-new").on("click", function() {
             createProfile();
             sendEmailVerification();
-            var newUser = {
-                Email: $("#inputEmail").val().trim(),
-                Password: $("#inputPassword").val().trim()
-            };
+
+            var email = $("#inputEmail").val().trim();
+            var password = $("#inputPassword").val().trim();
+            var firstName = $("#inputFirstName").val().trim();
+            var lastName = $("#inputLastName").val().trim();
+            var dob = $("#inputAge").val();
+            var telephone = $("#phoneNumber").val();
+
+            var phoneNumber = telephone.toString();
+            var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+            var atSign = function() {
+                email.includes("@");
+            }
+            var dotCom = function() {
+                email.includes(".com");
+            }
+            var number = function() {
+                for (var i = 0; i < number.length; i++) {
+                    if(password.includes(number[i])) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }  
+            }
+            var dobYear = function() {
+                var dobString = dob.length;
+                var dobArray = Array.from (dobString);
+                var year = dobArray.slice(5, 9); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
+                year.toString();
+                console.log("dob year = " + year);
+
+                var date = new Date();
+                var currentYear = date.getFullYear();
+
+                var numYear = parseInt(year);
+                if (numYear < 1920 || numYear > currentYear) {
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+
+
+            if (email.length < 6 || atSign === false || dotCom === false) {
+                alert('Please enter a avalid email address.');
+                return;
+            }
+            if (password.length < 6 || !number) {
+                alert('Please enter a valid password.');
+                return;
+            }
+            if(firstName.length < 1){
+                alert('Please enter a valid first name.');
+                return;
+            }
+            if(lastName.length < 1){
+                alert('Please enter a valid last name.');
+                return;
+            }
+            if(dob.length < 6 || !dobYear){
+                alert('Please enter a valid date of birth.');
+                return;
+            }
+            if(phoneNumber.length !== 10){
+                alert('Please enter your phone number indlucing the number "1" and full area code.');
+                return;
+            }
+            else{
+               var newUser = {
+                firstName: email,
+                lastName: email,
+                phoneNumber: phoneNumber,
+                dob: dob,
+                email: email,
+                password: password
+                } 
+            }
+            
             // Send the POST request.
             $.post("/api/users", newUser)
                 .done(function(data) {
@@ -289,7 +385,7 @@
 
         //Get a user's profile
         //To get a user's profile information, use the properties of an instance of User. F  
-        var name, email, photoUrl, uid, emailVerified;
+        var verify = ""; //name, email, photoUrl, uid, emailVerified;
         if (user != null) {
             name = user.displayName;
             email = user.email;
@@ -324,11 +420,26 @@
         //Sends an email verification to the user.
         function sendEmailVerification() {
             // [START sendemailverification]
-            firebase.auth().currentUser.sendEmailVerification()
-                .then(function() {
-                    alert("Your email verification has been sent!");
-                    console.log("Email Verification has been sent to the user: " + user);
-                });
+            var atSign = function() {
+                email.includes("@");
+            }
+            var dotCom = function() {
+                email.includes(".com");
+
+            var email = $("#inputEmail").val().trim();          
+            if (!email) {
+                alert("Please type in an email.");
+            }
+            else if (atSign === false || dotCom === false) {
+                alert("Please type in a valide email.");
+            }
+            else {
+                firebase.auth().currentUser.sendEmailVerification()
+                    .then(function() {
+                        alert("Your email verification has been sent!");
+                        console.log("Email Verification has been sent to the user: " + user);
+                    });
+            }          
         }
 
 
