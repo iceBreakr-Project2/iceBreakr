@@ -26,7 +26,9 @@
                 <div class="signIn col-md-6 text-center">
                     <p>Sign up with Facebook</p>
                     <br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button>
+                    <button onclick = "facebookSignin()">Facebook Signin</button>
+                    <button onclick = "facebookSignout()">Facebook Signout</button>
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button> -->
                 </div>
             </div>
             <br>
@@ -35,6 +37,7 @@
                 <div class="row justify-content-center">
                     <div class="signUp col-md-6 text-center">
                         <p>OR</p>
+
                         <form action="/api/users" method="POST">
                             <div class="form-group row">
                                 <label for="inputFirstName" class="inputLabel col-2 col-form-label">First Name</label>
@@ -74,12 +77,13 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-10">
-                                    <a href="/profileupdate">
-                                        <button type="button" class="btn btn-default" id="sign-up-new">Sign up!</button>
-                                    </a>
+
+                                        <button type="button" action="/api/users" method="POST" class="btn btn-default" id="sign-up-new">Sign up!</button>
+
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -120,6 +124,35 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     
     <script type="text/javascript">
+
+    var provider = new firebase.auth.FacebookAuthProvider();
+
+    function facebookSignin() {
+       firebase.auth().signInWithPopup(provider)
+       
+       .then(function(result) {
+          var token = result.credential.accessToken;
+          var user = result.user;
+            
+          console.log(token)
+          console.log(user)
+       }).catch(function(error) {
+          console.log(error.code);
+          console.log(error.message);
+       });
+    }
+
+    function facebookSignout() {
+       firebase.auth().signOut()
+       
+       .then(function() {
+          console.log('Signout successful!')
+       }, function(error) {
+          console.log('Signout failed')
+       });
+    }
+
+
     //Sign up new users
     var email = $("#inputEmail").val().trim();
     var password = $("#inputPassword").val().trim();
