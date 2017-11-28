@@ -1,3 +1,5 @@
+console.log("\n connected to info.js - models");
+
 // copied and pasted from activity 15, in case there is confusion. I did change the names, might not be perfect tho
 module.exports = function(sequelize, DataTypes) {
   var Info = sequelize.define("info", {

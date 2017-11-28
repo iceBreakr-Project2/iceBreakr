@@ -1,3 +1,6 @@
+console.log("connected to user.js - models");
+
+
 // copied and pasted from activity 15, in case there is confusion. I did change the names
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("user", {

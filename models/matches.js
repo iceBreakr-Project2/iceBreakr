@@ -1,3 +1,6 @@
+console.log("connected to matches.js - models");
+
+
 // copied and pasted from activity 15, in case there is confusion. I did change the names
 module.exports = function(sequelize, DataTypes) {
   var Matches = sequelize.define("matches", {

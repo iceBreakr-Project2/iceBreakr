@@ -1,5 +1,7 @@
 'use strict';
 
+console.log("connected to index.js - models");
+
 
 // Dependency / Requires 
 //===================================================================================================
