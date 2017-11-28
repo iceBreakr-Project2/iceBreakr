@@ -1,5 +1,7 @@
 // Dependencies
-console.log("heyconnected");
+
+console.log("connected to user-api-routes");
+
 // =============================================================
 var db = require("../models");
 
@@ -8,31 +10,32 @@ var db = require("../models");
 module.exports = function(app) {
 
   // Getting all Users
-  app.get("/api/all", function(req, res) {
-    db.User.findAll({})
-    .then(function(results) {
-      console.log(results); //node ref
-      res.json(results);
-    });
-  });
+  // app.get("/api/users", function(req, res) {
+  //   db.User.findAll({})
+  //   .then(function(results) {
+  //     console.log(results); //node ref
+  //     res.json(results);
+  //   });
+  // });
 
   // Add a User
   app.post("/api/users", function(req, res) {
-    console.log("User Data:");
+    console.log("User Data = ");
     console.log(req.body);
 
-    // db.user.create({
-    //   firstName: req.body.firstName,
-    //   lastName: req.body.lastName,
-    //   age: req.body.age,
-    //   phoneNumber: req.body.phoneNumber,
-    //   email: req.body.email,
-    //   password: req.body.password
+    db.user.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      age: req.body.age,
+      phoneNumber: req.body.phoneNumber,
+      email: req.body.email,
+      password: req.body.password
 
-    // }).then(function(results) {
-    //   res.json(results);
-      res.redirect("/profileupdate"); //routing should occur through the <href> link in html
-    // });    
+    }).then(function(results) {
+      res.json(results);
+      //res.redirect("/profileupdate"); //routing should occur through the <href> link in html
+    });    
+
   });
 
   // Deleting a User
