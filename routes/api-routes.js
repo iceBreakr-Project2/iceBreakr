@@ -1,7 +1,7 @@
 // *********************************************************************************
 // api-routes.js - this file offers a set of routes for displaying and saving data to the db
 // *********************************************************************************
-console.log("connected");
+console.log("heyeerhrhconnected");
 // Dependencies
 // =============================================================
 var db = require("../models");
@@ -25,7 +25,7 @@ module.exports = function(app) {
   });
 
   // Add a user
-  app.post("/api/new", function(req, res) {
+  app.post("/api/users", function(req, res) {
 
     console.log("User Data:");
     console.log(req.body);

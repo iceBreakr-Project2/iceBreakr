@@ -35,6 +35,7 @@
                 <div class="row justify-content-center">
                     <div class="signUp col-md-6 text-center">
                         <p>OR</p>
+                        <form>
 
                         <form action="/api/users" method="POST">
 
@@ -51,9 +52,9 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="lastName" class="inputLabel col-2 col-form-label">Age</label>
+                                <label for="age" class="inputLabel col-2 col-form-label">DOB</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="number" name="age" value="" id="inputAge" required>
+                                    <input class="form-control" type="date" name="age" value="" id="inputAge" required>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -77,9 +78,8 @@
                             <div class="form-group row">
                                 <div class="col-10">
 
-                                    <a href="/profileupdate">
                                         <button type="button" class="btn btn-default" id="sign-up-new">Sign up!</button>
-                                    </a>
+                                   
 
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
         })
     };
     //Click-Event for Sign-Up Button on HTML.
-    $("#sign-up").on("click", function() {
+    $("#sign-up-new").on("click", function() {
         createProfile();
         sendEmailVerification();
     });
@@ -343,7 +343,7 @@
         });
         // [END authstatelistener]
         $(document).on("click", "#sign-in", SignIn);
-        $(document).on("click", "#sign-up", createProfile);
+        $(document).on("click", "#sign-up-new", createProfile);
     }
     window.onload = function() {
         // initApp();
