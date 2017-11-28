@@ -239,8 +239,26 @@ var provider = new firebase.auth.FacebookAuthProvider();
                     }
                     console.log(error);
                 }
-                //     
+            
             })
+        
+        
+            var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');       
+        var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
+        connectedRef.on('value', function(snap) {
+            if (snap.val() === true) {
+                // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+                // add this device to my connections list
+             alert("connected");
+            } else {
+              alert("not connected");
+            }
+        
+            var con = myConnectionsRef.push(true);
+                // when I disconnect, remove this device
+                con.onDisconnect().remove();
+                
+        })
         };
 
         //Click-Event for Sign-Up Button on HTML.
@@ -249,6 +267,7 @@ var provider = new firebase.auth.FacebookAuthProvider();
             sendEmailVerification();
 
             console.log("testing the validation in sign-up-new");
+
 
             var email = $("#inputEmail").val().trim();
             var password = $("#inputPassword").val().trim();
@@ -479,6 +498,8 @@ var provider = new firebase.auth.FacebookAuthProvider();
         function initApp() {
             // Listening for auth state changes.
             // [START authstatelistener]
+        
+ 
             firebase.auth().onAuthStateChanged(function(user) {
                 // [START_EXCLUDE silent]
                 $('#inputEmail').disabled = false;
