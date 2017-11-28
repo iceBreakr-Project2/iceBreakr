@@ -45,9 +45,11 @@
                 <div class="signIn col-md-6 text-center">
                     <p>Sign up with Facebook</p>
                     <br>
-                    <button onclick="facebookSignin()">Facebook Signin</button>
-                    <button onclick ="facebookSignout()">Facebook Signout</button>
                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button> -->
+                   <!--  <button onclick="facebookSignin()">Facebook Signin</button> -->
+
+                    <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onclick="facebookSignin()"></div>
+                    
                 </div>
             </div>
             <br>
@@ -166,7 +168,7 @@
                     console.log('Signout failed')
                 });
         }
-        
+
      $(document).ready(function() {
         //Sign up new users
         var email = $("#inputEmail").val().trim();

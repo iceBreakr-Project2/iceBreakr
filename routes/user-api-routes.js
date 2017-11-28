@@ -1,6 +1,6 @@
 // Dependencies
 
-console.log("connected to user-api-routes");
+console.log("connected to user-api-routes \n");
 
 // =============================================================
 var db = require("../models");

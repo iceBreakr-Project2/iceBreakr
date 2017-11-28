@@ -13,6 +13,24 @@
 </head>
 
 <body>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: "192427987971498",
+            xfbml: true,
+            version: 'v2.6'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div id="container">
         <nav class="navbar navbar-light light-blue lighten-4">
             <a class="navbar-brand" href="#"></a>
@@ -50,7 +68,7 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 ">
                     <h3>My Look</h3>
-                    <img id="profilePicture" src="/public/images/favicon.ico" alt="profile picture" style="width: 400px; height: 400px" action="/api/tags" method="GET"> 
+                    <img id="profilePicture" src="/public/images/favicon.ico" alt="profile picture" style="width: 400px; height: 400px" action="/api/tags" method="GET">
                     <hr/>
                 </div>
             </div>
@@ -63,17 +81,15 @@
                     <hr/>
                 </div>
             </div>
-                            
             <br>
             <br>
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <h3>My Interests</h3>
-                    <div id="tags" action="/api/tags" method="GET"class="tags">
+                    <div id="tags" action="/api/tags" method="GET" class="tags">
                     </div>
                 </div>
             </div>
-            
             <div class="row justify-content-center">
                 <div class="row text-center">
                     <div class="col-sm-12 ">
@@ -88,16 +104,15 @@
                             <a href="/breaktheice">
                                 <button type="button" class="btn btn-primary">Break Ice Now</button>
                             </a>
-                        </div> <!--  //when this is "togged on "/ OR /pressed, it should signal to Firebase Presence that the person is NOW online... which will LSO be used in the geolocation... -->       
+                        </div>
+                        <!--  //when this is "togged on "/ OR /pressed, it should signal to Firebase Presence that the person is NOW online... which will LSO be used in the geolocation... -->
                         <hr/>
-                        <button onclick = "facebookSignout()">Facebook Signout</button>
+                        <button onclick="facebookSignout()">Facebook Signout</button>
                         <hr/>
                     </div>
                 </div>
             </div>
-
         </div>
-
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -107,48 +122,76 @@
             </div>
         </footer>
     </div>
-
     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
     <script type="text/javascript">
+    var provider = new firebase.auth.FacebookAuthProvider();
 
-    //dynamically create buttons from database. create button and post from the database
-        var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
-        var emptyArray = [];
+    function facebookSignin() {
+        firebase.auth().signInWithPopup(provider)
+
+            .then(function(result) {
+                var token = result.credential.accessToken;
+                var user = result.user;
+
+                console.log(token)
+                console.log(user)
+            }).catch(function(error) {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    }
+
+    function facebookSignout() {
+        firebase.auth().signOut()
+
+            .then(function() {
+                console.log('Signout successful!')
+            }, function(error) {
+                console.log('Signout failed')
+            });
+    }
+
+    $(document).ready(function() {
+
+                //dynamically create buttons from database. create button and post from the database
+                var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
+                var emptyArray = [];
 
 
-        for (var i = 0; i < iceBreakers.length; i++) {
+                for (var i = 0; i < iceBreakers.length; i++) {
 
 
-            var newTag = $("<button>");
+                    var newTag = $("<button>");
 
-            newTag.addClass("tag");
-            newTag.addClass("btn btn-outline-secondary");
-            newTag.attr("name", "interests");
-            newTag.attr("aria-disabled", true);
+                    newTag.addClass("tag");
+                    newTag.addClass("btn btn-outline-secondary");
+                    newTag.attr("name", "interests");
+                    newTag.attr("aria-disabled", true);
 
-            newTag.attr("data-value", iceBreakers[i]);
-            newTag.text(iceBreakers[i]);
+                    newTag.attr("data-value", iceBreakers[i]);
+                    newTag.text(iceBreakers[i]);
 
-            $("#tags").append(newTag);
-        }
+                    $("#tags").append(newTag);
+                }
 
-        $("#tag").on("click", function(event) {
-            newTag.attr("aria-disabled", false);
-            var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
-            
-            var pressed = ($(this).attr("aria-pressed", true));
+                $("#tag").on("click", function(event) {
+                    newTag.attr("aria-disabled", false);
+                    var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
 
-            console.log("pressed value = "+ pressed);
-            toggleArrayItem();
+                    var pressed = ($(this).attr("aria-pressed", true));
+
+                    console.log("pressed value = " + pressed);
+                    toggleArrayItem();
 
 
-            function toggleArrayItem() {
-                if (pressed)
-                    emptyArray.push(tagValue);
-                    // emptyArray.empty();
-            }
-        })
+                    function toggleArrayItem() {
+                        if (pressed)
+                            emptyArray.push(tagValue);
+                        // emptyArray.empty();
+                    }
+                })
+    };
     </script>
-
 </body>
+
 </html>
