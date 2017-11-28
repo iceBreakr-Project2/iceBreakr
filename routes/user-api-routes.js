@@ -1,5 +1,7 @@
 // Dependencies
+
 console.log("connected to user-api-routes");
+
 // =============================================================
 var db = require("../models");
 
@@ -33,6 +35,7 @@ module.exports = function(app) {
       res.json(results);
       //res.redirect("/profileupdate"); //routing should occur through the <href> link in html
     });    
+
   });
 
   // Deleting a User
@@ -97,4 +100,8 @@ module.exports = function(app) {
   });
 
 };
+
+
+
+
 
