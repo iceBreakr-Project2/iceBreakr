@@ -138,10 +138,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    
     <script type="text/javascript">
 
-   
-        var provider = new firebase.auth.FacebookAuthProvider();
+var provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('user_birthday');
         provider.addScope('user_phonenumber');
         provider.addScope('user_gender');
@@ -160,15 +160,15 @@
                     console.log("user = " + user);
                     result.redirect("/profileupdate");
 
-                    // var newUser = {
-                    //     Email: $("#inputEmail").val().trim(),
-                    //     Password: $("#inputPassword").val().trim()
-                    // };            
-                    // // Send the POST request.
-                    //  $.post("/api/users", newUser)
-                    //     .done(function(data) {
-                    //         alert("Data Loaded: " + data);
-                    //     });
+                    var newUser = {
+                        Email: $("#inputEmail").val().trim(),
+                        Password: $("#inputPassword").val().trim()
+                    };            
+                    // Send the POST request.
+                     $.post("/api/users", newUser)
+                        .done(function(data) {
+                            alert("Data Loaded: " + data);
+                        });
 
                 }).catch(function(error) {
                     console.log(error.code);
@@ -185,6 +185,8 @@
                     console.log('Signout failed')
                 });
         }
+    
+
 
      $(document).ready(function() {
         //Sign up new users
@@ -340,7 +342,6 @@
         });
 
 
-
         //Sign in existing users
         function SignIn() {
             if (firebase.auth().currentUser) {
@@ -388,6 +389,20 @@
         });
 
  
+
+        //Get a user's profile
+        //To get a user's profile information, use the properties of an instance of User. F  
+        var verify = ""; //name, email, photoUrl, uid, emailVerified;
+        if (user != null) {
+            name = user.displayName;
+            email = user.email;
+            photoUrl = user.photoURL;
+            emailVerified = user.emailVerified;
+            uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+            // this value to authenticate with your backend server, if
+            // you have one. Use User.getToken() instead.
+        }
+
         //Sends an email verification to the user.
         function sendEmailVerification() {
             // [START sendemailverification]
@@ -434,7 +449,7 @@
                 }
             });          
         }
-
+    
 
         //Sends an password reset email to the user.
         function sendPasswordReset() {
@@ -507,9 +522,9 @@
             $(document).on("click", "#sign-up-new", createProfile);
         }
         window.onload = function() {
-            //initApp();
+            initApp();
         };
-
+    
     });
 
     //For the firebase presence status:
