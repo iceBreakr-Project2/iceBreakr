@@ -35,7 +35,10 @@
                 <div class="row justify-content-center">
                     <div class="signUp col-md-6 text-center">
                         <p>OR</p>
+                        <form>
+
                         <form action="/api/users" method="POST">
+
                             <div class="form-group row">
                                 <label for="inputFirstName" class="inputLabel col-2 col-form-label">First Name</label>
                                 <div class="col-sm-10">
@@ -49,9 +52,9 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="lastName" class="inputLabel col-2 col-form-label">Age</label>
+                                <label for="age" class="inputLabel col-2 col-form-label">DOB</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="number" name="age" value="" id="inputAge" required>
+                                    <input class="form-control" type="date" name="age" value="" id="inputAge" required>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -74,9 +77,10 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-10">
-                                    <a href="/profileupdate">
+
                                         <button type="button" class="btn btn-default" id="sign-up-new">Sign up!</button>
-                                    </a>
+                                   
+
                                 </div>
                             </div>
                         </form>
@@ -111,18 +115,20 @@
             </div>
         </footer>
     </div>
+
     <!--========================================================================= -->
     <!--========================================================================= -->
-    
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-    
+
     <script type="text/javascript">
     //Sign up new users
     var email = $("#inputEmail").val().trim();
     var password = $("#inputPassword").val().trim();
+
     //Initialize Firebase >> hide this before the end in a PW file...
     var config = {
         apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
@@ -132,13 +138,17 @@
         storageBucket: "ice-breaker-app-165bd.appspot.com",
         messagingSenderId: "673248316614"
     };
+
     firebase.initializeApp(config);
     // var firebase = require("firebase");
     // var admin = require("firebase-admin");
+
     // admin.initializeApp(functions.config().firebase);
     // firebase.initializeApp(functions.config().firebase);
     // Get the Auth service for the default app
     var user = firebase.auth().currentUser;
+
+
     //Sign up existing users
     function createProfile() {
         var email2 = $("#inputEmail").val().trim();
@@ -168,10 +178,12 @@
         })
     };
     //Click-Event for Sign-Up Button on HTML.
-    $("#sign-up").on("click", function() {
+    $("#sign-up-new").on("click", function() {
         createProfile();
         sendEmailVerification();
     });
+
+
     //Sign in existing users
     function SignIn() {
         if (firebase.auth().currentUser) {
@@ -189,6 +201,7 @@
             }
             // Sign in with email and pass.
             // [START authwithemail]
+
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -207,6 +220,7 @@
                 console.log(error);
                 $("#sign-in").disabled = false;
                 // [END_EXCLUDE]
+
             });
         }
         $("#sign-in").disabled = true;
@@ -215,6 +229,7 @@
     $("#sign-in").on("click", function() {
         SignIn();
     });
+
     //Get a user's profile
     //To get a user's profile information, use the properties of an instance of User. F  
     var name, email, photoUrl, uid, emailVerified;
@@ -227,8 +242,11 @@
         // this value to authenticate with your backend server, if
         // you have one. Use User.getToken() instead.
     }
+
+
     // since I can connect from multiple devices or browser tabs, we store each connection instance separately
     // any time that connectionsRef's value is null (i.e. has no children) I am offline
+
     // var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
     // // stores the timestamp of my last disconnect (the last time I was seen online)
     // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
@@ -256,6 +274,7 @@
             });
     }
 
+
     //Sends an password reset email to the user.
     function sendPasswordReset() {
         // [START sendpasswordemail]
@@ -280,6 +299,7 @@
             });
         // [END sendpasswordemail];
     }
+
     function initApp() {
         // Listening for auth state changes.
         // [START authstatelistener]
@@ -293,15 +313,18 @@
                 var emaildb = user.email;
                 console.log("Email from database is: " + emaildb);
                 console.log("Email from input is: " + email);
+
                 var emailVerified = user.emailVerified;
                 var photoURL = user.photoURL;
                 var isAnonymous = user.isAnonymous;
                 var uid = user.uid;
                 var providerData = user.providerData;
+
                 // [START_EXCLUDE]
                 $("#sign-in-status").text("Signed in"); //create div for this button...
                 $("#sign-out").text("Sign out"); //if they click the sign-in button, then they will sign out. (Make this button on most pages...)
                 $('#account-details').text(JSON.stringify(user, null, " ")); //CHECK OUT the 
+
                 if (!emailVerified) {
                     $("#inputEmail").disabled = false; //make a verify email
                 }
@@ -320,7 +343,7 @@
         });
         // [END authstatelistener]
         $(document).on("click", "#sign-in", SignIn);
-        $(document).on("click", "#sign-up", createProfile);
+        $(document).on("click", "#sign-up-new", createProfile);
     }
     window.onload = function() {
         // initApp();
