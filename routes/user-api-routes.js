@@ -26,14 +26,14 @@ module.exports = function(app) {
     db.user.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      age: req.body.age,
+      dob: req.body.dob,
       phoneNumber: req.body.phoneNumber,
       email: req.body.email,
       password: req.body.password
 
     }).then(function(results) {
       res.json(results);
-      //res.redirect("/profileupdate"); //routing should occur through the <href> link in html
+      res.redirect("/profileupdate"); //routing should occur through the <href> link in html
     });    
 
   });
@@ -46,7 +46,7 @@ module.exports = function(app) {
     db.user.delete({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      age: req.body.age,
+      dob: req.body.dob,
       phoneNumber: req.body.phoneNumber,
       email: req.body.email,
       password: req.body.password
