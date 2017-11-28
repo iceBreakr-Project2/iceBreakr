@@ -98,6 +98,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <button type="button" class="btn btn-primary" id="sign-up-new">Sign up!</button>
+                                <!-- **************** -->
                                 </div>
                             </div>
                         </form>
@@ -140,61 +141,58 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     
     <script type="text/javascript">
+    /////////////////////////////////////////
+    //Start of the Facebook Button:
 
-var provider = new firebase.auth.FacebookAuthProvider();
-        provider.addScope('user_birthday');
-        provider.addScope('user_phonenumber');
-        provider.addScope('user_gender');
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('user_birthday');
+    provider.addScope('user_phonenumber');
+    provider.addScope('user_gender');
 
-        function facebookSignin() {
-            console.log("calling facebook signin");
+    function facebookSignin() {
+        console.log("calling facebook signin");
 
-            firebase.auth().signInWithPopup(provider)
+        firebase.auth().signInWithPopup(provider)
+            .then(function(result) {
+                console.log("in facebook auth...");
+                var token = result.credential.accessToken;
+                var user = result.user;
 
-                .then(function(result) {
-                    console.log("in facebook auth...");
-                    var token = result.credential.accessToken;
-                    var user = result.user;
+                console.log("token = " + token);
+                console.log("user = " + user);
+                result.redirect("/profileupdate");
 
-                    console.log("token = " + token);
-                    console.log("user = " + user);
-                    result.redirect("/profileupdate");
+                var newUser = {
+                    Email: $("#inputEmail").val().trim(),
+                    Password: $("#inputPassword").val().trim()
+                };            
+                // Send the POST request.
+                 $.post("/api/users", newUser)
+                    .done(function(data) {
+                        alert("Data Loaded: " + data);
+                    });
 
-                    var newUser = {
-                        Email: $("#inputEmail").val().trim(),
-                        Password: $("#inputPassword").val().trim()
-                    };            
-                    // Send the POST request.
-                     $.post("/api/users", newUser)
-                        .done(function(data) {
-                            alert("Data Loaded: " + data);
-                        });
+            }).catch(function(error) {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    }
 
-                }).catch(function(error) {
-                    console.log(error.code);
-                    console.log(error.message);
-                });
-        }
+    function facebookSignout() {
+        firebase.auth().signOut()
 
-        function facebookSignout() {
-            firebase.auth().signOut()
+            .then(function() {
+                console.log('Signout successful!')
+            }, function(error) {
+                console.log('Signout failed')
+            });
+    };
 
-                .then(function() {
-                    console.log('Signout successful!')
-                }, function(error) {
-                    console.log('Signout failed')
-                });
-        }
-    
-
+    //End of the Facebook Button
+    /////////////////////////////////////////
 
      $(document).ready(function() {
-        //Sign up new users
-        var email = $("#inputEmail").val().trim();
-        var password = $("#inputPassword").val().trim();
-
-
-        //Initialize Firebase >> hide this before the end in a PW file...
+    //Initialize Firebase >> hide this before the end in a PW file...
         var config = {
             apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
             authDomain: "ice-breaker-app-165bd.firebaseapp.com",
@@ -203,15 +201,20 @@ var provider = new firebase.auth.FacebookAuthProvider();
             storageBucket: "ice-breaker-app-165bd.appspot.com",
             messagingSenderId: "673248316614"
         };
-
         firebase.initializeApp(config);
+
         // var firebase = require("firebase");
         // var admin = require("firebase-admin");
-
         // admin.initializeApp(functions.config().firebase);
-        // firebase.initializeApp(functions.config().firebase);
-        // Get the Auth service for the default app
+        //firebase.initializeApp(functions.config().firebase);
+
+
+        //Get the Auth service for the default app
         var user = firebase.auth().currentUser;
+
+        //Sign up new users
+        var email = $("#inputEmail").val().trim();
+        var password = $("#inputPassword").val().trim();
 
 
         //Sign up existing users
@@ -258,8 +261,17 @@ var provider = new firebase.auth.FacebookAuthProvider();
             var telephone = $("#inputTel").val();
             
             console.log("dob = " + dob);
-            console.log("telephone = " + telephone);
-            //var phoneNumber = telephone.toString();
+            console.log("type of dob = " + typeof(dob)); //dob === string
+            
+            var dobString = dob.length;
+            var dobArray = Array.from (dobString);
+            var year = dobArray.slice(1, 5);
+            console.log("dob slicing year = ");
+            console.log(year);
+            console.log(dobArray);
+
+            console.log("type of telephone = " + typeof(telephone)); //telephone === string
+            console.log("telephone = " + telephone); 
             
             var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
             var atSign = function() {
@@ -279,6 +291,7 @@ var provider = new firebase.auth.FacebookAuthProvider();
                 }  
             }
             var dobYear = function() {
+                var newUser = {};
                 var dobString = dob.length;
                 var dobArray = Array.from (dobString);
                 var year = dobArray.slice(1, 5); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
@@ -313,33 +326,52 @@ var provider = new firebase.auth.FacebookAuthProvider();
             if(lastName.length < 1){
                 alert('Please enter a valid last name.');
                 return;
-            }
-            if(dob.length !== 8 || dobYear === false){
-                alert('Please enter a valid date of birth.');
-                return;
+            // }
+            // if(dob.length !== 8 || dobYear === false){
+            //     alert('Please enter a valid date of birth.');
+            //     return;
             }
             if(telephone.length !== 11){
                 alert('Please enter a valid phone number, including the number "1" and full area code.');
                 return;
             }
             else{
-               var newUser = {
+               newUser = {
                 firstName: email,
                 lastName: email,
-                phoneNumber: phoneNumber,
+                phoneNumber: telephone,
                 dob: dob,
                 email: email,
                 password: password
                 } 
             }
-            
-            // Send the POST request.
-            $.post("/api/users", newUser)
-                .done(function(data) {
-                    alert("Data Loaded: " + data);
-                });
 
-        });
+        // Send the POST request.
+            $.ajax({
+              type: "POST",
+              url: "/api/users",
+              data: newUser
+            });
+
+            // Send the POST request.
+                // $.post( "/api/users", function( newUser ) {
+                //     console.log("inside the /api/users");
+                // }).done(function(data) {
+                //         alert("Data Loaded: " + data);
+                //         console.log("Data Loaded: ");
+                //         console.log(data);
+                // });
+
+
+            // Send the POST request.
+        //     $.post("/api/users", newUser)
+        //         console.log("inside the /api/users");
+        //         // .done(function(data) {
+        //         //     alert("Data Loaded: " + data);
+        //         //     console.log("Data Loaded: ");
+        //         //     console.log(data);
+        //         // });
+        // });
 
 
         //Sign in existing users
@@ -488,7 +520,7 @@ var provider = new firebase.auth.FacebookAuthProvider();
                     var displayName = user.displayName;
                     var emaildb = user.email;
                     console.log("Email from database is: " + emaildb);
-                    console.log("Email from input is: " + email);
+                    console.log("Email from input is: " + email); //Check out why this is null...
 
                     var emailVerified = user.emailVerified;
                     var photoURL = user.photoURL;
