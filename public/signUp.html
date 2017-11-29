@@ -30,7 +30,6 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
-
     <div id="container">
         <div class="header container-fluid">
             <div class="row justify-content-center">
@@ -42,13 +41,12 @@
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
                 <div class="signIn col-sm-6 text-center">
-                    <p>Sign up</p>  <!-- with Facebook -->
+                    <p>Sign up</p>
+                    <!-- with Facebook -->
                     <br>
                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button> -->
-                   <!--  <button onclick="facebookSignin()">Facebook Signin</button> -->
-
+                    <!--  <button onclick="facebookSignin()">Facebook Signin</button> -->
                     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onclick="facebookSignin()"></div>
-                    
                 </div>
             </div>
             <br>
@@ -56,7 +54,8 @@
             <div class="mainBody container-fluid">
                 <div class="row justify-content-center">
                     <div class="signUp col-sm-6 text-center">
-                        <p></p><!-- OR -->
+                        <p></p>
+                        <!-- OR -->
                         <form>
                             <!--   <form action="/api/users" method="POST"> -->
                             <div class="form-group row">
@@ -138,10 +137,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-    
     <script type="text/javascript">
 
-var provider = new firebase.auth.FacebookAuthProvider();
+    $(document).ready(function() {
+
+        var provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('user_birthday');
         provider.addScope('user_phonenumber');
         provider.addScope('user_gender');
@@ -163,9 +163,9 @@ var provider = new firebase.auth.FacebookAuthProvider();
                     var newUser = {
                         Email: $("#inputEmail").val().trim(),
                         Password: $("#inputPassword").val().trim()
-                    };            
+                    };
                     // Send the POST request.
-                     $.post("/api/users", newUser)
+                    $.post("/api/users", newUser)
                         .done(function(data) {
                             alert("Data Loaded: " + data);
                         });
@@ -185,10 +185,10 @@ var provider = new firebase.auth.FacebookAuthProvider();
                     console.log('Signout failed')
                 });
         }
-    
 
 
-     $(document).ready(function() {
+
+        // $(document).ready(function() {
         //Sign up new users
         var email = $("#inputEmail").val().trim();
         var password = $("#inputPassword").val().trim();
@@ -239,26 +239,26 @@ var provider = new firebase.auth.FacebookAuthProvider();
                     }
                     console.log(error);
                 }
-            
+
             })
-        
-        
-            var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');       
-        var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
-        connectedRef.on('value', function(snap) {
-            if (snap.val() === true) {
-                // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-                // add this device to my connections list
-             alert("connected");
-            } else {
-              alert("not connected");
-            }
-        
-            var con = myConnectionsRef.push(true);
-                // when I disconnect, remove this device
-                con.onDisconnect().remove();
-                
-        })
+
+            //Firebase presence stuff.
+            // var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
+            // var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
+            // connectedRef.on('value', function(snap) {
+            //     if (snap.val() === true) {
+            //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+            //         // add this device to my connections list
+            //         alert("connected");
+            //     } else {
+            //         alert("not connected");
+            //     }
+
+            //     var con = myConnectionsRef.push(true);
+            //     // when I disconnect, remove this device
+            //     con.onDisconnect().remove();
+
+            // })
         };
 
         //Click-Event for Sign-Up Button on HTML.
@@ -275,11 +275,11 @@ var provider = new firebase.auth.FacebookAuthProvider();
             var lastName = $("#inputLastName").val().trim();
             var dob = $("#inputAge").val();
             var telephone = $("#inputTel").val();
-            
+
             console.log("dob = " + dob);
             console.log("telephone = " + telephone);
             //var phoneNumber = telephone.toString();
-            
+
             var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
             var atSign = function() {
                 email.includes("@");
@@ -289,17 +289,16 @@ var provider = new firebase.auth.FacebookAuthProvider();
             }
             var number = function() {
                 for (var i = 0; i < number.length; i++) {
-                    if(password.includes(number[i])) {
+                    if (password.includes(number[i])) {
                         return true;
-                    }
-                    else {
+                    } else {
                         return false;
                     }
-                }  
+                }
             }
             var dobYear = function() {
                 var dobString = dob.length;
-                var dobArray = Array.from (dobString);
+                var dobArray = Array.from(dobString);
                 var year = dobArray.slice(1, 5); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
                 year.toString();
                 //console.log("dob year = " + year);
@@ -310,8 +309,7 @@ var provider = new firebase.auth.FacebookAuthProvider();
                 var numYear = parseInt(year);
                 if (numYear < 1920 || numYear > currentYear) {
                     return false;
-                }
-                else{
+                } else {
                     return true;
                 }
             }
@@ -325,33 +323,33 @@ var provider = new firebase.auth.FacebookAuthProvider();
                 alert('Please enter a valid password.');
                 return;
             }
-            if(firstName.length < 1){
+            if (firstName.length < 1) {
                 alert('Please enter a valid first name.');
                 return;
             }
-            if(lastName.length < 1){
+            if (lastName.length < 1) {
                 alert('Please enter a valid last name.');
                 return;
             }
-            if(dob.length !== 8 || dobYear === false){
-                alert('Please enter a valid date of birth.');
-                return;
-            }
-            if(telephone.length !== 11){
+            //wrong splicing failing to validate
+            // if (dob.length !== 8 || dobYear === false) {
+            //     alert('Please enter a valid date of birth.');
+            //     return;
+            // }
+            if (telephone.length !== 11) {
                 alert('Please enter a valid phone number, including the number "1" and full area code.');
                 return;
+            } else {
+                var newUser = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    phoneNumber: telephone,
+                    dob: dob,
+                    email: email,
+                    password: password
+                }
             }
-            else{
-               var newUser = {
-                firstName: email,
-                lastName: email,
-                phoneNumber: phoneNumber,
-                dob: dob,
-                email: email,
-                password: password
-                } 
-            }
-            
+
             // Send the POST request.
             $.post("/api/users", newUser)
                 .done(function(data) {
@@ -407,7 +405,7 @@ var provider = new firebase.auth.FacebookAuthProvider();
             SignIn();
         });
 
- 
+
 
         //Get a user's profile
         //To get a user's profile information, use the properties of an instance of User. F  
@@ -433,8 +431,8 @@ var provider = new firebase.auth.FacebookAuthProvider();
             var dotCom = function() {
                 email.includes(".com");
             }
-         
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {          
+
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -442,33 +440,29 @@ var provider = new firebase.auth.FacebookAuthProvider();
 
                 if (!email) {
                     alert("Please type in an email.");
-                }
-                else if (atSign === false || dotCom === false) {
+                } else if (atSign === false || dotCom === false) {
                     alert("Please type in a valid email.");
-                }
-                else {
+                } else {
                     if (errorCode === "auth/invalid-email") {
                         alert("Please type in a valid email.  We want to make sure your account is secure. :)");
-                        return console.log("User's amail is already in use.");                        
-                    }
-                    else if (errorCode === "auth/account-exists-with-different-credential") {
+                        return console.log("User's amail is already in use.");
+                    } else if (errorCode === "auth/account-exists-with-different-credential") {
                         alert("Your email is already taken!");
                         return console.log("User's amail is already in use.");
-                    }
-                    else {
-                      firebase.auth().currentUser.sendEmailVerification()  //WHY DOES THIS KEEP CHANGING!!?
-                        .then(function() {
-                            alert("Your email verification has been sent!");
+                    } else {
+                        firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
+                            .then(function() {
+                                alert("Your email verification has been sent!");
 
-                            user.displayName = firstName + " " + lastName;
-                            console.log("Email Verification has been sent to the following user: ")
-                            console.log(user.displayName);
-                        });  
+                                user.displayName = "firstName" + " " + "lastName";
+                                console.log("Email Verification has been sent to the following user: ")
+                                console.log(user.displayName);
+                            });
                     }
                 }
-            });          
+            });
         }
-    
+
 
         //Sends an password reset email to the user.
         function sendPasswordReset() {
@@ -498,8 +492,8 @@ var provider = new firebase.auth.FacebookAuthProvider();
         function initApp() {
             // Listening for auth state changes.
             // [START authstatelistener]
-        
- 
+
+
             firebase.auth().onAuthStateChanged(function(user) {
                 // [START_EXCLUDE silent]
                 $('#inputEmail').disabled = false;
@@ -540,32 +534,31 @@ var provider = new firebase.auth.FacebookAuthProvider();
             });
             // [END authstatelistener]
             $(document).on("click", "#sign-in", SignIn);
-            $(document).on("click", "#sign-up-new", createProfile);
+            // $(document).on("click", "#sign-up-new", createProfile);
         }
         window.onload = function() {
             initApp();
         };
-    
+
     });
 
     //For the firebase presence status:
-            // var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
-        // // stores the timestamp of my last disconnect (the last time I was seen online)
-        // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-        // var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
-        // connectedRef.on('value', function(snap) {
-        //     if (snap.val() === true) {
-        //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-        //         // add this device to my connections list
-        //         // this value could contain info about the device or a timestamp too
-        //         var con = myConnectionsRef.push(true);
-        //         // when I disconnect, remove this device
-        //         con.onDisconnect().remove();
-        //         // when I disconnect, update the last time I was seen online
-        //         lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
-        //     }
-        // });
-
+    // var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
+    // // stores the timestamp of my last disconnect (the last time I was seen online)
+    // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
+    // var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
+    // connectedRef.on('value', function(snap) {
+    //     if (snap.val() === true) {
+    //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+    //         // add this device to my connections list
+    //         // this value could contain info about the device or a timestamp too
+    //         var con = myConnectionsRef.push(true);
+    //         // when I disconnect, remove this device
+    //         con.onDisconnect().remove();
+    //         // when I disconnect, update the last time I was seen online
+    //         lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
+    //     }
+    // });
     </script>
 </body>
 
