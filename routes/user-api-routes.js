@@ -32,7 +32,8 @@ module.exports = function(app) {
       password: req.body.password
 
     }).then(function(results) {
-      res.json(results);
+      // res.json(results);
+      console.log("redirecting to profileupdate");
       res.redirect("/profileupdate"); //routing should occur through the <href> link in html
     });    
 
