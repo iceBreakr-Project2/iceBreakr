@@ -138,7 +138,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script type="text/javascript">
-
     $(document).ready(function() {
 
         var provider = new firebase.auth.FacebookAuthProvider();
@@ -353,7 +352,7 @@
             // Send the POST request.
             $.post("/api/users", newUser)
                 .done(function(data) {
-                    alert("Data Loaded: " + data);
+                    // alert("Data Loaded: " + data);
                 });
 
         });
@@ -453,10 +452,11 @@
                         firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
                             .then(function() {
                                 alert("Your email verification has been sent!");
+                                window.location.pathname = "/profileupdate"; //routing should occur through the <href> link in html
 
-                                user.displayName = "firstName" + " " + "lastName";
-                                console.log("Email Verification has been sent to the following user: ")
-                                console.log(user.displayName);
+                                // user.displayName = "firstName" + " " + "lastName";
+                                // console.log("Email Verification has been sent to the following user: ")
+                                // console.log(user.displayName);
                             });
                     }
                 }

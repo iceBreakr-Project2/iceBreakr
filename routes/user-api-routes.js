@@ -34,7 +34,7 @@ module.exports = function(app) {
     }).then(function(results) {
       // res.json(results);
       console.log("redirecting to profileupdate");
-      res.redirect("/profileupdate"); //routing should occur through the <href> link in html
+      // res.redirect("/profileupdate"); //routing should occur through the <href> link in html
     });    
 
   });
