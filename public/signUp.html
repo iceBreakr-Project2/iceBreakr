@@ -44,9 +44,10 @@
                     <p>Sign up</p>
                     <!-- with Facebook -->
                     <br>
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Facebook log in</button> -->
+
                     <!--  <button onclick="facebookSignin()">Facebook Signin</button> -->
                     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onclick="facebookSignin()"></div>
+
                 </div>
             </div>
             <br>
@@ -97,6 +98,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <button type="button" class="btn btn-primary" id="sign-up-new">Sign up!</button>
+                                <!-- **************** -->
                                 </div>
                             </div>
                         </form>
@@ -138,6 +140,42 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script type="text/javascript">
+    /////////////////////////////////////////
+    //Start of the Facebook Button:
+
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('user_birthday');
+    provider.addScope('user_phonenumber');
+    provider.addScope('user_gender');
+
+    function facebookSignin() {
+        console.log("calling facebook signin");
+
+        firebase.auth().signInWithPopup(provider)
+            .then(function(result) {
+                console.log("in facebook auth...");
+                var token = result.credential.accessToken;
+                var user = result.user;
+
+                console.log("token = " + token);
+                console.log("user = " + user);
+                result.redirect("/profileupdate");
+
+                var newUser = {
+                    Email: $("#inputEmail").val().trim(),
+                    Password: $("#inputPassword").val().trim()
+                };            
+                // Send the POST request.
+                 $.post("/api/users", newUser)
+                    .done(function(data) {
+                        alert("Data Loaded: " + data);
+                    });
+
+            }).catch(function(error) {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    }
 
     $(document).ready(function() {
 
@@ -187,6 +225,9 @@
         }
 
 
+    //End of the Facebook Button
+    /////////////////////////////////////////
+
 
         // $(document).ready(function() {
         //Sign up new users
@@ -195,6 +236,7 @@
 
 
         //Initialize Firebase >> hide this before the end in a PW file...
+
         var config = {
             apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
             authDomain: "ice-breaker-app-165bd.firebaseapp.com",
@@ -203,15 +245,20 @@
             storageBucket: "ice-breaker-app-165bd.appspot.com",
             messagingSenderId: "673248316614"
         };
-
         firebase.initializeApp(config);
+
         // var firebase = require("firebase");
         // var admin = require("firebase-admin");
-
         // admin.initializeApp(functions.config().firebase);
-        // firebase.initializeApp(functions.config().firebase);
-        // Get the Auth service for the default app
+        //firebase.initializeApp(functions.config().firebase);
+
+
+        //Get the Auth service for the default app
         var user = firebase.auth().currentUser;
+
+        //Sign up new users
+        var email = $("#inputEmail").val().trim();
+        var password = $("#inputPassword").val().trim();
 
 
         //Sign up existing users
@@ -259,6 +306,7 @@
             //     con.onDisconnect().remove();
 
             // })
+
         };
 
         //Click-Event for Sign-Up Button on HTML.
@@ -268,7 +316,6 @@
 
             console.log("testing the validation in sign-up-new");
 
-
             var email = $("#inputEmail").val().trim();
             var password = $("#inputPassword").val().trim();
             var firstName = $("#inputFirstName").val().trim();
@@ -277,6 +324,7 @@
             var telephone = $("#inputTel").val();
 
             console.log("dob = " + dob);
+
             console.log("telephone = " + telephone);
             //var phoneNumber = telephone.toString();
 
@@ -297,6 +345,7 @@
                 }
             }
             var dobYear = function() {
+                var newUser = {};
                 var dobString = dob.length;
                 var dobArray = Array.from(dobString);
                 var year = dobArray.slice(1, 5); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
@@ -330,6 +379,7 @@
             if (lastName.length < 1) {
                 alert('Please enter a valid last name.');
                 return;
+
             }
             //wrong splicing failing to validate
             // if (dob.length !== 8 || dobYear === false) {
@@ -337,6 +387,7 @@
             //     return;
             // }
             if (telephone.length !== 11) {
+
                 alert('Please enter a valid phone number, including the number "1" and full area code.');
                 return;
             } else {
@@ -359,53 +410,32 @@
         });
 
 
-        //Sign in existing users
-        function SignIn() {
-            if (firebase.auth().currentUser) {
-                // [START signout]
-                firebase.auth().signOut();
-                // [END signout]    
-            } else {
-                if (email.length < 4) {
-                    alert('Please enter an email address.');
-                    return;
-                }
-                if (password.length < 4) {
-                    alert('Please enter a password.');
-                    return;
-                }
-                // Sign in with email and pass.
-                // [START authwithemail]
+        // // Send the POST request.
+        //     $.ajax({
+        //       type: "POST",
+        //       url: "/api/users",
+        //       data: newUser
+        //     });
 
-                firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // [START_EXCLUDE]
-                    if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
-                        alert('Wrong password.');
-                        var wrongPass = 0;
-                        wrongPass++;
-                    } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
-                        alert('Your account is now locked.  Please visit your email to reset your password.');
-                        sendPasswordReset();
-                    } else {
-                        alert(errorMessage);
-                    }
-                    console.log(error);
-                    $("#sign-in").disabled = false;
-                    // [END_EXCLUDE]
+        //     // Send the POST request.
+        //         // $.post( "/api/users", function( newUser ) {
+        //         //     console.log("inside the /api/users");
+        //         // }).done(function(data) {
+        //         //         alert("Data Loaded: " + data);
+        //         //         console.log("Data Loaded: ");
+        //         //         console.log(data);
+        //         // });
 
+
+            //Send the POST request.
+            $.post("/api/users", newUser)
+                //console.log("inside the /api/users");
+                .done(function(data) {
+                    alert("Data Loaded: " + data);
+                    console.log("Data Loaded: ");
+                    console.log(data);
                 });
-            }
-            $("#sign-in").disabled = true;
-        };
-        //Click-Event for Sign-In Button on HTML.
-        $("#sign-in").on("click", function() {
-            SignIn();
         });
-
-
 
         //Get a user's profile
         //To get a user's profile information, use the properties of an instance of User. F  
@@ -503,7 +533,7 @@
                     var displayName = user.displayName;
                     var emaildb = user.email;
                     console.log("Email from database is: " + emaildb);
-                    console.log("Email from input is: " + email);
+                    console.log("Email from input is: " + email); //Check out why this is null...
 
                     var emailVerified = user.emailVerified;
                     var photoURL = user.photoURL;
@@ -533,8 +563,10 @@
                 // [END_EXCLUDE]
             });
             // [END authstatelistener]
+
             $(document).on("click", "#sign-in", SignIn);
             // $(document).on("click", "#sign-up-new", createProfile);
+
         }
         window.onload = function() {
             initApp();

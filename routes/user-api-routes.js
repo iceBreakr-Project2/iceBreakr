@@ -9,14 +9,14 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // Getting all Users
-  // app.get("/api/users", function(req, res) {
-  //   db.User.findAll({})
-  //   .then(function(results) {
-  //     console.log(results); //node ref
-  //     res.json(results);
-  //   });
-  // });
+  //Getting all Users
+  app.get("/api/users/all", function(req, res) {
+    db.User.findAll({})
+    .then(function(results) {
+      console.log(results); //node ref
+      res.json(results);
+    });
+  });
 
   // Add a User
   app.post("/api/users", function(req, res) {
