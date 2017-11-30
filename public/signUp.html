@@ -139,6 +139,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
+  
+ 
 
         var provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('user_birthday');
@@ -204,8 +206,7 @@
         };
 
         firebase.initializeApp(config);
-        // var firebase = require("firebase");
-        // var admin = require("firebase-admin");
+           
 
         // admin.initializeApp(functions.config().firebase);
         // firebase.initializeApp(functions.config().firebase);
@@ -241,23 +242,6 @@
 
             })
 
-            //Firebase presence stuff.
-            // var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
-            // var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
-            // connectedRef.on('value', function(snap) {
-            //     if (snap.val() === true) {
-            //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-            //         // add this device to my connections list
-            //         alert("connected");
-            //     } else {
-            //         alert("not connected");
-            //     }
-
-            //     var con = myConnectionsRef.push(true);
-            //     // when I disconnect, remove this device
-            //     con.onDisconnect().remove();
-
-            // })
         };
 
         //Click-Event for Sign-Up Button on HTML.
@@ -539,26 +523,11 @@
         window.onload = function() {
             initApp();
         };
-
+    
     });
 
-    //For the firebase presence status:
-    // var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
-    // // stores the timestamp of my last disconnect (the last time I was seen online)
-    // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-    // var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
-    // connectedRef.on('value', function(snap) {
-    //     if (snap.val() === true) {
-    //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-    //         // add this device to my connections list
-    //         // this value could contain info about the device or a timestamp too
-    //         var con = myConnectionsRef.push(true);
-    //         // when I disconnect, remove this device
-    //         con.onDisconnect().remove();
-    //         // when I disconnect, update the last time I was seen online
-    //         lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
-    //     }
-    // });
+
+   
     </script>
 </body>
 

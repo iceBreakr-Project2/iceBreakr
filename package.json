@@ -1,7 +1,6 @@
 {
   "name": "icebreakr",
   "version": "1.0.0",
-
   "description": "On_demand_dating_app",
   "main": "server.js",
   "dependencies": {
@@ -10,11 +9,11 @@
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "firebase": "^4.6.2",
+    "firebase-admin": "^5.5.1",
     "handlebars-helper-css": "^0.1.0",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
     "path": "^0.12.7",
-
     "sequelize": "^4.23.1"
   },
   "devDependencies": {},
@@ -26,7 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/iceBreakr-Project2/iceBreakr.git"
   },
-
   "author": "Amanda Austin Elliott Lorna Lisa",
   "license": "ISC",
   "bugs": {
