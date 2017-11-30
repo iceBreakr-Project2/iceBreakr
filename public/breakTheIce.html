@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 
-    <script type="text/javascript" src="/firebase/presence.js"></script>
+    
 
 </head>
 
@@ -75,9 +75,10 @@
 
 
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
         <footer>
             <div class="row justify-content-center">
                 <p>&copy; iceBreakr 2017</p>
@@ -88,6 +89,115 @@
 
     <!--HERE IS THE JAVASCRIPT -->
     <script type="text/javascript">
+    
+    $(document).ready(function () {
+    
+    // Initialize Firebase
+
+    var config = {
+    apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+    authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+    databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+    projectId: "ice-breaker-app-165bd",
+    storageBucket: "ice-breaker-app-165bd.appspot.com",
+    messagingSenderId: "673248316614"
+  };
+  
+  firebase.initializeApp(config);
+
+
+//   var database = firebase.database();
+
+//   var userListRef = database.ref("users_online");
+
+//   var myUserRef = userListRef.push();
+
+//   var connectRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com") ;
+  
+//   connectRef.firebase.database().ref(".info/connected")
+//   .on(
+//     "value", function (snap) {
+//       if (snap.val()) {
+//         // if we lose network then remove this user from the list
+//         myUserRef.onDisconnect()
+//                  .remove();
+//         // set user's online status
+//         setUserStatus("online");
+//       } else {
+//         // client has lost network/exited out from app
+//         setUserStatus("offline");
+//       }
+//     }
+//   );
+
+//   var currentStatus = "offline";
+
+//   // A helper function to let us set our own state.
+//   function setUserStatus(status) {
+//     // Set our status in the list of online users.
+//     currentStatus = status;
+//     myUserRef.set({ uid: uid, status: status });
+//   }
+
+var database = firebase.database();
+
+// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
+// connectionsRef references a specific location in our database.
+// All of our connections will be stored in this directory.
+var connectionsRef = database.ref("/online");
+
+// '.info/connected' is a special location provided by Firebase that is updated every time
+// the client's connection state changes.
+// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
+var connectedRef = database.ref(".info/connected");
+
+// When the client's connection state changes...
+connectedRef.on("value", function(snap) {
+
+  // If they are connected..
+  if (snap.val()) {
+
+    // Add user to the connections list.
+    var con = connectionsRef.push(true);
+
+    // Remove user from the connection list when they disconnect.
+    con.onDisconnect().remove();
+  }
+});
+
+
+
+
+
+
+// // since I can connect from multiple devices or browser tabs, we store each connection instance separately
+// // any time that connectionsRef's value is null (i.e. has no children) I am offline
+
+// var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
+//         // stores the timestamp of my last disconnect (the last time I was seen online)
+
+//         // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
+        
+//         var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
+//         connectedRef.on('value', function(snap) {
+//             if (snap.val() === true) {
+//                 // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+//                 // add this device to my connections list
+//              alert("connected");
+//             } else {
+//               alert("not connected");
+//             }
+        
+//             var con = myConnectionsRef.push(true);
+//                 // when I disconnect, remove this device
+//                 con.onDisconnect().remove();
+                
+//         });
+
+
+
+
+
     $(".userMatch").hide();
 
     $(".pickAxe").click(function() {
@@ -97,6 +207,9 @@
         $(".userMatch").show();
     });
 
+
+
+    });
     </script>
 
 </body>
