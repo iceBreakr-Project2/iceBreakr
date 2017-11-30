@@ -91,8 +91,9 @@
     <script type="text/javascript">
     
     $(document).ready(function () {
+
     
-    // Initialize Firebase
+//     // Initialize Firebase
 
     var config = {
     apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
@@ -103,41 +104,9 @@
     messagingSenderId: "673248316614"
   };
   
-  firebase.initializeApp(config);
+firebase.initializeApp(config);
 
 
-//   var database = firebase.database();
-
-//   var userListRef = database.ref("users_online");
-
-//   var myUserRef = userListRef.push();
-
-//   var connectRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com") ;
-  
-//   connectRef.firebase.database().ref(".info/connected")
-//   .on(
-//     "value", function (snap) {
-//       if (snap.val()) {
-//         // if we lose network then remove this user from the list
-//         myUserRef.onDisconnect()
-//                  .remove();
-//         // set user's online status
-//         setUserStatus("online");
-//       } else {
-//         // client has lost network/exited out from app
-//         setUserStatus("offline");
-//       }
-//     }
-//   );
-
-//   var currentStatus = "offline";
-
-//   // A helper function to let us set our own state.
-//   function setUserStatus(status) {
-//     // Set our status in the list of online users.
-//     currentStatus = status;
-//     myUserRef.set({ uid: uid, status: status });
-//   }
 
 var database = firebase.database();
 
@@ -164,36 +133,6 @@ connectedRef.on("value", function(snap) {
     con.onDisconnect().remove();
   }
 });
-
-
-
-
-
-
-// // since I can connect from multiple devices or browser tabs, we store each connection instance separately
-// // any time that connectionsRef's value is null (i.e. has no children) I am offline
-
-// var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
-//         // stores the timestamp of my last disconnect (the last time I was seen online)
-
-//         // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-        
-//         var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
-//         connectedRef.on('value', function(snap) {
-//             if (snap.val() === true) {
-//                 // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-//                 // add this device to my connections list
-//              alert("connected");
-//             } else {
-//               alert("not connected");
-//             }
-        
-//             var con = myConnectionsRef.push(true);
-//                 // when I disconnect, remove this device
-//                 con.onDisconnect().remove();
-                
-//         });
-
 
 
 
