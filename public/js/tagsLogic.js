@@ -49,7 +49,7 @@ $(function() {
 
   $("#delete-account").on("click", function(event) {
     // Send the DELETE request.
-    $.ajax("/api/users/:user" {
+    $.ajax("/api/users/:user", {
       type: "DELETE"
     }).then(
       function() {
@@ -58,7 +58,7 @@ $(function() {
       }
     );
 
-    $.ajax("/api/tags" {
+    $.ajax("/api/tags", {
       type: "DELETE"
     }).then(
       function() {
