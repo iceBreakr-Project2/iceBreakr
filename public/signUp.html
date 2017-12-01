@@ -485,7 +485,7 @@
             // [START authstatelistener]
             firebase.auth().onAuthStateChanged(function(user) {
                 console.log(user);
-                console.log(user.ka.uid);
+                console.log(user.uid);
                 // [START_EXCLUDE silent]
                 $('#inputEmail').disabled = false;
                 // [END_EXCLUDE]
