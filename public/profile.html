@@ -135,7 +135,7 @@
                         <div class="modal-body">
                             <div onclick="facebookSignout()" class="fb-login-button" id="fb-btn" style="margin: 0 auto; margin-right: 20px; width:80%">Signout with Facebook</div>
                             <br/>
-                            <a class="nav-link" href="/main"><button>Log Out
+                            <a id="logoutBtn" class="nav-link" href="/main"><button>Log Out
                             </button></a>
                         </div>
                         <div class="modal-footer">
@@ -194,6 +194,7 @@
     //         });
     // }
 
+        $("#logoutBtn").on("click", SignIn());
 
             //Sign in existing users
             function SignIn() {
