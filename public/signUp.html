@@ -490,8 +490,6 @@
                 $('#inputEmail').disabled = false;
                 // [END_EXCLUDE]
                 if (user) {
-                    window.location.pathname = "/profile";
-
                     // User is signed in.
                     var displayName = user.displayName;
                     var emaildb = user.email;
@@ -502,18 +500,16 @@
                     var isAnonymous = user.isAnonymous;
                     var uid = user.uid;
                     var providerData = user.providerData;
-
-                    // [START_EXCLUDE]
+                   
                     $("#sign-in-status").text("Signed in"); //create div for this button...
-                    $("#sign-out").text("Sign out"); //if they click the sign-in button, then they will sign out. (Make this button on most pages...)
-                    $('#account-details').text(JSON.stringify(user, null, " ")); //CHECK OUT the 
 
-                    if (!emailVerified) {
-                        $("#inputEmail").disabled = false;
-                    }
-                    // [END_EXCLUDE]
+                    //$('#account-details').text(JSON.stringify(user, null, " "));
+                    window.location.pathname = "/profile";
+
                 } else {
                     firebase.auth().signOut();
+                    $("#sign-out").text("Sign out"); //if they click the sign-in button, then they will sign out. (Make this button on most pages...)
+                    
 
                     // User is signed out.
                     // [START_EXCLUDE]

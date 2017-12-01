@@ -162,7 +162,11 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $.get("/api/pref", function(request, response){
-            console.log("this is your request from api/pref : " + request.params);
+            console.log("this is your request from api/pref : ");
+            console.log(request.params);
+
+             console.log("\nthis is your response from api/pref : ")
+             console.log(request.params);
             //response.html....
         });
 
