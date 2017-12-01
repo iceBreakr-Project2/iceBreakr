@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -31,29 +35,37 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
+
     <div id="container">
-        <nav class="navbar navbar-light light-blue lighten-4">
+        <nav class="navbar navbar-light light-blue lighten-4 justify-content-center">
             <a class="navbar-brand" href="#"></a>
-            <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars fa-1x"></i></button>
+            <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">*</button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent1">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/main"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/profile"><span class="linkColor">Home Profile</span><span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</a>
+                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</a>
+                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Break The Ice</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/matches"><span class="linkColor">Your Matches</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="linkColor">Log Out</span></a> <!-- //THIS IS WHERE WE SHOULD INPUT THE LOGOUT FUNCITNALITY FROM FIREBASE... -->
                     </li>
                 </ul>
             </div>
         </nav>
+
         <div class="header container-fluid">
             <div class="row justify-content-center">
-                <div class="logo">
-                    <img src="/public/images/logo.png" alt="iceBreakrBear">
-                </div>
+                <nav class="navbar navbar-inverse navbar-fixed-top my-logo col-sm-10" role="navigation">
+                    <img src="/public/images/logo.png" alt="iceBreakrBear" id="logo" class="justify-content-center">
+                </nav>
             </div>
         </div>
         <div class="mainBody container-fluid">
@@ -68,130 +80,164 @@
             <div class="row justify-content-center">
                 <div class="col-sm-12 ">
                     <h3>My Look</h3>
-                    <img id="profilePicture" src="/public/images/favicon.ico" alt="profile picture" style="width: 400px; height: 400px" action="/api/tags" method="GET">
+                    <img id="profilePicture" src="/public/images/assets/profilePic.jpg" alt="profile picture" style="width: 200px; height: 200px" action="/api/tags" method="GET">
                     <hr/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12 justify-content-center">
                     <h3> My Preferences</h3>
-                    <div id="userGender" action="/api/tags" method="GET"></div>
-                    <div id="genderPref" action="/api/tags" method="GET"></div>
-                    <div id="langPref" action="/api/tags" method="GET"></div>
+                    <div id="userGender" style="font: white; font-size: 25px">I'm a: </div>
+                    <div id="genderPref" style="font: white; font-size: 25px"> I would like to meet a: </div>
+                    <div id="langPref" style="font: white; font-size:25px">My language of choice is: </div>
                     <hr/>
                 </div>
             </div>
             <br>
-            <br>
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <h3>My Interests</h3>
-                    <div id="tags" action="/api/tags" method="GET" class="tags">
-                    </div>
+                    <h5>My favorite hobbies to talk about include:
+                        <br>
+                        <div id="tags"></div> 
+                    </h5>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="row text-center">
                     <div class="col-sm-12 ">
                         <hr/>
-                        <div id="update-account">
-                            <a href="/profileupdate">
-                                <button type="button" class="btn btn-primary">Update Account</button>
-                            </a>
-                        </div>
-                        <br/>
                         <div id="start-icebreakers">
                             <a href="/breaktheice">
                                 <button type="button" class="btn btn-primary">Break Ice Now</button>
                             </a>
                         </div>
-                        <!--  //when this is "togged on "/ OR /pressed, it should signal to Firebase Presence that the person is NOW online... which will LSO be used in the geolocation... -->
-                        <hr/>
-                        <button onclick="facebookSignout()">Facebook Signout</button>
+                        <br/>
+                        <div id="update-account">
+                            <a href="/profileupdate">
+                                <button type="button" class="btn btn-primary">Update Account</button>
+                            </a>
+                        </div>                        
+<!--                         <hr/>
+                        <div onclick="facebookSignout()" class="fb-login-button" id="fb-btn" style="margin: 0 auto; margin-right: 20px; width:80%">Signout from Facebook</div> -->
                         <hr/>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> We look forward to hanging out next time!</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div onclick="facebookSignout()" class="fb-login-button" id="fb-btn" style="margin: 0 auto; margin-right: 20px; width:80%">Signout with Facebook</div>
+                            <br/>
+                            <a class="nav-link" href="/main"><button>Log Out
+                            </button></a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <footer>
-            <div class="row justify-content-center">
-                <p>&copy; iceBreakr 2017</p>
+            <div id="footer-container" class="row justify-content-center">
+                <p id="footer">&copy; iceBreakr 2017</p>
             </div>
         </footer>
-    </div>
-    <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
+    </div>    
+
+
+    <!--HERE IS THE Profile PAGE SCRIPT -->
+   
+    <!-- <script type="text/javascript" src="/public/js/tagsLogic.js"></script> -->
+
     <script type="text/javascript">
-    var provider = new firebase.auth.FacebookAuthProvider();
-
-    function facebookSignin() {
-        firebase.auth().signInWithPopup(provider)
-
-            .then(function(result) {
-                var token = result.credential.accessToken;
-                var user = result.user;
-
-                console.log(token)
-                console.log(user)
-            }).catch(function(error) {
-                console.log(error.code);
-                console.log(error.message);
-            });
-    }
-
-    function facebookSignout() {
-        firebase.auth().signOut()
-
-            .then(function() {
-                console.log('Signout successful!')
-            }, function(error) {
-                console.log('Signout failed')
-            });
-    }
-
     $(document).ready(function() {
+        $.get("/api/pref", function(request, response){
+            console.log("this is your request from api/pref : " + request.params);
+            //response.html....
+        });
+    });  
 
-                //dynamically create buttons from database. create button and post from the database
-                var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
-                var emptyArray = [];
+    // var provider = new firebase.auth.FacebookAuthProvider();
+
+    // function facebookSignin() {
+    //     firebase.auth().signInWithPopup(provider)
+
+    //         .then(function(result) {
+    //             var token = result.credential.accessToken;
+    //             var user = result.user;
+
+    //             console.log(token)
+    //             console.log(user)
+    //         }).catch(function(error) {
+    //             console.log(error.code);
+    //             console.log(error.message);
+    //         });
+    // }
+
+    // function facebookSignout() {
+    //     firebase.auth().signOut()
+
+    //         .then(function() {
+    //             console.log('Signout successful!')
+    //         }, function(error) {
+    //             console.log('Signout failed')
+    //         });
+    // }
 
 
-                for (var i = 0; i < iceBreakers.length; i++) {
-
-
-                    var newTag = $("<button>");
-
-                    newTag.addClass("tag");
-                    newTag.addClass("btn btn-outline-secondary");
-                    newTag.attr("name", "interests");
-                    newTag.attr("aria-disabled", true);
-
-                    newTag.attr("data-value", iceBreakers[i]);
-                    newTag.text(iceBreakers[i]);
-
-                    $("#tags").append(newTag);
-                }
-
-                $("#tag").on("click", function(event) {
-                    newTag.attr("aria-disabled", false);
-                    var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
-
-                    var pressed = ($(this).attr("aria-pressed", true));
-
-                    console.log("pressed value = " + pressed);
-                    toggleArrayItem();
-
-
-                    function toggleArrayItem() {
-                        if (pressed)
-                            emptyArray.push(tagValue);
-                        // emptyArray.empty();
+            //Sign in existing users
+            function SignIn() {
+                if (firebase.auth().currentUser) {
+                    // [START signout]
+                    firebase.auth().signOut();
+                    // [END signout]    
+                } else {
+                    if (email.length < 4) {
+                        alert('Please enter an email address.');
+                        return;
                     }
-                })
-    };
-    </script>
-</body>
+                    if (password.length < 4) {
+                        alert('Please enter a password.');
+                        return;
+                    }
+                    // Sign in with email and pass.
+                    // [START authwithemail]
+    
+                    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        // [START_EXCLUDE]
+                        if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
+                            alert('Wrong password.');
+                            var wrongPass = 0;
+                            wrongPass++;
+                        } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
+                            alert('Your account is now locked.  Please visit your email to reset your password.');
+                            sendPasswordReset();
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                        $("#sign-in").disabled = false;
+                        // [END_EXCLUDE]
+    
+                    });
+                }
+                $("#sign-in").disabled = true;
+            };
 
+    </script>
+
+</body>
 </html>

@@ -13,27 +13,30 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-
-    <script type="text/javascript" src="/firebase/presence.js"></script>
-
 </head>
 
 <body>
     <div id="container">
 
-        <nav class="navbar navbar-light light-blue lighten-4">
+        <nav class="navbar navbar-light light-blue lighten-4 justify-content-center">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars fa-1x"></i></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent1">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/matches"><span class="linkColor">Matches <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/profile"><span class="linkColor">Home Profile</span><span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</a>
+                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</a>
+                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Break The Ice</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/matches"><span class="linkColor">Your Matches</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</span></a> <!-- //THIS IS WHERE WE SHOULD INPUT THE LOGOUT FUNCITNALITY FROM FIREBASE... -->
                     </li>
                 </ul>
             </div>
@@ -41,21 +44,20 @@
 
         <div class="header container-fluid">
             <div class="row justify-content-center">
-                <div class="logo">
-                    <img src="/public/images/logo.png" alt="iceBreakrBear">
-                </div>
+                <nav class="navbar navbar-inverse navbar-fixed-top my-logo col-sm-10" role="navigation">
+                    <img src="/public/images/logo.png" alt="iceBreakrBear" id="logo" class="justify-content-center">
+                </nav>
             </div>
         </div>
+        
         <div class="mainBody container-fluid">
-
-
             <!--HERE ARE THE BEGINNING DIVS WHEN THE USER FIRST GETS TO THE PAGE-->
             <div class="readyToMeet">
                 <p>Ready to meet? Click the axe to break the ice!</p>
             </div>
 
             <div class="pickAxe">
-                <img src="/public/images/pickaxe.png" alt="pickAxe">
+                <img id="pickaxe" src="/public/images/pickaxe.png" alt="pickAxe">
             </div>
 
             <!--WHEN THE USER CLICKS ON THE PICKAXE THE FOLLOWING DIVS DISPLAY-->
@@ -72,18 +74,17 @@
             <div class="iceBreakers">
                 <!-- THIS IS WHERE THE MATCHING ICEBREAKERS DISPLAY-->
             </div>
-
-
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
         <footer>
             <div class="row justify-content-center">
-                <p>&copy; iceBreakr 2017</p>
+                <p id="footer">&copy; iceBreakr 2017</p>
             </div>
         </footer>
     </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
 
     <!--HERE IS THE JAVASCRIPT -->

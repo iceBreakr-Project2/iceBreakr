@@ -66,25 +66,42 @@ i {
 	margin-top: 100px;
 }
 
-/*.form-control {
-	margin: 10px 40px;
-}*/
+.sign-up-group {
+	width: 100%
+	/*margin: 10px 40px;*/
+}
+@media screen and (max-width: 500px) and (min-width:320px ) {	
+	.sign-up-group {
+		width: 115%
+	}
+}
 
 .tag-wrapper {
 	width: 1000px;
 }
 
 p {
-	font-size: xx-large;
+	font-size: 35px;
 	text-shadow: -1px 0 #089BA3, 0 1px #089BA3, 1px 0 #089BA3, 0 -1px #089BA3;
-
+	margin-left: 20px; 
 	color: white;
 	font-family: 'Lobster', cursive;
 }
 
-footer {
+h3 {
+	font-size: 35px;
+	text-shadow: -1px 0 #089BA3, 0 1px #089BA3, 1px 0 #089BA3, 0 -1px #089BA3;
+	margin-left: 20px; 
+	color: white;
+	font-family: 'Lobster', cursive;
+}
 
-    margin-bottom: 24px;
+h1 {
+	font-size: 55px;
+	text-shadow: -1px 0 #089BA3, 0 1px #089BA3, 1px 0 #089BA3, 0 -1px #089BA3;
+	margin-left: 20px; 
+	color: white;
+	font-family: 'Lobster', cursive;
 }
 
 .carousel {
@@ -92,3 +109,65 @@ footer {
 	width: 500px;	
 }
 
+#delete-account {
+	margin-left: 10px;
+	margin-bottom: 100px;
+}
+}
+
+#create-account {
+	margin-right: 10px;
+	margin-bottom: 100px;
+}
+
+/*#start-icebreakers {
+	margin-left: 10px;
+	margin-bottom: 100px;
+}
+*/
+#update-account {
+	/*margin-right: 10px;*/
+	margin-bottom: 100px;
+}
+
+#sign-up-new {
+	margin-bottom: 100px;
+}
+
+#logo {
+	width: 100%;
+	margin: 0 auto;
+	margin-right: 145px; 
+}
+
+#pickaxe {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 25px;
+}
+
+.navbar-toggle {
+	width: 100%;
+	float: none;
+	margin: 0 auto;
+}
+
+#fb-btn {
+	margin-bottom: 150px;
+}
+
+#footer-container {
+	/*//background-color: #26045a*/
+}
+
+#footer {
+	font-size: 35px;
+	text-shadow: -1px 0 #089BA3, 0 1px #089BA3, 1px 0 #089BA3, 0 -1px #089BA3;
+	margin: 0 auto;
+	margin-top: 150px;
+	margin-bottom: 10px;
+	color: white;
+	font-family: 'Lobster', cursive;
+	position: fixed;
+	bottom: 0px
+}
