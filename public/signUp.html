@@ -121,154 +121,245 @@
                     </div>
                 </div>
             </div>
-        <footer>
-            <div class="row justify-content-center">
-                <p id="footer">&copy; iceBreakr 2017</p>
-            </div>
-        </footer>
-    </div>
-    <!--========================================================================= -->
-    <!--========================================================================= -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+            <footer>
+                <div class="row justify-content-center">
+                    <p id="footer">&copy; iceBreakr 2017</p>
+                </div>
+            </footer>
+        </div>
+        <!--========================================================================= -->
+        <!--========================================================================= -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <!--HERE IS THE SignUp PAGE SCRIPT -->
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
 
-    <!--HERE IS THE SignUp PAGE SCRIPT -->
-    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function() {
+            var provider = new firebase.auth.FacebookAuthProvider();
+            provider.addScope('user_birthday');
+            provider.addScope('user_phonenumber');
+            provider.addScope('user_gender');
 
-        var provider = new firebase.auth.FacebookAuthProvider();
-        provider.addScope('user_birthday');
-        provider.addScope('user_phonenumber');
-        provider.addScope('user_gender');
+            function facebookSignin() {
+                console.log("calling facebook signin");
 
-        function facebookSignin() {
-            console.log("calling facebook signin");
+                firebase.auth().signInWithPopup(provider)
+                    .then(function(result) {
+                        console.log("in facebook auth...");
+                        var token = result.credential.accessToken;
+                        var user = result.user;
 
-            firebase.auth().signInWithPopup(provider)
-                .then(function(result) {
-                    console.log("in facebook auth...");
-                    var token = result.credential.accessToken;
-                    var user = result.user;
+                        console.log("token = " + token);
+                        console.log("user = " + user);
+                        result.redirect("/profileupdate");
 
-                    console.log("token = " + token);
-                    console.log("user = " + user);
-                    result.redirect("/profileupdate");
+                        var newUser = {
+                            firstName: firstName,
+                            lastName: lastName,
+                            phoneNumber: telephone,
+                            age: dob,
+                            email: email,
+                            password: password
+                        }
 
-                    var newUser = {
-                        firstName: firstName,
-                        lastName: lastName,
-                        phoneNumber: telephone,
-                        // age: age,
-                        email: email,
-                        password: password
-                    }
+                        // Send the POST request.
+                        $.post("/api/users", newUser)
+                            .done(function(data) {
+                                // alert("Data Loaded: " + data);
+                            }).catch(function(error) {
+                                console.log(error.code);
+                                console.log(error.message);
+                            });
+                    });
+            };
 
-                // Send the POST request.
-                    $.post("/api/users", newUser)
-                        .done(function(data) {
-                            // alert("Data Loaded: " + data);
-                        }).catch(function(error) {
-                            console.log(error.code);
-                            console.log(error.message);
-                        });
-                });
-        }
+            function facebookSignout() {
+                firebase.auth().signOut()
 
-        function facebookSignout() {
-            firebase.auth().signOut()
+                    .then(function() {
+                        console.log('Signout successful!')
+                    }, function(error) {
+                        console.log('Signout failed')
+                    });
+            };
 
-                .then(function() {
-                    console.log('Signout successful!')
-                }, function(error) {
-                    console.log('Signout failed')
-                });
-        }
+            ////////////////////////////////////////////////////////////////////////////////
+            //Initialize Firebase >> hide this before the end in a PW file...
+            var config = {
+                apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+                authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+                databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+                projectId: "ice-breaker-app-165bd",
+                storageBucket: "ice-breaker-app-165bd.appspot.com",
+                messagingSenderId: "673248316614"
+            };
+            firebase.initializeApp(config);
+            var user = firebase.auth().currentUser;
+            //////////////////////////////////////////////////////////////////////////////////
 
-
-
-        // $(document).ready(function() {
-        //Sign up new users
-        var email = $("#inputEmail").val().trim();
-        var password = $("#inputPassword").val().trim();
-
-
-        //Initialize Firebase >> hide this before the end in a PW file...
-        var config = {
-            apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
-            authDomain: "ice-breaker-app-165bd.firebaseapp.com",
-            databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
-            projectId: "ice-breaker-app-165bd",
-            storageBucket: "ice-breaker-app-165bd.appspot.com",
-            messagingSenderId: "673248316614"
-        };
-
-        firebase.initializeApp(config);
-        // var firebase = require("firebase");
-        // var admin = require("firebase-admin");
-
-        // admin.initializeApp(functions.config().firebase);
-        // firebase.initializeApp(functions.config().firebase);
-        // Get the Auth service for the default app
-        var user = firebase.auth().currentUser;
+            //Click-Event for Sign-Up Button on HTML.
+            $("#sign-up-new").on("click", function() {
+                createProfile();
+                sendEmailVerification();
+            });
 
 
-        //Sign up existing users
-        function createProfile() {
-            var email2 = $("#inputEmail").val().trim();
-            var password2 = $("#inputPassword").val().trim();
-            if (email2.length < 4) {
-                $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
-                return;
-            }
-            if (password2.length < 4) {
-                 $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
-                return;
-            }
-            firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
-                if (error) {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    if (errorCode === "auth/weak-password") {
-                        alert("Your password is too weak. Please try again.. we don't want someone to break the ice for you!");
-                        console.log("User's password is too weak.");
-                    } else {
-                        alert("batman" + errorMessage)
-                        console.log("You have the current error message:" + errorMessage + ", and error code: " + errorCode + ".");
-                    }
-                    console.log(error);
+            //To get a user's profile information, use the properties of an instance of User. 
+            var verify = ""; //name, email, photoUrl, uid, emailVerified;
+            if (user != null) {
+                name = user.displayName;
+                email = user.email;
+                photoUrl = user.photoURL;
+                emailVerified = user.emailVerified;
+                uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
+                // this value to authenticate with your backend server, if
+                // you have one. Use User.getToken() instead.
+            };
+
+
+            //Sign up existing users
+            function createProfile() {
+                var email2 = $("#inputEmail").val().trim();
+                var password2 = $("#inputPassword").val().trim();
+                if (email2.length < 4) {
+                    $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
+                    return;
                 }
+                if (password2.length < 4) {
+                    $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
+                    return;
+                }
+                firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
+                    if (error) {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === "auth/weak-password") {
+                            alert("Your password is too weak. Please try again.. we don't want someone to break the ice for you!");
+                            console.log("User's password is too weak.");
+                        } else {
+                            alert("batman" + errorMessage)
+                            console.log("You have the current error message:" + errorMessage + ", and error code: " + errorCode + ".");
+                        }
+                        console.log(error);
+                    }
 
-            })
+                })
+            };
 
-            //Firebase presence stuff.
-            // var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
-            // var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
-            // connectedRef.on('value', function(snap) {
-            //     if (snap.val() === true) {
-            //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-            //         // add this device to my connections list
-            //         alert("connected");
+            // //Sign in existing users
+            // function SignIn() {
+            //     if (firebase.auth().currentUser) {
+            //         // [START signout]
+            //         firebase.auth().signOut();
+            //         // [END signout]    
             //     } else {
-            //         alert("not connected");
+            //         if (email.length < 4) {
+            //             $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
+            //             return;
+            //         }
+            //         if (password.length < 4) {
+            //             $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
+            //             return;
+            //         }
+            //         // Sign in with email and pass.
+            //         // [START authwithemail]
+
+            //         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            //             // Handle Errors here.
+            //             var errorCode = error.code;
+            //             var errorMessage = error.message;
+            //             // [START_EXCLUDE]
+            //             if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
+            //                 alert('Wrong password.');
+            //                 var wrongPass = 0;
+            //                 wrongPass++;
+            //             } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
+            //                 alert('Your account is now locked.  Please visit your email to reset your password.');
+            //                 sendPasswordReset();
+            //             } else {
+            //                 $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
+            //             }
+            //             console.log(error);
+            //             $("#sign-up-new").disabled = false;
+            //             // [END_EXCLUDE]
+
+            //         });
             //     }
+            //     $("#sign-up-new").disabled = true;
+            // };
 
-            //     var con = myConnectionsRef.push(true);
-            //     // when I disconnect, remove this device
-            //     con.onDisconnect().remove();
 
-            // })
+            //Authorizes AND Sends an email verification to the user.
+            function sendEmailVerification() {
+                var email = $("#inputEmail").val().trim();
+                var password = $("#inputPassword").val().trim();
+
+                var atSign = function() {
+                    email.includes("@");
+                }
+                var dotCom = function() {
+                    email.includes(".com");
+                }
+               
+                // if (email.length < 4) {
+                //     $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
+                //     return;
+                // }
+                // if (password.length < 4) {
+                //     $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
+                //     return;
+                // }
+
+                firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        var user = firebase.auth().currentUser;
+
+                        console.log("testing the firebase auth lin 440");
+
+
+                        if (!email) {
+                            $("#errorBox").html("<br/><h4>*Please type in an email.</h4>");
+                        } else if (atSign === false || dotCom === false) {
+                            $("#errorBox").html("<br/><h4>*Please enter a valid email.</h4>");
+                        } else if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
+                            alert('Wrong password.');
+                            var wrongPass = 0;
+                            wrongPass++;
+                        } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
+                            alert('Your account is now locked.  Please visit your email to reset your password.');
+                            sendPasswordReset();
+                        } else if (errorCode === "auth/invalid-email") {
+                            alert("Please type in a valid email.  We want to make sure your account is secure. :)");
+                            return console.log("User's amail is already in use.");
+                        } else if (errorCode === "auth/account-exists-with-different-credential") {
+                            $("#errorBox").html("<br/><h4>Your email is already taken!</h4>");
+                            return console.log("User's amail is already in use.");
+                        } else if (errorCode === null) {
+                            console.log("firebase auth errorMessage = " + errorMessage);
+                            firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
+                                .then(function() {
+                                    $("#errorBox").html("<br/><h4>Your email verification has been sent!</h4>");
+                                    console.log("User has been sent an email verification!");
+                                    window.location.pathname = "/profileupdate";
+
+
+                                    // user.displayName = "firstName" + " " + "lastName";
+                                    // console.log("Email Verification has been sent to the following user: ")
+                                    // console.log(user.displayName);
+                                });
+                            console.log("testing the firebase auth - AFTER the posting...");
+                        }
+                        else {
+                            $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
+                        }
+                });
         };
 
-        //Click-Event for Sign-Up Button on HTML.
-        $("#sign-up-new").on("click", function() {
-            createProfile();
-            SignIn();
-            sendEmailVerification();
-
-            //console.log("testing the validation in sign-up-new");
-
+        function userPost() {
             var email = $("#inputEmail").val().trim();
             var password = $("#inputPassword").val().trim();
             var firstName = $("#inputFirstName").val().trim();
@@ -296,6 +387,7 @@
                     }
                 }
             }
+
             var dobYear = function() {
                 var dobString = dob.length;
                 var dobArray = Array.from(dobString);
@@ -316,7 +408,6 @@
                 }
             }
 
-
             if (email.length < 6 || atSign === false || dotCom === false) {
                 $("#errorBox").html("<br/><h4>*Please enter a avalid email address.</h4>");
                 return;
@@ -326,7 +417,7 @@
                 return;
             }
             if (firstName.length < 1) {
-                 $("#errorBox").html("<br/><h4>*Please enter a valid first name.</h4>");
+                $("#errorBox").html("<br/><h4>*Please enter a valid first name.</h4>");
                 return;
             }
             if (lastName.length < 1) {
@@ -362,119 +453,7 @@
                     window.location.pathname = "/profileupdate";
                 });
             console.log("POSTED THE DATA!");
-        });
-
-
-        //Sign in existing users
-        function SignIn() {
-            if (firebase.auth().currentUser) {
-                // [START signout]
-                firebase.auth().signOut();
-                // [END signout]    
-            } else {
-                if (email.length < 4) {
-                    $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
-                    return;
-                }
-                if (password.length < 4) {
-                    $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
-                    return;
-                }
-                // Sign in with email and pass.
-                // [START authwithemail]
-
-                firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // [START_EXCLUDE]
-                    if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
-                        alert('Wrong password.');
-                        var wrongPass = 0;
-                        wrongPass++;
-                    } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
-                        alert('Your account is now locked.  Please visit your email to reset your password.');
-                        sendPasswordReset();
-                    } else {
-                        $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
-                    }
-                    console.log(error);
-                    $("#sign-up-new").disabled = false;
-                    // [END_EXCLUDE]
-
-                });
-            }
-            $("#sign-up-new").disabled = true;
         };
-        //Click-Event for Sign-In Button on HTML.
-        // $("#sign-up-new").on("click", function() {
-        //     SignIn();
-        // });
-
-
-
-        //Get a user's profile
-        //To get a user's profile information, use the properties of an instance of User. 
-        var verify = ""; //name, email, photoUrl, uid, emailVerified;
-        if (user != null) {
-            name = user.displayName;
-            email = user.email;
-            photoUrl = user.photoURL;
-            emailVerified = user.emailVerified;
-            uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
-            // this value to authenticate with your backend server, if
-            // you have one. Use User.getToken() instead.
-        }
-
-        //Sends an email verification to the user.
-        function sendEmailVerification() {
-            // [START sendemailverification]
-            var email = $("#inputEmail").val().trim();
-
-            var atSign = function() {
-                email.includes("@");
-            }
-            var dotCom = function() {
-                email.includes(".com");
-            }
-
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                var user = firebase.auth().currentUser;
-
-                console.log("testing the firebase auth lin 440");
-                if (!email) {
-                    $("#errorBox").html("<br/><h4>*Please type in an email.</h4>");
-                } else if (atSign === false || dotCom === false) {
-                    $("#errorBox").html("<br/><h4>*Please enter a valid email.</h4>");
-                } else {
-                    if (errorCode === "auth/invalid-email") {
-                        alert("Please type in a valid email.  We want to make sure your account is secure. :)");
-                        return console.log("User's amail is already in use.");
-                    } else if (errorCode === "auth/account-exists-with-different-credential") {
-                        $("#errorBox").html("<br/><h4>Your email is already taken!</h4>");
-                        return console.log("User's amail is already in use.");
-                    } else {
-                        console.log("firebase auth errorMessage = " + errorMessage);
-                        firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
-                            .then(function() {
-                                $("#errorBox").html("<br/><h4>Your email verification has been sent!</h4>");
-                                console.log("User has been sent an email verification!");
-                                // window.location.pathname = "/profileupdate";
-                               
-
-                                // user.displayName = "firstName" + " " + "lastName";
-                                // console.log("Email Verification has been sent to the following user: ")
-                                // console.log(user.displayName);
-                            });
-                        console.log("testing the firebase auth - AFTER the posting...");
-                    }
-                }
-            });
-        }
-
 
         //Sends an password reset email to the user.
         function sendPasswordReset() {
@@ -505,15 +484,17 @@
             // Listening for auth state changes.
             // [START authstatelistener]
             firebase.auth().onAuthStateChanged(function(user) {
+                console.log(user);
                 // [START_EXCLUDE silent]
                 $('#inputEmail').disabled = false;
                 // [END_EXCLUDE]
                 if (user) {
+                    //REDIRECT IF SIGN IN HERE....
+
                     // User is signed in.
                     var displayName = user.displayName;
                     var emaildb = user.email;
                     console.log("Email from database is: " + emaildb);
-                    console.log("Email from input is: " + email);
 
                     var emailVerified = user.emailVerified;
                     var photoURL = user.photoURL;
@@ -531,6 +512,8 @@
                     }
                     // [END_EXCLUDE]
                 } else {
+                    firebase.auth().signOut();
+
                     // User is signed out.
                     // [START_EXCLUDE]
                     $("#sign-in-status").text("Signed out");
@@ -538,38 +521,14 @@
                     $("#account-details").text("null");
                     // [END_EXCLUDE]
                 }
-                // [START_EXCLUDE silent]
-                $("#sign-in").disabled = false;
-                // [END_EXCLUDE]
             });
-            // [END authstatelistener]
-            $(document).on("click", "#sign-in", SignIn);
-            // $(document).on("click", "#sign-up-new", createProfile);
         }
         window.onload = function() {
             initApp();
         };
 
-    });
-
-    //For the firebase presence status:
-    // var myConnectionsRef = new Firebase(config.databaseURL + '/users/:id/connections');
-    // // stores the timestamp of my last disconnect (the last time I was seen online)
-    // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-    // var connectedRef = new Firebase(config.databaseURL + '/.info/connected');
-    // connectedRef.on('value', function(snap) {
-    //     if (snap.val() === true) {
-    //         // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-    //         // add this device to my connections list
-    //         // this value could contain info about the device or a timestamp too
-    //         var con = myConnectionsRef.push(true);
-    //         // when I disconnect, remove this device
-    //         con.onDisconnect().remove();
-    //         // when I disconnect, update the last time I was seen online
-    //         lastOnlineRef.onDisconnect().set(Firebase.ServerValue.TIMESTAMP);
-    //     }
-    // });
-    </script>
+        });
+        </script>
 </body>
 
 </html>
