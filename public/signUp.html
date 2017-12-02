@@ -138,7 +138,7 @@
         <!--HERE IS THE SignUp PAGE SCRIPT -->
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
         <script type="text/javascript">
-        $(document).ready(function() {
+
 
             $(document).ready(function() {
                 
@@ -228,7 +228,7 @@
                       //Click-Event for Sign-Up Button on HTML.
                       $("#sign-up-new").on("click", function() {
                           createProfile();
-                          sendEmailVerification();
+                        //   sendEmailVerification();
                           console.log("testing the validation in sign-up-new");
                           var email = $("#inputEmail").val().trim();
                           var password = $("#inputPassword").val().trim();
@@ -299,7 +299,7 @@
                                   firstName: firstName,
                                   lastName: lastName,
                                   phoneNumber: telephone,
-                                  dob: dob,
+                                  age: dob,
                                   email: email,
                                   password: password
                               }
@@ -309,6 +309,7 @@
                               .done(function(data) {
                                   // alert("Data Loaded: " + data);
                               });
+                              window.location.pathname = "/profileupdate";
                       });
                       //Sign in existing users
                       function SignIn() {
@@ -366,44 +367,44 @@
                           // you have one. Use User.getToken() instead.
                       }
                       //Sends an email verification to the user.
-                      function sendEmailVerification() {
-                          // [START sendemailverification]
-                          var email = $("#inputEmail").val().trim();
-                          var atSign = function() {
-                              email.includes("@");
-                          }
-                          var dotCom = function() {
-                              email.includes(".com");
-                          }
-                          firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                              // Handle Errors here.
-                              var errorCode = error.code;
-                              var errorMessage = error.message;
-                              var user = firebase.auth().currentUser;
-                              if (!email) {
-                                  alert("Please type in an email.");
-                              } else if (atSign === false || dotCom === false) {
-                                  alert("Please type in a valid email.");
-                              } else {
-                                  if (errorCode === "auth/invalid-email") {
-                                      alert("Please type in a valid email.  We want to make sure your account is secure. :)");
-                                      return console.log("User's amail is already in use.");
-                                  } else if (errorCode === "auth/account-exists-with-different-credential") {
-                                      alert("Your email is already taken!");
-                                      return console.log("User's amail is already in use.");
-                                  } else {
-                                      firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
-                                          .then(function() {
-                                              alert("Your email verification has been sent!");
-                                              window.location.pathname = "/profileupdate"; //routing should occur through the <href> link in html
-                                              // user.displayName = "firstName" + " " + "lastName";
-                                              // console.log("Email Verification has been sent to the following user: ")
-                                              // console.log(user.displayName);
-                                          });
-                                  }
-                              }
-                          });
-                      }
+                    //   function sendEmailVerification() {
+                    //       // [START sendemailverification]
+                    //       var email = $("#inputEmail").val().trim();
+                    //       var atSign = function() {
+                    //           email.includes("@");
+                    //       }
+                    //       var dotCom = function() {
+                    //           email.includes(".com");
+                    //       }
+                    //       firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                    //           // Handle Errors here.
+                    //           var errorCode = error.code;
+                    //           var errorMessage = error.message;
+                    //           var user = firebase.auth().currentUser;
+                    //           if (!email) {
+                    //               alert("Please type in an email.");
+                    //           } else if (atSign === false || dotCom === false) {
+                    //               alert("Please type in a valid email.");
+                    //           } else {
+                    //               if (errorCode === "auth/invalid-email") {
+                    //                   alert("Please type in a valid email.  We want to make sure your account is secure. :)");
+                    //                   return console.log("User's amail is already in use.");
+                    //               } else if (errorCode === "auth/account-exists-with-different-credential") {
+                    //                   alert("Your email is already taken!");
+                    //                   return console.log("User's amail is already in use.");
+                    //               } else {
+                    //                   firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
+                    //                       .then(function() {
+                    //                           alert("Your email verification has been sent!");
+                    //                           window.location.pathname = "/profileupdate"; //routing should occur through the <href> link in html
+                    //                           // user.displayName = "firstName" + " " + "lastName";
+                    //                           // console.log("Email Verification has been sent to the following user: ")
+                    //                           // console.log(user.displayName);
+                    //                       });
+                    //               }
+                    //           }
+                    //       });
+                    //   }
                       //Sends an password reset email to the user.
                       function sendPasswordReset() {
                           // [START sendpasswordemail]
@@ -432,7 +433,7 @@
                     });
     
     
-                    });
+                
                   
               
     </script>

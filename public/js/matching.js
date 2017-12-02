@@ -33,8 +33,6 @@
 console.log("NODE USER: You're inside the apiRoutes.js file...");
 
 
-// Dependencies
-// ===========================================================
 
 
 
@@ -42,14 +40,42 @@ console.log("NODE USER: You're inside the apiRoutes.js file...");
 // =========================================================== 
 var mostAlike = [];
 
-// Routes
-// =========================================================== 
-$.get("/api/users/all", function(req,res){
+var onlineUsers = [];
 
-	var userEmail = req.body.email;
-	console.log(userEmail);
 
-});
+var online = {online: true};
+
+updateStatus(online); 
+
+
+
+function updateStatus(isOnline) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/users/online",
+      data: isOnline
+    }).done(usersOnline);
+  }
+
+  
+function usersOnline(){
+	$.get("/api/users/online", function(data){
+
+		var userOnline = data;
+		console.log(userOnline);
+	})
+}
+
+
+
+function usersMatch(){
+	if (online){
+
+	}
+}
+
+
+
 //             mostAlike = [{
 //                 name: "",
 //                 interests: "",
@@ -64,7 +90,7 @@ $.get("/api/users/all", function(req,res){
 //             var newFriendList = request.body; //current user's recent input...
 //             var newFriendScores = newFriendList.scores; //this will target ONLY the ARRAY of number values responding to the Survey Q's. 
 
-//             function compareFriends() {
+//             function Users() {
 //                 for (var i = 0; i < friendsList.length; i++) {
 //                     console.log("friendsList.length = ");
 //                     console.log(friendsList.length); //to review the length 
