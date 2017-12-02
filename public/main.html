@@ -8,14 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
-
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -23,35 +24,37 @@
         <div class="header container-fluid">
             <div class="row justify-content-center">
                 <div class="logo">
-
                     <img src="/public/images/logo.png" alt="iceBreakrBear">
-
                 </div>
             </div>
         </div>
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
                 <div class="signUp col-sm-4 text-center">
-
                     <p>Let us help break the ice.</p>
                     <br>
-                    <a href="/signup"><button type="button" class="signUp btn btn-primary">Sign up</button> </a>
-                     <a href="/signin"><button type="button" class="login btn btn-primary">Log in</button></a>
-                     <br>
-                     <br>
-
+                    <div id="sign-in-status" style="color: white; font-weight: bold"></div>
+                    <br>
+                    <a id="sign-out" href="/main">
+                        <button type="button" class="signUp btn btn-primary">Sign out</button>
+                    </a>
+                    <a id="signupBtn" href="/signup">
+                        <button type="button" class="signUp btn btn-primary">Sign up</button>
+                    </a>
+                    <a href="/signin">
+                        <button type="button" class="login btn btn-primary">Log in</button>
+                    </a>
+                    <br>
+                    <br>
                 </div>
             </div>
             <div class="row justify-content-center">
-
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-
                     <ol class="carousel-indicators">
                         <li class="carousel" data-target="#myCarousel" data-slide-to="0" class="active"></li>
                         <li class="carousel" data-target="#myCarousel" data-slide-to="1"></li>
                         <li class="carousel" data-target="#myCarousel" data-slide-to="2"></li>
                     </ol>
-
                     <div class="carousel-inner">
                         <div class="item active ">
                             <img src="/public/images/assets/examplePic1.jpg" style="height: 400px; width: 500px" alt="Date">
@@ -67,7 +70,6 @@
             </div>
             <br>
             <br>
-            
         </div>
         <footer>
             <div class="row justify-content-center">
@@ -78,6 +80,62 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script type="text/javascript">
+    //Initialize Firebase >> hide this before the end in a PW file...
+    var config = {
+        apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+        authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+        databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+        projectId: "ice-breaker-app-165bd",
+        storageBucket: "ice-breaker-app-165bd.appspot.com",
+        messagingSenderId: "673248316614"
+    };
+    firebase.initializeApp(config);
+    var user = firebase.auth().currentUser;
+
+    function initApp() {
+        console.log("inside the initApp");
+        // Listening for auth state changes.
+        firebase.auth().onAuthStateChanged(function(user) {
+            $('#inputEmail').disabled = false;
+            if (user) {
+                console.log("inside the initApp >> IF user clause");
+                console.log(user);
+                console.log(user.uid);
+                //$('#account-details').text(JSON.stringify(user, null, " "));
+
+                // User is signed in.
+                var displayName = user.displayName;
+                var emaildb = user.email;
+                console.log("Email from database is: " + emaildb);
+
+                var emailVerified = user.emailVerified;
+                var photoURL = user.photoURL;
+                var isAnonymous = user.isAnonymous;
+                var uid = user.uid;
+                var providerData = user.providerData;
+
+                $("#signupBtn").hide();
+                $("#sign-out").show();
+                $("#sign-in-status").text("Signed in");
+
+                window.location.pathname = "/profile";
+            } else {
+                firebase.auth().signOut(); //fail safe
+                $("#sign-out").hide();
+                $("#signupBtn").show();
+
+                $("#sign-in-status").text("Not Signed In");
+                $("#sign-in").text("Sign in");
+                // $("#account-details").text("null");
+            }
+        });
+    }
+    window.onload = function() {
+        initApp();
+    };
+    </script>
 </body>
 
 </html>

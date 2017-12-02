@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     phoneNumber: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING, //LOOK INTO REMOVING THIS.. just allowing Firebase to do the authentication to avoid access to passwords..
+    online: DataTypes.STRING
  });
 
   // User.associate = function(models) {

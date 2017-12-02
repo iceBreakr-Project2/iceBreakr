@@ -35,6 +35,7 @@ module.exports = function(app) {
       // res.json(results);
       console.log("redirecting to profileupdate");
       // res.redirect("/profileupdate"); //routing should occur through the <href> link in html
+      //location.assign("/main");/
     });    
   });
 
