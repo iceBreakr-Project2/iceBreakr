@@ -9,7 +9,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
@@ -17,7 +16,6 @@
 
 <body>
     <div id="container">
-
         <nav class="navbar navbar-light light-blue lighten-4 justify-content-center">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">*</button>
@@ -49,7 +47,6 @@
                 </nav>
             </div>
         </div>
-        
         <div class="mainBody container-fluid">
             <!--HERE ARE THE BEGINNING DIVS WHEN THE USER FIRST GETS TO THE PAGE-->
             <div class="readyToMeet">
@@ -70,78 +67,76 @@
                 <!-- THIS IS WHERE THE MATCHING ICEBREAKERS DISPLAY-->
             </div>
         </div>
-
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"> We look forward to hanging out next time!</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div onclick="facebookSignout()" class="fb-login-button" id="fb-btn" style="margin: 0 auto; margin-right: 20px; width:80%">Signout with Facebook</div>
-                            <br/>
-                            <a id="logoutBtn" class="nav-link" > <!-- href="/main" -->
-                                <button>Log Out
-                                </button>
-                            </a>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> We look forward to hanging out next time!</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div onclick="facebookSignout()" class="fb-login-button" id="fb-btn" style="margin: 0 auto; margin-right: 20px; width:80%">Signout with Facebook</div>
+                        <br/>
+                        <a id="logoutBtn" class="nav-link">
+                            <!-- href="/main" -->
+                            <button>Log Out
+                            </button>
+                        </a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        <footer>
-            <div class="row justify-content-center">
-                <p>&copy; iceBreakr 2017</p>
-            </div>
-        </footer>
     </div>
-
-
+    <footer>
+        <div class="row justify-content-center">
+            <p>&copy; iceBreakr 2017</p>
+        </div>
+    </footer>
+    </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-
-<!--HERE IS THE JAVASCRIPT -->
+    <!--HERE IS THE JAVASCRIPT -->
+    <script type="text/javascript" src="/public/js/matching.js"></script>
     <script type="text/javascript">
-    $(document).ready(function () {
-    
-     // Initialize Firebase
-    var config = {
-    apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
-    authDomain: "ice-breaker-app-165bd.firebaseapp.com",
-    databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
-    projectId: "ice-breaker-app-165bd",
-    storageBucket: "ice-breaker-app-165bd.appspot.com",
-    messagingSenderId: "673248316614"
-  };
-  
-firebase.initializeApp(config);
-var database = firebase.database();
+    $(document).ready(function() {
 
-// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
-// connectionsRef references a specific location in our database.
-// All of our connections will be stored in this directory.
-var connectionsRef = database.ref("/online");
-// '.info/connected' is a special location provided by Firebase that is updated every time
-// the client's connection state changes.
-// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
-var connectedRef = database.ref(".info/connected");
-// When the client's connection state changes...
-connectedRef.on("value", function(snap) {
-  // If they are connected..
-  if (snap.val()) {
-    // Add user to the connections list.
-    var con = connectionsRef.push(true);
-    // Remove user from the connection list when they disconnect.
-    con.onDisconnect().remove();
-  }
-});
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+            authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+            databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+            projectId: "ice-breaker-app-165bd",
+            storageBucket: "ice-breaker-app-165bd.appspot.com",
+            messagingSenderId: "673248316614"
+        };
 
-        $("#logoutBtn").on("click", function(){
+        firebase.initializeApp(config);
+        var database = firebase.database();
+
+        // -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
+        // connectionsRef references a specific location in our database.
+        // All of our connections will be stored in this directory.
+        var connectionsRef = database.ref("/online");
+        // '.info/connected' is a special location provided by Firebase that is updated every time
+        // the client's connection state changes.
+        // '.info/connected' is a boolean value, true if the client is connected and false if they are not.
+        var connectedRef = database.ref(".info/connected");
+        // When the client's connection state changes...
+        connectedRef.on("value", function(snap) {
+            // If they are connected..
+            if (snap.val()) {
+                // Add user to the connections list.
+                var con = connectionsRef.push(true);
+                // Remove user from the connection list when they disconnect.
+                con.onDisconnect().remove();
+            }
+        });
+
+        $("#logoutBtn").on("click", function() {
             firebase.auth().signOut();
             window.location.pathname = ("/main");
         });
@@ -154,8 +149,6 @@ connectedRef.on("value", function(snap) {
             $(".map").show();
             $(".userMatch").show();
         });
-
-
 
     });
     </script>

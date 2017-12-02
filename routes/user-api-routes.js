@@ -20,10 +20,52 @@ var db = require("../models");
 module.exports = function(app) {
 
   //Getting all Users
-  app.get("/api/users/all", function(req, res) {
-    db.User.findAll({})
+  app.get("/api/users/all", function(req, res) {//verify
+    db.user.findAll({
+      where: {
+        online: true
+      }
+    })
     .then(function(results) {
       console.log(results); //node ref
+      res.json(results);
+    });
+  });
+
+
+  app.get("/api/users/:user", function(req, res) { //find a specific user
+    db.user.findOne({
+      // where: {
+      //   online: true
+      // }
+      //ONLY WANT TO GET ONE USER'S INFO.. >>to navegate ot their email
+    })
+    .then(function(results) {
+      console.log(results); //node ref
+      res.json(results);
+    });
+  });
+
+  app.get("/api/users/online", function(req, res) {//verify
+    db.user.findAll({
+      where: {
+        online: true
+      }
+    })
+    .then(function(results) {
+      console.log(results); //node ref
+      res.json(results);
+    });
+  });
+
+  app.put("/api/users/online", function(req, res) {//verify ///
+    db.user.update({
+      online: req.body.online
+    }, {
+      where: {
+        id: req.body.id
+      }
+    }).then(function(results) {
       res.json(results);
     });
   });
@@ -51,7 +93,7 @@ module.exports = function(app) {
   });
 
   // Deleting a User
-  app.post("/api/users/:user", function(req, res) {
+  app.delete("/api/users/:user", function(req, res) {
     console.log("User Data = ");
     console.log(req.body);
 
@@ -99,7 +141,7 @@ module.exports = function(app) {
   });
 
   // Deleting a User's Tags
-  app.post("/api/pref/:userpref", function(req, res) {
+  app.delete("/api/pref/:userpref", function(req, res) {
     console.log("\n\n User Data = ");
     console.log(req.body);
     console.log("\n");

@@ -1,5 +1,3 @@
-
-
 //Variables
 // var matchList = [ //array of objects
 
@@ -33,8 +31,6 @@
 console.log("NODE USER: You're inside the apiRoutes.js file...");
 
 
-// Dependencies
-// ===========================================================
 
 
 
@@ -42,14 +38,51 @@ console.log("NODE USER: You're inside the apiRoutes.js file...");
 // =========================================================== 
 var mostAlike = [];
 
-// Routes
-// =========================================================== 
-$.get("/api/users/all", function(req,res){
+var onlineUsers = [];
 
-	var userEmail = req.body.email;
-	console.log(userEmail);
 
-});
+var online = {online: true}
+
+function updateStatus(isOnline) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/users/online",
+      data: isOnline
+    }).done(usersOnline);
+  }
+
+function usersOnline(){
+	$.get("/api/users/all", function(data){
+
+		var userOnline = data;
+		console.log(userOnline);
+	})
+}
+
+    // app.put("/users/update", function(request, result) {
+    //     users.update(request.body.burger_id, function(result) {
+    //         console.log(result);
+    //         result.redirect("/"); //reloads (re-renders) the ROOT PAGE 
+    //     });
+    // }); 
+
+    // app.update("/api/users/:id", function(request, result){
+    //       connection.query("SELECT * FROM User WHERE ?" {
+    //         id:request.id
+    //       }, function(error, data){ //"quotes is the table in quotes_db"
+    //         if(error){
+    //           //throw error;
+    //           return result.status(500).end();
+    //         }
+
+    //         result.render("single-quote", {quotes: data})
+    //       })
+
+    //     });
+
+/////////////////////////////////////////////////////////////////
+
+	// SELECT * FROM post WHERE authorId = 2
 //             mostAlike = [{
 //                 name: "",
 //                 interests: "",
@@ -134,4 +167,3 @@ $.get("/api/users/all", function(req,res){
 //     result.send(mostAlike);
 //     //result.parse(mostAlike); --> this is NOT pulliung the JSON verions of the mostAlike, as it is pulling in the Global Variable above, whidh was last pusehd as an array, not JSON-stringified.....
 // }); //end of /results app.post"
-
