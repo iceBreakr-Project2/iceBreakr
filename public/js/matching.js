@@ -43,7 +43,7 @@ var mostAlike = [];
 var onlineUsers = [];
 
 
-var online = {online: true};
+var online = {online:[true]};
 
 updateStatus(online); 
 
