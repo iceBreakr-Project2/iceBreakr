@@ -6,8 +6,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon.ico">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
+   <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 </head>
@@ -32,36 +35,46 @@
 </script>
 
     <div id="container">
-        <nav class="navbar navbar-light light-blue lighten-4">
+        
+        <nav class="navbar navbar-light light-blue lighten-4 justify-content-center">
             <a class="navbar-brand" href="#"></a>
             <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars fa-1x"></i></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto dropup center-block">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/profile"><span class="linkColor">Home Profile</span><span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</a>
+                        <a class="nav-link" href="/profileupdate"><span class="linkColor">Edit Profile</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</a>
+                        <a class="nav-link" href="/breaktheice"><span class="linkColor">Break The Ice</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/matches"><span class="linkColor">Your Matches</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main"><span class="linkColor">Log Out</span></a> <!-- //THIS IS WHERE WE SHOULD INPUT THE LOGOUT FUNCITNALITY FROM FIREBASE... -->
                     </li>
                 </ul>
             </div>
         </nav>
+
         <div class="header container-fluid">
             <div class="row justify-content-center">
-                <div class="logo">
-                    <img src="/public/images/logo.png" alt="iceBreakrBear">
-                </div>
+                <nav class="navbar navbar-inverse navbar-fixed-top my-logo col-sm-10" role="navigation">
+                    <img src="/public/images/logo.png" alt="iceBreakrBear" id="logo" class="justify-content-center">
+                </nav>
             </div>
         </div>
+        <br/>
+        <hr/>
         <div class="mainBody container-fluid">
             <div class="row justify-content-center">
                 <div class="form-container">
                     <form action="/api/tags" method="POST">
                         <div class="form-group row">
-                            <div class="col-10">
+                            <div class="col-sm-10">
                                 <select class="form-control mb-5 mr-sm-5 mb-sm-0" id="userGender">
                                     <option selected>Your Gender:</option>
                                     <option name ="yourGender" value="male">Male</option>
@@ -93,8 +106,8 @@
                     </form>
                 </div>
             </div>
-            <br>
-            <br>
+            <hr/>
+
             <div class="row justify-content-center">
                 <div class="tag-wrapper">
                     <p>Choose all the ice breakers that interest you!</p>
@@ -102,9 +115,11 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="row justify-content-center">
                 <div id="create-account">
-                    <a href="/profile">
+                    <a> <!-- ref="/profile" -->
                         <button type="button" class="btn btn-primary">Create account!</button>
                     </a>
                 </div>
@@ -116,31 +131,44 @@
                 </div>
             </div>
         </div>
-        <!--             </div> -->
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
         <footer>
-            <div class="row justify-content-center">
-                <p>&copy; iceBreakr 2017</p>
+            <div id="footer-container" class="row justify-content-center">
+                <p id="footer">&copy; iceBreakr 2017</p>
             </div>
         </footer>
     </div>
 
-     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+     <!-- <script type="text/javascript" src="/public/js/profileUpdateLogic.js"></script> -->
+
+
+     <!--HERE IS THE Tags PAGE SCRIPT -->
      <script type="text/javascript">
         //dynamically create buttons from database. create button and post from the database
+        
+        //Initialize Firebase >> hide this before the end in a PW file...
+        var config = {
+            apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+            authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+            databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+            projectId: "ice-breaker-app-165bd",
+            storageBucket: "ice-breaker-app-165bd.appspot.com",
+            messagingSenderId: "673248316614"
+        };
+        firebase.initializeApp(config);  
 
 
         var iceBreakers = ["Running", "Hiking", "Beer", "American Literature", "French", "Spanish", "Swimming", "Political Podcasts", "Spicy Food", "Sushi", "Baking", "Yoga", "Cars", "Bodybuilding", "Coding", "Gin", "Texas History", "Heavy Metal", "Dogs", "Surfing", "Cats", "Bicycles", "Boats", "Hunting", "Fishing", "Camping", "Dancing", "Farming"]
-        var emptyArray = [];
+        
+        var tagArray = [];
 
 
         for (var i = 0; i < iceBreakers.length; i++) {
-
-
             var newTag = $("<button>");
-
             newTag.addClass("tag");
             newTag.addClass("btn btn-outline-secondary");
             newTag.attr("name", "interests");
@@ -156,39 +184,100 @@
             newTag.attr("aria-disabled", false);
             var tagValue = ($(this).attr("data-value")); //what value is supposed to be assigned in this line?
             
-            var pressed = ($(this).attr("aria-pressed", true));
+            //var pressed = ($(this).attr("aria-pressed", true));
+            //console.log("pressed value = " + pressed);
+            //toggleArrayItem();
 
-            console.log("pressed value = "+ pressed);
-            toggleArrayItem();
 
+            // function toggleArrayItem() {
+            //     if (pressed)
+            //         tagArray.push(tagValue);
+            //         // tagArray.remove();
+            // }
 
-            function toggleArrayItem() {
-                if (pressed)
-                    emptyArray.push(tagValue);
-                    // emptyArray.empty();
+            var pressed = ($(this).attr("aria-pressed", "true"));
+            // ($(this)).attr("aria-pressed", !pressed);
+            if (pressed) {
+                tagArray.push(tagValue);
             }
+            console.log("tagValue = " + tagValue);
+            //console.log("tagArray = " + tagArray); 
         })
-
-            // var pressed = ($(this).attr("aria-pressed", "true"));
-            // // ($(this)).attr("aria-pressed", !pressed);
-
-            // if (pressed) {
-            //     emptyArray.push(tagValue);
-            // } 
+            // tagArray.push(tagValue);
+             //console.log("tagArray = " + tagArray);
+            
 
 
+        $("#create-account").on("click", function(event) {
+            event.preventDefault();
 
-            // emptyArray.push(tagValue);
+            console.log("tagArray : " + tagArray); //make sure that it's empty.
+            var interests = tagArray.toString();
+            console.log("interests = " + interests);
 
-            // console.log(emptyArray);
-            // console.log(tagValue);
+            var formIsValid = true;
+            
+            function formReview() {
+                $(".form-control").each(function(){
+                    if($(this).val() === "") {
+                        formIsValid = false;
+                    }
+                })
+            };
+            formReview(); //immediately invoked function
+
+            if (!formIsValid) {
+                event.preventDefault();
+
+                alert("We can't pair you with someone if we don't first know your preferences!!  \nPlease complete all the questions in the form. \n(^.^)")
+                console.log("User pressed submit before completing all preferences.");
+            }
+            else if (formIsValid) {
+                console.log("return form is valid"); 
+
+                var userInfo = {
+                  gender: $("#userGender").val().trim(),
+                  sexualPref: $("#genderPref").val().trim(),
+                  language: $("#langPref").val().trim(),
+                  interests: interests
+                };
+                // Send the POST request.
+                $.ajax("/api/pref", {
+                  type: "POST",
+                  data: userInfo
+                }).then(
+                  function() {
+                    console.log("created new user");
+                    location.assign("/profile");
+                // location.reload();  // Reload the page to get the updated list
+                });
+                window.location.pathname = "/profile";                 
+            }  
+        });   
 
 
-        $(".create-account").on("click", function(event) {
-            console.log(emptyArray)
+      // $("#delete-account").on("click", function(event) {
+      //   // Send the DELETE request.
+      //   $.ajax("/api/users/:user", {
+      //     type: "DELETE"
+      //   }).then(
+      //     function() {
+      //       console.log("deleted user");     
+      //     }
+      //   );
 
-        })
-        </script>
+      //   $.ajax("/api/tags/:userpref", {
+      //     type: "DELETE"
+      //   }).then(
+      //     function() {
+      //       console.log("deleted user");
+      //       location.assign("/main");// Reload the page to get the updates  
+      //     }
+      //   );
+      // });
+           
+
+    </script>
 </body>
 
 </html>

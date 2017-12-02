@@ -10,19 +10,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-
-
-    <script type="text/javascript" src="/firebase/presence.js"></script>
-
 </head>
 
 <body>
     <div id="container">
         <div class="header container-fluid">
             <div class="row justify-content-center">
-                <div class="logo">
-                    <img src="/public/images/logo.png" alt="iceBreakrBear">
-                </div>
+                <nav class="navbar navbar-inverse navbar-fixed-top my-logo col-sm-10" role="navigation">
+                    <img src="/public/images/logo.png" alt="iceBreakrBear" id="logo" class="justify-content-center">
+                </nav>
             </div>
         </div>
         <div class="mainBody container-fluid">
@@ -52,9 +48,9 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-
-                                <a href="/breaktheice"><button type="submit" class="btn btn-default" id="sign-in">Log in</button></a>
-
+                                <a href="/breaktheice">
+                                    <button type="submit" class="btn btn-default" id="sign-in">Log in</button>
+                                </a>
                             </div>
                         </div>
                         <div class="form-group">
@@ -71,205 +67,157 @@
             </div>
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Facebook Login</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Login</button>
-                        </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Facebook Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="loginBtn" type="button" class="btn btn-primary">Login</button>
+                    </div>
                 </div>
             </div>
-            <script type="text/javascript">
-
-var provider = new firebase.auth.FacebookAuthProvider();
-        provider.addScope('user_birthday');
-        provider.addScope('user_phonenumber');
-        provider.addScope('user_gender');
-
-        function facebookSignin() {
-            console.log("calling facebook signin");
-
-            firebase.auth().signInWithPopup(provider)
-
-                .then(function(result) {
-                    console.log("in facebook auth...");
-                    var token = result.credential.accessToken;
-                    var user = result.user;
-
-                    console.log("token = " + token);
-                    console.log("user = " + user);
-                    result.redirect("/profileupdate")
-
-                    var newUser = {
-                        Email: $("#inputEmail").val().trim(),
-                        Password: $("#inputPassword").val().trim()
-                    };            
-                    // Send the POST request.
-                     $.post("/api/users", newUser)
-                        .done(function(data) {
-                            alert("Data Loaded: " + data);
-                        });
-
-                }).catch(function(error) {
-                    console.log(error.code);
-                    console.log(error.message);
-                });
-        }
-
-        function facebookSignout() {
-            firebase.auth().signOut()
-
-                .then(function() {
-                    console.log('Signout successful!')
-                }, function(error) {
-                    console.log('Signout failed')
-                });
-        }
-    
-
-
-            //Sign in existing users
-            function SignIn() {
-                if (firebase.auth().currentUser) {
-                    // [START signout]
-                    firebase.auth().signOut();
-                    // [END signout]    
-                } else {
-                    if (email.length < 4) {
-                        alert('Please enter an email address.');
-                        return;
-                    }
-                    if (password.length < 4) {
-                        alert('Please enter a password.');
-                        return;
-                    }
-                    // Sign in with email and pass.
-                    // [START authwithemail]
-    
-                    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // [START_EXCLUDE]
-                        if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
-                            alert('Wrong password.');
-                            var wrongPass = 0;
-                            wrongPass++;
-                        } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
-                            alert('Your account is now locked.  Please visit your email to reset your password.');
-                            sendPasswordReset();
-                        } else {
-                            alert(errorMessage);
-                        }
-                        console.log(error);
-                        $("#sign-in").disabled = false;
-                        // [END_EXCLUDE]
-    
-                    });
-                }
-                $("#sign-in").disabled = true;
-            };
-
-    
-// function SetOnline(){
-//     // since I can connect from multiple devices or browser tabs, we store each connection instance separately
-// //         any time that connectionsRef's value is null (i.e. has no children) I am offline
-
-//         var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
-//         // stores the timestamp of my last disconnect (the last time I was seen online)
-
-//         // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
-        
-//         var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
-//         connectedRef.on('value', function(snap) {
-//             if (snap.val() === true) {
-//                 // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-//                 // add this device to my connections list
-//              alert("connected");
-//             } else {
-//               alert("not connected");
-//             }
-        
-//             var con = myConnectionsRef.push(true);
-//                 // when I disconnect, remove this device
-//                 con.onDisconnect().remove();
-                
-//         });
-
-
-    
-            //Click-Event for Sign-In Button on HTML.
-            $(document).on("click", "#sign-in", SignIn);
-
-
-        </script>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <footer>
-            <div class="row justify-content-center">
-                <p>&copy; iceBreakr 2017</p>
-            </div>
-        </footer>
+        </div>
     </div>
+    <footer>
+        <div class="row justify-content-center">
+            <p>&copy; iceBreakr 2017</p>
+        </div>
+    </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script type="text/javascript">
+    //Initialize Firebase >> hide this before the end in a PW file...
+    var config = {
+        apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+        authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+        databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+        projectId: "ice-breaker-app-165bd",
+        storageBucket: "ice-breaker-app-165bd.appspot.com",
+        messagingSenderId: "673248316614"
+    };
 
-</body>
-</html>
+    firebase.initializeApp(config);
 
-<!-- //Sign in existing users
-        function SignIn() {
-            if (firebase.auth().currentUser) {
-                // [START signout]
-                firebase.auth().signOut();
-                // [END signout]    
-            } else {
-                if (email.length < 4) {
-                    alert('Please enter an email address.');
-                    return;
-                }
-                if (password.length < 4) {
-                    alert('Please enter a password.');
-                    return;
-                }
-                // Sign in with email and pass.
-                // [START authwithemail]
+    var provider = new firebase.auth.FacebookAuthProvider();
+    provider.addScope('user_birthday');
+    provider.addScope('user_phonenumber');
+    provider.addScope('user_gender');
 
-                firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // [START_EXCLUDE]
-                    if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
-                        alert('Wrong password.');
-                        var wrongPass = 0;
-                        wrongPass++;
-                    } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
-                        alert('Your account is now locked.  Please visit your email to reset your password.');
-                        sendPasswordReset();
-                    } else {
-                        alert(errorMessage);
-                    }
-                    console.log(error);
-                    $("#sign-in").disabled = false;
-                    // [END_EXCLUDE]
+    function facebookSignin() {
+        console.log("calling facebook signin");
 
-                });
+        firebase.auth().signInWithPopup(provider)
+
+            .then(function(result) {
+                console.log("in facebook auth...");
+                var token = result.credential.accessToken;
+                var user = result.user;
+
+                console.log("token = " + token);
+                console.log("user = " + user);
+                result.redirect("/profile")
+
+            }).catch(function(error) {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    }
+
+    function facebookSignout() {
+        firebase.auth().signOut()
+
+            .then(function() {
+                console.log('Signout successful!')
+            }, function(error) {
+                console.log('Signout failed')
+            });
+    }
+
+    $("#loginBtn").on("click", function(req, res) {
+        SignIn();
+    })
+
+    //Sign in existing users
+    function SignIn() {
+        if (firebase.auth().currentUser) {
+            // [START signout]
+            firebase.auth().signOut();
+            // [END signout]    
+        } else {
+            if (email.length < 4) {
+                alert('Please enter an email address.');
+                return;
             }
-            $("#sign-in").disabled = true;
-        };
-        //Click-Event for Sign-In Button on HTML.
-        $("#sign-in").on("click", function() {
-            SignIn();
-        });
- -->
+            if (password.length < 4) {
+                alert('Please enter a password.');
+                return;
+            }
+            // Sign in with email and pass.
+            // [START authwithemail]
+
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // [START_EXCLUDE]
+                if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
+                    alert('Wrong password.');
+                    var wrongPass = 0;
+                    wrongPass++;
+                } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
+                    alert('Your account is now locked.  Please visit your email to reset your password.');
+                    sendPasswordReset();
+                } else {
+                    alert(errorMessage);
+                }
+                console.log(error);
+                $("#sign-in").disabled = false;
+                // [END_EXCLUDE]
+
+            });
+        }
+        $("#sign-in").disabled = true;
+    };
+
+
+    // function SetOnline(){
+    //     // since I can connect from multiple devices or browser tabs, we store each connection instance separately
+    // //         any time that connectionsRef's value is null (i.e. has no children) I am offline
+
+    //         var myConnectionsRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/users/:id/connections');
+    //         // stores the timestamp of my last disconnect (the last time I was seen online)
+
+    //         // var lastOnlineRef = new Firebase(config.databaseURL + '/users/:id/lastOnline');
+
+    //         var connectedRef = new Firebase("https://ice-breaker-app-165bd.firebaseio.com" + '/.info/connected');
+    //         connectedRef.on('value', function(snap) {
+    //             if (snap.val() === true) {
+    //                 // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+    //                 // add this device to my connections list
+    //              alert("connected");
+    //             } else {
+    //               alert("not connected");
+    //             }
+
+    //             var con = myConnectionsRef.push(true);
+    //                 // when I disconnect, remove this device
+    //                 con.onDisconnect().remove();
+
+    //         });
+    //Click-Event for Sign-In Button on HTML.
+    $(document).on("click", "#sign-in", SignIn);
+    </script>
+</body>
+
+</html>

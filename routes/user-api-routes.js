@@ -15,7 +15,6 @@ admin.initializeApp({
 
 // =============================================================
 var db = require("../models");
-
 // Routes
 // =============================================================
 module.exports = function(app) {
@@ -31,13 +30,14 @@ module.exports = function(app) {
 
   // Add a User
   app.post("/api/users", function(req, res) {
-    console.log("User Data = ");
+    console.log("\n\n User Data = ");
     console.log(req.body);
+    console.log("\n");
 
     db.user.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      dob: req.body.dob,
+      age: req.body.age,
       phoneNumber: req.body.phoneNumber,
       email: req.body.email,
       password: req.body.password
@@ -46,8 +46,8 @@ module.exports = function(app) {
       // res.json(results);
       console.log("redirecting to profileupdate");
       // res.redirect("/profileupdate"); //routing should occur through the <href> link in html
+      //location.assign("/main");/
     });    
-
   });
 
   // Deleting a User
@@ -72,23 +72,26 @@ module.exports = function(app) {
 //TAGS:
 //=======
 // Adding tags and gender pref
-  app.post("/api/tags", function(req, res) {
-    console.log("User Data = ");
+  app.post("/api/pref", function(req, res) {
+    console.log("\n\n User Data = ");
     console.log(req.body);
+    console.log("\n");
 
-    db.user.create({
-      yourGender: req.body.yourGender,
-      genderPref: req.body.genderPref,
-      langPref: req.body.langPref,
+    db.preferences.create({
+      gender: req.body.gender,
+      sexualPref: req.body.sexualPref,
+      language: req.body.language,
       interests: req.body.interests
+
     }).then(function(results) {
-      // `results` here would be the newly created user
-      // res.redirect("/profile");
+      //results.redirect("/profile");
+      // `results` here would be the newly created preferences
+      console.log("redirecting to /profile");
     });    
   });
 
-  app.get("/api/tags", function(req, res) {
-    db.User.findAll({})
+  app.get("/api/pref", function(req, res) {
+    db.preferences.findAll({})
     .then(function(results) {
       console.log(results); //node ref
       res.json(results);
@@ -96,14 +99,15 @@ module.exports = function(app) {
   });
 
   // Deleting a User's Tags
-  app.post("/api/tags", function(req, res) {
-    console.log("User Data = ");
+  app.post("/api/pref/:userpref", function(req, res) {
+    console.log("\n\n User Data = ");
     console.log(req.body);
+    console.log("\n");
 
-    db.user.delete({
-      yourGender: req.body.yourGender,
-      genderPref: req.body.genderPref,
-      langPref: req.body.langPref,
+    db.preferences.delete({
+      gender: req.body.gender,
+      sexualPref: req.body.sexualPref,
+      language: req.body.language,
       interests: req.body.interests
 
     }).then(function(results) {
@@ -112,7 +116,3 @@ module.exports = function(app) {
   });
 
 };
-
-
-
-

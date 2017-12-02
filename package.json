@@ -4,6 +4,7 @@
   "description": "On_demand_dating_app",
   "main": "server.js",
   "dependencies": {
+    "@google/maps": "^0.4.5",
     "admin": "^1.4.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
