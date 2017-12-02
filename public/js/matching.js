@@ -32,39 +32,34 @@ console.log("NODE USER: You're inside the apiRoutes.js file...");
 
 
 
-
-
 // Global Vars
 // =========================================================== 
 var mostAlike = [];
-
 var onlineUsers = [];
 
-var online = {online: true};
-
-updateStatus(online); 
-
+var online = { online: true };
+updateStatus(online);
 
 function updateStatus(isOnline) {
     $.ajax({
-      method: "PUT",
-      url: "/api/users/online",
-      data: isOnline
+        method: "PUT",
+        url: "/api/users/online",
+        data: isOnline
     }).done(usersOnline);
-  }
-  
-function usersOnline(){
-	$.get("/api/users/online", function(data){
-
-		var userOnline = data;
-		console.log(userOnline);
-	})
 }
 
-function usersMatch(){
-	if (online){
+function usersOnline() {
+    $.get("/api/users/online", function(data) {
 
-	}
+        var userOnline = data;
+        console.log(userOnline);
+    })
+}
+
+function usersMatch() {
+    if (online) {
+
+    }
 }
 
 
