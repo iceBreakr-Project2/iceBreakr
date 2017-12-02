@@ -294,9 +294,7 @@
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     var user = firebase.auth().currentUser;
-
                     console.log("testing the firebase auth lin 440");
-
 
                     if (!email) {
                         $("#errorBox").html("<br/><h4>*Please type in an email.</h4>");
@@ -328,6 +326,7 @@
                         $("#errorBox").html("<br/><h4>Your email is already taken!</h4>");
                         return console.log("User's amail is already in use.");
                     } else if (errorCode === null) {
+                        
                         console.log("firebase auth errorMessage = " + errorMessage);
                         firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP SENDING!!?
                             .then(function() {
