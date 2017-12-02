@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="css/bootstrap-form-helpers.min.css" rel="stylesheet" media="screen">
+
     <link rel="stylesheet" type="text/css" href="/public/css/style01.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 </head>
@@ -77,7 +79,7 @@
                             <div class="form-group sign-up-group row">
                                 <label for="example-tel-input" class="inputLabel col-2 col-form-label">Telephone</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="tel" name="phoneNumber" placeholder="1-(555)-555-5555" id="inputTel" required>
+                                    <input class="form-control bfh-phone input-sm" type="text" name="phoneNumber"  data-format="+1 (ddd) ddd-dddd" placeholder="1-(555)-555-5555" id="inputTel" required>
                                 </div>
                             </div>
                             <div class="form-group sign-up-group row">
@@ -127,6 +129,7 @@
                 </div>
             </footer>
         </div>
+
         <!--========================================================================= -->
         <!--========================================================================= -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -201,8 +204,102 @@
            $("#sign-up-new").on("click", function() {
                 createProfile();               
                 SignIn();
-                sendEmailVerification();    
+                //sendEmailVerification();
+                // postNewUser();    
             });
+
+
+           function postNewUser () {
+                console.log("testing the validation in sign-up-new");
+                var email = $("#inputEmail").val().trim();
+                var password = $("#inputPassword").val().trim();
+                var firstName = $("#inputFirstName").val().trim();
+                var lastName = $("#inputLastName").val().trim();
+                var dob = $("#inputAge").val();
+                var telephone = $("#inputTel").val();
+
+                console.log("dob = " + dob);
+                console.log("telephone = " + telephone);
+                //var phoneNumber = telephone.toString();
+
+                var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+                var atSign = function() {
+                    email.includes("@");
+                }
+                var dotCom = function() {
+                    email.includes(".com");
+                }
+                var number = function() {
+                    for (var i = 0; i < number.length; i++) {
+                        if (password.includes(number[i])) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+                var dobYear = function() {
+                    var dobString = dob.length;
+                    var dobArray = Array.from(dobString);
+                    var year = dobArray.slice(1, 5); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
+                    year.toString();
+                    //console.log("dob year = " + year);
+
+                    var date = new Date();
+                    var currentYear = date.getFullYear();
+
+                    var numYear = parseInt(year);
+                    if (numYear < 1920 || numYear > currentYear) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+                if (email.length < 6 || atSign === false || dotCom === false) {
+                    alert('Please enter a avalid email address.');
+                    return;
+                }
+                if (password.length < 6 || !number) {
+                    alert('Please enter a valid password.');
+                    return;
+                }
+                if (firstName.length < 1) {
+                    alert('Please enter a valid first name.');
+                    return;
+                }
+                if (lastName.length < 1) {
+                    alert('Please enter a valid last name.');
+                    return;
+                }
+                //wrong splicing failing to validate
+                // if (dob.length !== 8 || dobYear === false) {
+                //     alert('Please enter a valid date of birth.');
+                //     return;
+                // }
+                if (telephone.length !== 11) {
+                    alert('Please enter a valid phone number, including the number "1" and full area code.');
+                    return;
+                } else {
+                    var newUser = {
+                        firstName: firstName,
+                        lastName: lastName,
+                        phoneNumber: telephone,
+                        dob: dob,
+                        email: email,
+                        password: password
+                    }
+                }
+
+                // Send the POST request.
+                $.post("/api/users", newUser)
+                    .done(function(data) {
+                        // alert("Data Loaded: " + data);
+                    });
+
+                    window.location.pathname = "/profileupdate"; 
+           }
+
 
             //Sign up existing users
             function createProfile() {
@@ -221,7 +318,7 @@
                         var errorCode = error.code;
                         var errorMessage = error.message;
                         if (errorCode === "auth/weak-password") {
-                            alert("Your password is too weak. Please try again.. we don't want someone to break the ice for you!");
+                            $("#errorBox").html("<br/><h4>*Your password is too weak. Please try again.. we don't want someone to break the ice for you.</h4>");
                             console.log("User's password is too weak.");
                         } else {
                             $("#errorBox").html("<br/><h4>*You have the following error message: BATMAN" + errorMessage + "</h4>");
@@ -251,8 +348,6 @@
                         return;
                     }
                     // Sign in with email and pass.
-                    // [START authwithemail]
-
                     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                         // Handle Errors here.
                         var errorCode = error.code;
@@ -265,177 +360,87 @@
                         } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
                             alert('Your account is now locked.  Please visit your email to reset your password.');
                             sendPasswordReset();
-                        } else {
+                        } else if (errorCode){
                             $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
                         }
-                        console.log(error);
-                        $("#sign-up-new").disabled = false;
-                        // [END_EXCLUDE]
-
+                        else {
+                            postNewUser();
+                        }
                     });
                 }
-                $("#sign-up-new").disabled = true;
             };
 
 
-  // Sends an email verification to the user.
-        function sendEmailVerification() {
-            var email = $("#inputEmail").val().trim();
-            var password = $("#inputPassword").val().trim();
-
-            var atSign = function() {
-                email.includes("@");
-            }
-            var dotCom = function() {
-                email.includes(".com");
-            }
-
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                var user = firebase.auth().currentUser;
-
-                if (!email) {
-                    alert("Please type in an email.");
-                } else if (atSign === false || dotCom === false) {
-                    alert("Please type in a valid email.");
-                } else {
-                    if (errorCode === "auth/invalid-email") {
-                        alert("Please type in a valid email.  We want to make sure your account is secure. :)");
-                        return console.log("User's amail is already in use.");
-                    } else if (errorCode === "auth/account-exists-with-different-credential") {
-                        alert("Your email is already taken!");
-                        return console.log("User's amail is already in use.");
-                    } else {
-                        // firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
-                        //     .then(function() {
-                            //alert("Your email verification has been sent!");
-                            //});
-                            userPost();                              
-                            //window.location.pathname = "/profileupdate"; //routing should occur through the <href> link in html
-                            
+        //Sends an password reset email to the user.
+        function sendPasswordReset() {
+            // [START sendpasswordemail]
+            firebase.auth().sendPasswordResetEmail(email)
+                .then(function() {
+                    // [START_EXCLUDE]
+                    alert('Password Reset Email Sent!');
+                    console.log("Password Reset has been sent to the user: " + user);
+                    // [END_EXCLUDE]
+                }).catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // [START_EXCLUDE]
+                    if (errorCode == 'auth/invalid-email') {
+                        alert(errorMessage);
+                    } else if (errorCode == 'auth/user-not-found') {
+                        alert(errorMessage);
                     }
-                }
-            });
-        }
-
-
-            //Sends an password reset email to the user.
-            function sendPasswordReset() {
-                firebase.auth().sendPasswordResetEmail(email)
-                    .then(function() {
-                        $("#errorBox").html("<br/><h4>Password Reset Email Sent!</h4>");
-                        console.log("Password Reset has been sent to the user: " + user);
-                    }).catch(function(error) {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        if (errorCode == 'auth/invalid-email') {
-                            $("#errorBox").html("<br/><h4>You have the following error message: " + errorMessage + "</h4>");
-                        } else if (errorCode == 'auth/user-not-found') {
-                            $("#errorBox").html("<br/><h4>You have the following error message: " + errorMessage + "</h4>");
-                        }
-                        console.log(error);
+                    console.log(error);
+                    // [END_EXCLUDE]
                 });
             };
+            
+        //Sends an email verification to the user.
+        // function sendEmailVerification() {
+        //     // [START sendemailverification]
+        //     var email = $("#inputEmail").val().trim();
 
-            function userPost() {
-                var email = $("#inputEmail").val().trim();
-                var password = $("#inputPassword").val().trim();
-                var firstName = $("#inputFirstName").val().trim();
-                var lastName = $("#inputLastName").val().trim();
-                var dob = $("#inputAge").val();
-                var telephone = $("#inputTel").val();
+        //     var atSign = function() {
+        //         email.includes("@");
+        //     }
+        //     var dotCom = function() {
+        //         email.includes(".com");
+        //     }
 
-                console.log("dob = " + dob);
-                console.log("telephone = " + telephone);
+        //     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        //         // Handle Errors here.
+        //         var errorCode = error.code;
+        //         var errorMessage = error.message;
+        //         var user = firebase.auth().currentUser;
 
-                var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-                var atSign = function() {
-                    email.includes("@");
-                }
-                var dotCom = function() {
-                    email.includes(".com");
-                }
-                var number = function() {
-                    for (var i = 0; i < number.length; i++) {
-                        if (password.includes(number[i])) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
+        //         if (!email) {
+        //             alert("Please type in an email.");
+        //         } else if (atSign === false || dotCom === false) {
+        //             alert("Please type in a valid email.");
+        //         } else {
+        //             if (errorCode === "auth/invalid-email") {
+        //                 alert("Please type in a valid email.  We want to make sure your account is secure. :)");
+        //                 return console.log("User's amail is already in use.");
+        //             } else if (errorCode === "auth/account-exists-with-different-credential") {
+        //                 alert("Your email is already taken!");
+        //                 return console.log("User's amail is already in use.");
+        //             } else {
+        //                 firebase.auth().currentUser.sendEmailVerification() //WHY DOES THIS KEEP CHANGING!!?
+        //                     .then(function() {
+        //                         alert("Your email verification has been sent!");
+        //                         window.location.pathname = "/profileupdate"; //routing should occur through the <href> link in html
 
-                var dobYear = function() {
-                    var dobString = dob.length;
-                    var dobArray = Array.from(dobString);
-                    var year = dobArray.slice(1, 5); //slice "ends" on the index # FOLLOWING the index value you wish to be the last in the new array.
-                    year.toString();
-                    console.log("dob year = " + year);
-                    console.log("typeof - for the dob year = ")
-                    console.log(typeOf(year));
+        //                         // user.displayName = "firstName" + " " + "lastName";
+        //                         // console.log("Email Verification has been sent to the following user: ")
+        //                         // console.log(user.displayName);
+        //                     });
+        //             }
+        //         }
+        //     });
+        // }
 
-                    var date = new Date();
-                    var currentYear = date.getFullYear();
+   
+    </script>
 
-                    var numYear = parseInt(year);
-                    if (numYear < 1920 || numYear > currentYear) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-
-                if (email.length < 6 || atSign === false || dotCom === false) {
-                    $("#errorBox").html("<br/><h4>*Please enter a avalid email address.</h4>");
-                    return;
-                }
-                if (password.length < 6 || !number) {
-                    $("#errorBox").html("<br/><h4>*Please enter a valid password.</h4>");
-                    return;
-                }
-                if (firstName.length < 1) {
-                    $("#errorBox").html("<br/><h4>*Please enter a valid first name.</h4>");
-                    return;
-                }
-                if (lastName.length < 1) {
-                    $("#errorBox").html("<br/><h4>*Please enter a valid last name.</h4>");
-                    return;
-                }
-                if (dob === "") { //barebones verifcation, to make sure data was entered
-                    $("#errorBox").html("<br/><h4>*Please enter in a valid dob.</h4>");
-                }
-                //wrong splicing failing to validate
-                // if (dob.length !== 8 || dobYear === false) {
-                //     alert('Please enter a valid date of birth.');
-                //     return;
-                // }
-                if (telephone.length !== 11) {
-                    $("#errorBox").html("<br/><h4> Please enter a valid phone number, including the number '1' and full area code. Be sure NOT to include any hyphens! :)</h4>");
-                    return;
-                } else {
-                    var newUser = {
-                        firstName: firstName,
-                        lastName: lastName,
-                        phoneNumber: telephone,
-                        age: dob,
-                        email: email,
-                        password: password
-                    }
-                }
-                // Send the POST request.
-                $.post("/api/users", newUser)
-                    .done(function(data) {
-                        // alert("Data Loaded: " + data);
-                        //window.location.pathname = "/profileupdate";
-                    });
-                console.log("POSTED THE DATA!");
-                window.location.pathname = "/profileupdate";
-            };
-        });
-
-        </script>
 </body>
 </html>

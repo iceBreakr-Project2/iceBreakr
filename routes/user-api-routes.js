@@ -2,6 +2,17 @@
 
 console.log("connected to user-api-routes \n");
 
+//Firebase Admin SDK requires
+var admin = require("firebase-admin");
+
+var serviceAccount = require("../public/js/firebaseJSON.js");
+
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://ice-breaker-app-165bd.firebaseio.com"
+});
+
 // =============================================================
 var db = require("../models");
 // Routes
@@ -105,5 +116,3 @@ module.exports = function(app) {
   });
 
 };
-
-
