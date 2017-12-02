@@ -10,41 +10,52 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
 
-  // Get all users
-  app.get("/api/all", function(req, res) {
+//TAGS:
+//=======
+// Adding tags and gender pref
+  app.post("/api/pref", function(req, res) {
+    console.log("\n\n User Data = ");
+    console.log(req.body);
+    console.log("\n");
 
-    // Finding all Users, and then returning them to the user as JSON.
-    // Sequelize queries are aynchronous, which helps with percieved speed.
-    // If we want something to be guaranteed to happen after the query, we'll use
-    // the .then function
-    db.User.findAll({}).then(function(results) {
-      // results are available to us inside the .then
+    db.preferences.create({
+      gender: req.body.gender,
+      sexualPref: req.body.sexualPref,
+      language: req.body.language,
+      interests: req.body.interests
+
+    }).then(function(results) {
+      //results.redirect("/profile");
+      // `results` here would be the newly created preferences
+      console.log("redirecting to /profile");
+    });    
+  });
+
+  app.get("/api/pref", function(req, res) {
+    db.preferences.findAll({})
+    .then(function(results) {
+      console.log(results); //node ref
       res.json(results);
     });
-
   });
 
-  // Add a user
-  app.post("/api/users", function(req, res) {
-
-    console.log("User Data:");
+  // Deleting a User's Tags
+  app.delete("/api/pref/:userpref", function(req, res) {
+    console.log("\n\n User Data = ");
     console.log(req.body);
+    console.log("\n");
 
-    // db.user.create({
-    //   name: "Elliott",
-    //   gender: "male",
-    //   age: 29,
-    //   ageRangeHigh: 35,
-    //   ageRangeLow: 21,
-    //   phoneNumber: "555-555-5555",
-    //   sexualPref: "female",
-    //   language: "English",
-    //   interests: "cars boats planes submarines guns freedom beef fire jeeps monkeys"
-    // }).then(function(results) {
-    //   // `results` here would be the newly created user
-    //   res.send(results);
-    // });
+    db.preferences.delete({
+      gender: req.body.gender,
+      sexualPref: req.body.sexualPref,
+      language: req.body.language,
+      interests: req.body.interests
 
+    }).then(function(results) {
+      res.json(results);
+    });    
   });
+
+};
 
 };
