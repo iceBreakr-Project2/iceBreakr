@@ -196,14 +196,21 @@
     // }   
 
     $(document).ready(function() {
-        $.get("/api/pref", function(request, response) {
+        $.get("/api/pref", function(data) {
             console.log("this is your request from api/pref : ");
-            console.log(request.params);
+            console.log(data);
 
-            console.log("\nthis is your response from api/pref : ")
-            console.log(request.params);
+            var gender = data.gender;
+            var genderPref = data.sexualPref;
+            var langPref = data.language; 
+
+
+        $("#userGender").html(gender);
+        $("#genderPref").html(genderPref);
+          
             //response.html....
         });
+
 
 
 var online = {online: false};
