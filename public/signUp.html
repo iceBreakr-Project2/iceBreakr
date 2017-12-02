@@ -156,7 +156,6 @@
 
                         console.log("token = " + token);
                         console.log("user = " + user);
-                        result.redirect("/profileupdate");
 
                         var newUser = {
                             firstName: firstName,
@@ -202,14 +201,108 @@
 
             //Click-Event for Sign-Up Button on HTML.
            $("#sign-up-new").on("click", function() {
-                createProfile();               
+                createProfile(); 
                 SignIn();
+                              
+                
                 //sendEmailVerification();
                 // postNewUser();    
             });
 
+            //Sign up existing users
+            function createProfile() {
+                var email2 = $("#inputEmail").val().trim();
+                var password2 = $("#inputPassword").val().trim();
+                if (email2.length < 4) {
+                    $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
+                    return;
+                }
+                if (password2.length < 4) {
+                    $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
+                    return;
+                }
+                firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
+                    if (error) {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === "auth/weak-password") {
+                            $("#errorBox").html("<br/><h4>*Your password is too weak. Please try again.. we don't want someone to break the ice for you.</h4>");
+                            console.log("User's password is too weak.");
+                        } else {
+                            $("#errorBox").html("<br/><h4>*You have the following error message: BATMAN" + errorMessage + "</h4>");
+                            console.log("You have the current error message:" + errorMessage + ", and error code: " + errorCode + ".");
+                        }
+                        console.log(error);
+                    }
+                })
+            };
 
-           function postNewUser () {
+            //Sign in existing users
+            function SignIn() {
+                var email = $("#inputEmail").val().trim();
+                var password = $("#inputPassword").val().trim();
+
+                if (firebase.auth().currentUser) {
+                    // [START signout]
+                    firebase.auth().signOut();
+                    // [END signout]    
+                } else {
+                    if (email.length < 4) {
+                        $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
+                        return;
+                    }
+                    if (password.length < 4) {
+                        $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
+                        return;
+                    }
+                    // Sign in with email and pass.
+                    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        // [START_EXCLUDE]
+                        if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
+                            alert('Wrong password.');
+                            var wrongPass = 0;
+                            wrongPass++;
+                        } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
+                            alert('Your account is now locked.  Please visit your email to reset your password.');
+                            sendPasswordReset();
+                        } else if (errorCode){
+                            $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
+                        }
+                        else {
+                            postNewUser();
+                        }
+                    })
+                }
+            };
+
+
+        //Sends an password reset email to the user.
+        function sendPasswordReset() {
+            // [START sendpasswordemail]
+            firebase.auth().sendPasswordResetEmail(email)
+                .then(function() {
+                    // [START_EXCLUDE]
+                    alert('Password Reset Email Sent!');
+                    console.log("Password Reset has been sent to the user: " + user);
+                    // [END_EXCLUDE]
+                }).catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // [START_EXCLUDE]
+                    if (errorCode == 'auth/invalid-email') {
+                        alert(errorMessage);
+                    } else if (errorCode == 'auth/user-not-found') {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
+                    // [END_EXCLUDE]
+                })
+        };
+                   function postNewUser () {
                 console.log("testing the validation in sign-up-new");
                 var email = $("#inputEmail").val().trim();
                 var password = $("#inputPassword").val().trim();
@@ -290,7 +383,6 @@
                         password: password
                     }
                 }
-
                 // Send the POST request.
                 $.post("/api/users", newUser)
                     .done(function(data) {
@@ -299,101 +391,6 @@
 
                     window.location.pathname = "/profileupdate"; 
            }
-
-
-            //Sign up existing users
-            function createProfile() {
-                var email2 = $("#inputEmail").val().trim();
-                var password2 = $("#inputPassword").val().trim();
-                if (email2.length < 4) {
-                    $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
-                    return;
-                }
-                if (password2.length < 4) {
-                    $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
-                    return;
-                }
-                firebase.auth().createUserWithEmailAndPassword(email2, password2).catch(function(error) {
-                    if (error) {
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        if (errorCode === "auth/weak-password") {
-                            $("#errorBox").html("<br/><h4>*Your password is too weak. Please try again.. we don't want someone to break the ice for you.</h4>");
-                            console.log("User's password is too weak.");
-                        } else {
-                            $("#errorBox").html("<br/><h4>*You have the following error message: BATMAN" + errorMessage + "</h4>");
-                            console.log("You have the current error message:" + errorMessage + ", and error code: " + errorCode + ".");
-                        }
-                        console.log(error);
-                    }
-                })
-            };
-
-            //Sign in existing users
-            function SignIn() {
-                var email = $("#inputEmail").val().trim();
-                var password = $("#inputPassword").val().trim();
-
-                if (firebase.auth().currentUser) {
-                    // [START signout]
-                    firebase.auth().signOut();
-                    // [END signout]    
-                } else {
-                    if (email.length < 4) {
-                        $("#errorBox").html("<br/><h4>*Please enter an email address.</h4>");
-                        return;
-                    }
-                    if (password.length < 4) {
-                        $("#errorBox").html("<br/><h4>*Please enter a password.</h4>");
-                        return;
-                    }
-                    // Sign in with email and pass.
-                    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // [START_EXCLUDE]
-                        if (errorCode === 'auth/wrong-password' && wrongPass <= 2) {
-                            alert('Wrong password.');
-                            var wrongPass = 0;
-                            wrongPass++;
-                        } else if (errorCode === "auth/wrong-password" && wrongPass >= 3) {
-                            alert('Your account is now locked.  Please visit your email to reset your password.');
-                            sendPasswordReset();
-                        } else if (errorCode){
-                            $("#errorBox").html("<br/><h4>*You have an error: " + errorMessage + "</h4>");
-                        }
-                        else {
-                            postNewUser();
-                        }
-                    });
-                }
-            };
-
-
-        //Sends an password reset email to the user.
-        function sendPasswordReset() {
-            // [START sendpasswordemail]
-            firebase.auth().sendPasswordResetEmail(email)
-                .then(function() {
-                    // [START_EXCLUDE]
-                    alert('Password Reset Email Sent!');
-                    console.log("Password Reset has been sent to the user: " + user);
-                    // [END_EXCLUDE]
-                }).catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // [START_EXCLUDE]
-                    if (errorCode == 'auth/invalid-email') {
-                        alert(errorMessage);
-                    } else if (errorCode == 'auth/user-not-found') {
-                        alert(errorMessage);
-                    }
-                    console.log(error);
-                    // [END_EXCLUDE]
-                });
-            };
             
         //Sends an email verification to the user.
         // function sendEmailVerification() {
@@ -437,8 +434,8 @@
         //             }
         //         }
         //     });
-        // }
-
+    
+    });
    
     </script>
 
