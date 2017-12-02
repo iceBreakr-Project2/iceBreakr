@@ -143,7 +143,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-     <!-- <script type="text/javascript" src="/public/js/profileLogic.js"></script> -->
+     <!-- <script type="text/javascript" src="/public/js/profileUpdateLogic.js"></script> -->
 
 
      <!--HERE IS THE Tags PAGE SCRIPT -->
@@ -197,17 +197,12 @@
 
             var pressed = ($(this).attr("aria-pressed", "true"));
             // ($(this)).attr("aria-pressed", !pressed);
-
             if (pressed) {
                 tagArray.push(tagValue);
             }
-
             console.log("tagValue = " + tagValue);
-            //console.log("tagArray = " + tagArray);
- 
+            //console.log("tagArray = " + tagArray); 
         })
-
-
             // tagArray.push(tagValue);
              //console.log("tagArray = " + tagArray);
             
@@ -221,6 +216,7 @@
             console.log("interests = " + interests);
 
             var formIsValid = true;
+            
             function formReview() {
                 $(".form-control").each(function(){
                     if($(this).val() === "") {
@@ -234,14 +230,52 @@
                 event.preventDefault();
 
                 alert("We can't pair you with someone if we don't first know your preferences!!  \nPlease complete all the questions in the form. \n(^.^)")
-
                 console.log("User pressed submit before completing all preferences.");
             }
             else if (formIsValid) {
                 console.log("return form is valid"); 
+
+                var userInfo = {
+                  gender: $("#userGender").val().trim(),
+                  sexualPref: $("#genderPref").val().trim(),
+                  language: $("#langPref").val().trim(),
+                  interests: interests
+                };
+                // Send the POST request.
+                $.ajax("/api/pref", {
+                  type: "POST",
+                  data: userInfo
+                }).then(
+                  function() {
+                    console.log("created new user");
+                    location.assign("/profile");
+                // location.reload();  // Reload the page to get the updated list
+                });
                 window.location.pathname = "/profile";                 
-            }
-        });            
+            }  
+        });   
+
+
+      // $("#delete-account").on("click", function(event) {
+      //   // Send the DELETE request.
+      //   $.ajax("/api/users/:user", {
+      //     type: "DELETE"
+      //   }).then(
+      //     function() {
+      //       console.log("deleted user");     
+      //     }
+      //   );
+
+      //   $.ajax("/api/tags/:userpref", {
+      //     type: "DELETE"
+      //   }).then(
+      //     function() {
+      //       console.log("deleted user");
+      //       location.assign("/main");// Reload the page to get the updates  
+      //     }
+      //   );
+      // });
+           
 
     </script>
 </body>

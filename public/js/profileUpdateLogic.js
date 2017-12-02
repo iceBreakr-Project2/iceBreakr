@@ -64,7 +64,7 @@ $(function() {
   //     data: userInfoUpdate
   //   }).then(
   //     function() {
-  //       console.log("updated quote");
+  //       console.log("updated user");
   //       location.assign("/profileupdate");  // Reload the page (updated list should appear in the api/tags route)
   //     }
   //   );
