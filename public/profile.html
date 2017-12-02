@@ -163,6 +163,8 @@
     firebase.initializeApp(config);
 
 
+
+
     var provider = new firebase.auth.FacebookAuthProvider();
 
     // var provider = new firebase.auth.FacebookAuthProvider();
@@ -192,6 +194,8 @@
     //         });
     // }   
 
+
+
     $(document).ready(function() {
         $.get("/api/pref", function(request, response) {
             console.log("this is your request from api/pref : ");
@@ -201,6 +205,25 @@
             console.log(request.params);
             //response.html....
         });
+
+        var online = { online: false };
+        updateStatus(online);
+
+        function updateStatus(isOnline) {
+            $.ajax({
+                method: "PUT",
+                url: "/api/users/online",
+                data: isOnline
+            }).done(usersOnline);
+        };
+
+        function usersOnline() {
+            $.get("/api/users/online", function(data) {
+
+                var userOnline = data;
+                console.log(userOnline);
+            })
+        };
 
         $("#logoutBtn").on("click", function() {
             firebase.auth().signOut();
@@ -213,8 +236,7 @@
             emptyArray.push(tagValue);
         // emptyArray.empty();
     }
-
     </script>
-
 </body>
+
 </html>

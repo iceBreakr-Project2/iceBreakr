@@ -40,8 +40,10 @@ var mostAlike = [];
 
 var onlineUsers = [];
 
+var online = {online: true};
 
-var online = {online: true}
+updateStatus(online); 
+
 
 function updateStatus(isOnline) {
     $.ajax({
@@ -50,39 +52,22 @@ function updateStatus(isOnline) {
       data: isOnline
     }).done(usersOnline);
   }
-
+  
 function usersOnline(){
-	$.get("/api/users/all", function(data){
+	$.get("/api/users/online", function(data){
 
 		var userOnline = data;
 		console.log(userOnline);
 	})
 }
 
-    // app.put("/users/update", function(request, result) {
-    //     users.update(request.body.burger_id, function(result) {
-    //         console.log(result);
-    //         result.redirect("/"); //reloads (re-renders) the ROOT PAGE 
-    //     });
-    // }); 
+function usersMatch(){
+	if (online){
 
-    // app.update("/api/users/:id", function(request, result){
-    //       connection.query("SELECT * FROM User WHERE ?" {
-    //         id:request.id
-    //       }, function(error, data){ //"quotes is the table in quotes_db"
-    //         if(error){
-    //           //throw error;
-    //           return result.status(500).end();
-    //         }
+	}
+}
 
-    //         result.render("single-quote", {quotes: data})
-    //       })
 
-    //     });
-
-/////////////////////////////////////////////////////////////////
-
-	// SELECT * FROM post WHERE authorId = 2
 //             mostAlike = [{
 //                 name: "",
 //                 interests: "",
@@ -97,7 +82,7 @@ function usersOnline(){
 //             var newFriendList = request.body; //current user's recent input...
 //             var newFriendScores = newFriendList.scores; //this will target ONLY the ARRAY of number values responding to the Survey Q's. 
 
-//             function compareFriends() {
+//             function Users() {
 //                 for (var i = 0; i < friendsList.length; i++) {
 //                     console.log("friendsList.length = ");
 //                     console.log(friendsList.length); //to review the length 

@@ -41,7 +41,7 @@ module.exports = function(app) {
       //ONLY WANT TO GET ONE USER'S INFO.. >>to navegate ot their email
     })
     .then(function(results) {
-      console.log(results); //node ref
+      console.log(results);
       res.json(results);
     });
   });
@@ -58,14 +58,15 @@ module.exports = function(app) {
     });
   });
 
-  app.put("/api/users/online", function(req, res) {//verify ///
+  app.put("/api/users/online", function(req, res) {//verify !!!!! ///
     db.user.update({
-      online: req.body.online
+      online: req.body //req.body.online???
     }, {
       where: {
         id: req.body.id
       }
     }).then(function(results) {
+      console.logt(results);
       res.json(results);
     });
   });
@@ -158,3 +159,4 @@ module.exports = function(app) {
   });
 
 };
+
