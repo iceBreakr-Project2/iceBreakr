@@ -1,5 +1,3 @@
-
-
 //Variables
 // var matchList = [ //array of objects
 
@@ -34,46 +32,35 @@ console.log("NODE USER: You're inside the apiRoutes.js file...");
 
 
 
-
-
 // Global Vars
 // =========================================================== 
 var mostAlike = [];
-
 var onlineUsers = [];
 
-
-var online = {online:[true]};
-
-updateStatus(online); 
-
-
+var online = { online: true };
+updateStatus(online);
 
 function updateStatus(isOnline) {
     $.ajax({
-      method: "PUT",
-      url: "/api/users/online",
-      data: isOnline
+        method: "PUT",
+        url: "/api/users/online",
+        data: isOnline
     }).done(usersOnline);
-  }
-
-  
-function usersOnline(){
-	$.get("/api/users/online", function(data){
-
-		var userOnline = data;
-		console.log(userOnline);
-	})
 }
 
+function usersOnline() {
+    $.get("/api/users/online", function(data) {
 
-
-function usersMatch(){
-	if (online){
-
-	}
+        var userOnline = data;
+        console.log(userOnline);
+    })
 }
 
+function usersMatch() {
+    if (online) {
+
+    }
+}
 
 
 //             mostAlike = [{
@@ -160,4 +147,3 @@ function usersMatch(){
 //     result.send(mostAlike);
 //     //result.parse(mostAlike); --> this is NOT pulliung the JSON verions of the mostAlike, as it is pulling in the Global Variable above, whidh was last pusehd as an array, not JSON-stringified.....
 // }); //end of /results app.post"
-

@@ -85,9 +85,15 @@
             <div class="row">
                 <div class="col-sm-12 justify-content-center">
                     <h3> My Preferences</h3>
-                    <div id="userGender" style="font: white; font-size: 25px">I'm a: </div>
-                    <div id="genderPref" style="font: white; font-size: 25px"> I would like to meet a: </div>
-                    <div id="langPref" style="font: white; font-size:25px">My language of choice is: </div>
+                    <div style="font: white; font-size: 25px">I'm a: 
+                        <span id="userGender"></span> 
+                    </div>
+                    <div id="genderPref" style="font: white; font-size: 25px"> I would like to meet a:
+                        <span id="genderPref"></span>  
+                    </div>
+                    <div id="langPref" style="font: white; font-size:25px">My language of choice is: 
+                        <span id="langPref"></span>        
+                    </div>
                     <hr/>
                 </div>
             </div>
@@ -150,105 +156,99 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script type="text/javascript" src="/public/js/tagsLogic.js"></script>
-        
     <script type="text/javascript">
-    var config = {
-        apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
-        authDomain: "ice-breaker-app-165bd.firebaseapp.com",
-        databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
-        projectId: "ice-breaker-app-165bd",
-        storageBucket: "ice-breaker-app-165bd.appspot.com",
-        messagingSenderId: "673248316614"
-    };
-
-    firebase.initializeApp(config);
-
-
-
-
-    var provider = new firebase.auth.FacebookAuthProvider();
-
-    // var provider = new firebase.auth.FacebookAuthProvider();
-
-    // function facebookSignin() {
-    //     firebase.auth().signInWithPopup(provider)
-
-    //         .then(function(result) {
-    //             var token = result.credential.accessToken;
-    //             var user = result.user;
-
-    //             console.log(token)
-    //             console.log(user)
-    //         }).catch(function(error) {
-    //             console.log(error.code);
-    //             console.log(error.message);
-    //         });
-    // }
-
-    // function facebookSignout() {
-    //     firebase.auth().signOut()
-
-    //         .then(function() {
-    //             console.log('Signout successful!')
-    //         }, function(error) {
-    //             console.log('Signout failed')
-    //         });
-    // }   
-
+    
     $(document).ready(function() {
-        $.get("/api/pref", function(data) {
-            console.log("this is your request from api/pref : ");
-            console.log(data);
+        var config = {
+            apiKey: "AIzaSyCK6hRlRpzJEd8RsN5hozVosxZalbgsQ0M",
+            authDomain: "ice-breaker-app-165bd.firebaseapp.com",
+            databaseURL: "https://ice-breaker-app-165bd.firebaseio.com",
+            projectId: "ice-breaker-app-165bd",
+            storageBucket: "ice-breaker-app-165bd.appspot.com",
+            messagingSenderId: "673248316614"
+        };
 
-            var gender = data.gender;
-            var genderPref = data.sexualPref;
-            var langPref = data.language; 
+        firebase.initializeApp(config);
+        var provider = new firebase.auth.FacebookAuthProvider();
 
+        function facebookSignin() {
+            firebase.auth().signInWithPopup(provider)
 
-        $("#userGender").html(gender);
-        $("#genderPref").html(genderPref);
-          
-            //response.html....
-        });
+                .then(function(result) {
+                    var token = result.credential.accessToken;
+                    var user = result.user;
 
+                    console.log(token)
+                    console.log(user)
+                }).catch(function(error) {
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
 
+        function facebookSignout() {
+            firebase.auth().signOut()
 
-var online = {online: false};
+                .then(function() {
+                    console.log('Signout successful!')
+                }, function(error) {
+                    console.log('Signout failed')
+                });
+        }
 
-updateStatus(online); 
-
-
-function updateStatus(isOnline) {
-    $.ajax({
-      method: "PUT",
-      url: "/api/users/online",
-      data: isOnline
-    }).done(usersOnline);
-  }
- 
-  function usersOnline(){
-	$.get("/api/users/online", function(data){
-
-		var userOnline = data;
-		console.log(userOnline);
-	})
-}
-
-
-
+        
+        ///////////////////////////////////////////////////////        
+        //MODAL LOGOUT LOGIC
         $("#logoutBtn").on("click", function() {
             firebase.auth().signOut();
             window.location.pathname = "/main";
         });
+
+
+        //TAG "TOGGL"-ING
+        function toggleArrayItem() {
+            if (pressed)
+                emptyArray.push(tagValue);
+            // emptyArray.empty();
+        }
+        /////////////////////////////////////////////////////// 
+        //DYNAMICALLY POPULATE PREFERENCES...:
+
+        $.get("/api/pref", function(data) {
+            console.log("this is your request from api/pref : ");
+            console.log(data);
+            console.log(data.id);
+
+            var gender = data.datavalues.gender;
+            var genderPref = data.sexualPref;
+            var langPref = data.language;
+            var interests = data.interests;
+
+            $("#userGender").html("<strong>" + gender + ".</strong>");
+            $("#genderPref").html("<strong>" + genderPref + ".</strong>");
+            $("#langPref").html("<strong>" + langPref + ".</strong>");
+            $("#tags").html("<p style='color:blue;'>" + interests + ".</p>")
+        });
+
+        var online = { online: false };
+        updateStatus(online);
+
+        function updateStatus(isOnline) {
+            $.ajax({
+                method: "PUT",
+                url: "/api/users/online",
+                data: isOnline
+            }).done(usersOnline);
+        };
+
+        function usersOnline() {
+            $.get("/api/users/online", function(data) {
+                var userOnline = data; //TO VERIFY  that the user is logged OFF
+                console.log(userOnline);
+            })
+        };
     });
-
-    function toggleArrayItem() {
-        if (pressed)
-            emptyArray.push(tagValue);
-        // emptyArray.empty();
-    }
-
     </script>
-
 </body>
+
 </html>
